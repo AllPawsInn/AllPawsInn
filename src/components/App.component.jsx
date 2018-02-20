@@ -8,7 +8,7 @@ import Sidescreen from './Sidescreen'
 
 export default class Main extends React.Component {
 	constructor(props) {
-    	super(props) 
+    	super(props)
     	this.state = {
 			dog_list : []
 		}
@@ -48,7 +48,7 @@ export default class Main extends React.Component {
 		let result = await pool.request()
 		   .query("SELECT * from dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID")
 
-		
+
 		sql.close()
 
 		this.setState({
@@ -56,7 +56,7 @@ export default class Main extends React.Component {
 		})
 
 		console.log(result.recordset)
-		
+
 	}
 
 	updateScreen(new_screen){
@@ -89,8 +89,10 @@ export default class Main extends React.Component {
 			return(
 				<div>
 					<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
-					<Screen screen = {this.state.screen} dogs = {this.state.dog_list} animal = {this.state.animal}/>
-					<Sidescreen proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off}/>
+					<div className="wrapper">
+						<Screen screen = {this.state.screen} dogs = {this.state.dog_list} animal = {this.state.animal}/>
+						<Sidescreen proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off}/>
+					</div>
 				</div>
 			);
 		}
@@ -99,8 +101,11 @@ export default class Main extends React.Component {
 			return(
 				<div>
 					<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
-					<Screen screen = {this.state.screen} dogs = {this.state.dog_list}/>
+					<div className="wrapper">
+						<Screen screen = {this.state.screen} dogs = {this.state.dog_list}/>
+					</div>
 				</div>
+
 			);
 		}
 	}

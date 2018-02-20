@@ -21,7 +21,7 @@ export default class Calendar extends React.Component {
 			);
 		}
 		else{
-			 return (<div>
+			 return (<div className="box item2">
 					<h1>This is calendar</h1><br></br>
 					</div>
 			);

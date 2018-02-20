@@ -5,7 +5,7 @@ import React from 'react';
 export default class Alerts extends React.Component {
     render() {
         return (
-        	<div>
+        	<div className="box item4">
         	<h1>Alerts</h1>
         	<ul>
         		<li>Fido/Bob Ross has not checked in.</li>

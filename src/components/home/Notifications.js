@@ -9,7 +9,7 @@ export default class Notifications extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="box item3">
 			<h1>Notifications</h1>
 			<ul>
 				<li>Achilles/Lebron James has checked in.</li>

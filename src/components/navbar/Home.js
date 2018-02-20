@@ -14,10 +14,10 @@ export default class Home extends React.Component {
 
 	render() {
 		return (
-			<div>Home<br></br>
-			<Calendar animal = {this.props.animal}/>
-			<Alerts dogs = {this.props.dogs}/>
-            <Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/> 
+			<div className="wrapper">
+				<Calendar animal = {this.props.animal}/>
+				<Alerts dogs = {this.props.dogs}/>
+	      <Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/> 
 			</div>
 		);
 	}
