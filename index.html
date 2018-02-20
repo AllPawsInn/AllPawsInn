@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>electron-react-bootstrap-template</title>
+
+    <link rel="stylesheet" href="./css/main.css">
+
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/Navbar.css">
+
+    <script>
+        require('babel-register');
+        window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min');
+        require('./src/app');
+        require('./node_modules/bootstrap/dist/js/bootstrap.min')
+    </script>
+
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
