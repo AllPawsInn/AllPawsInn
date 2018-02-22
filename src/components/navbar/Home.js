@@ -6,18 +6,12 @@ import Alerts from '../home/Alerts';
 import Calendar from '../home/Calendar';
 
 export default class Home extends React.Component {
-	constructor(props) {
-    	super(props) 
-    }
-
-
-
 	render() {
 		return (
-			<div>Home<br></br>
-			<Calendar animal = {this.props.animal}/>
+			<div className="wrapper">
+			<Calendar currentId = {this.props.currentId} bookings = {this.props.bookings}/>
 			<Alerts dogs = {this.props.dogs}/>
-            <Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/> 
+						<Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/> 
 			</div>
 		);
 	}

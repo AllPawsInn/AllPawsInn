@@ -52,12 +52,12 @@ export default class
 									<a href="#" className ="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span className
 										="glyphicon glyphicon-link" aria-hidden="true"></span> Functions<span className ="caret"></span></a>
 									<ul className ="dropdown-menu">
-										<li><a href="taskScheduler.html">Scheduler</a></li>
+										<li><a href="#">Scheduler</a></li>
 									</ul>
 								</li>
 								<li>
 									<form className ='form-inline' style = {{marginTop:"9px"}}>
-										<input className="form-control mr-sm-2" type = "text" onChange = {this.handleChange}/>
+										<input className="form-control mr-sm-2" type = "text" onChange = {this.handleChange} onFocus = {this.handleChange}/>
 									</form>
 							</li>
 							</ul>

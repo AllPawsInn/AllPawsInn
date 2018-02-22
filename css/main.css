@@ -1,0 +1,54 @@
+.wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 67% 33%;
+  grid-template-rows: 50% 50%;
+  justify-content: center;
+  align-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.box {
+  background-color: lightGray;
+  color: black;
+  border 2px solid darkGray;
+  padding: 20px;
+}
+
+.animalDet {
+  background-color: lightGray;
+  color: black;
+  border-radius: 5px;
+  border-color: black;
+  border-width: medium;
+  padding: 20px;
+  grid-row: 2/1 span;
+  grid-column: 2/1 span;
+}
+
+.item2 {
+  grid-row: 1/2 span;
+  grid-column: 1/1 span;
+}
+
+.item3 {
+  grid-row: 1/1 span;
+  grid-column: 2/1 span;
+}
+
+.search {
+  background-color: lightGray;
+  color: black;
+  border-radius: 5px;
+  border-color: black;
+  border-width: medium;
+  padding: 20px;
+  grid-row: 1/1 span;
+  grid-column: 2/1 span;
+}
+
+.item4 {
+  grid-row: 2/1 span;
+  grid-column: 2/1 span;
+}

@@ -4,12 +4,12 @@ import React from 'react';
 
 export default class Notifications extends React.Component {
 	constructor(props) {
-    	super(props) 
-    }
+			super(props) 
+		}
 
 	render() {
 		return (
-			<div>
+			<div className="box item3">
 			<h1>Notifications</h1>
 			<ul>
 				<li>Achilles/Lebron James has checked in.</li>
@@ -18,6 +18,6 @@ export default class Notifications extends React.Component {
 				<li>Joe/Johnny Cash has a new booking.</li>
 			</ul>
 			</div>
-		);
-    }
+			);
+		}
 }
