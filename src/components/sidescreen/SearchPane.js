@@ -46,13 +46,13 @@ export default class SearchPane extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-				if (nextProps){
-						this.setState({
-								list: nextProps.dogs,
-								query : nextProps.query
-						})
-				}
+		if (nextProps){
+			this.setState({
+					list: nextProps.dogs,
+					query : nextProps.query
+			})
 		}
+	}
 
 	render() {
 		let {query, list} = this.state;

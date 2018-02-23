@@ -19,7 +19,7 @@ export default class About extends React.Component {
 		render() {
 			if (this.props.animal)
 				return  (<div className = "animalDet">
-									<h3>Animal Details</h3>
+							<h3>Animal Details</h3>
 							Animal Name: {this.props.animal.AnimalName} <br></br>
 							Breed: {this.props.animal.Breed} <br></br>
 							Sex: {this.props.animal.Sex} <br></br>

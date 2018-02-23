@@ -15,11 +15,19 @@ let sqlConfig = {
 	database: 'KMDB'
 }
 
+function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
+	if (val < 10)
+		return '0' + val
+	else 
+		return val
+}
+
 function toDatetime(date){
-	let formatted = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+
+	let formatted = `${date.getFullYear()}-${sqlParse(date.getMonth() + 1)}-${sqlParse(date.getDate())}T${sqlParse(date.getHours())}:${sqlParse(date.getMinutes())}:${sqlParse(date.getSeconds())}`
 	return formatted
 }
-// let query = 'INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status) VALUES (' + new_booking.animal + ', ' + new_booking.kennel_id + ', ' + new_booking.date_in + ', ' + new_booking.date_out + ', ' + new_booking.status
+
 function dateNow(){
 	let dt = new Date ()
 	return toDatetime(dt)
@@ -34,17 +42,19 @@ function dateOut(epoch){
 
 async function create_booking(animal){
 
+	//push animal's and client's properties to booking
 	let new_booking = {
 		animal_id : animal.AnimalID,
 		kennel_id : 20, //user prompted in the future
-		date_in : dateNow(),
-		date_out : dateOut(),
+		DateIn : dateNow().toString(),
+		DateOut : dateOut().toString(),
 		status : "NCI"
 	}
-	console.log(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, ${new_booking.date_in}, ${new_booking.date_out}, ${new_booking.status})`)
+
 	let pool = await sql.connect(sqlConfig)
 	let result = await pool.request()
-		.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, '${new_booking.date_in}', '${new_booking.date_out}', '${new_booking.status}')`)
+		.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, '${new_booking.DateIn}', '${new_booking.DateOut}', '${new_booking.status}')`)
+		//if err sql.close
 
 	sql.close()
 	return new_booking
@@ -53,13 +63,13 @@ async function create_booking(animal){
 
 export default class Main extends React.Component {
 	constructor(props) {
-			super(props) 
-			this.state = {
+		super(props) 
+		this.state = {
 			dog_list : [],
 			booking_list : [],
 		}
-		this.grabDogs()
-		}
+	this.grabDogs()
+	}
 
 	componentWillMount(){
 		this.setState({
@@ -71,42 +81,42 @@ export default class Main extends React.Component {
 		this.toggle_side = this.toggle_side.bind(this)
 		this.toggle_side_off = this.toggle_side_off.bind(this)
 		this.grab_animal = this.grab_animal.bind(this)
-
 	}
 
 	async grabDogs(){
 		
 		// insert => "INSERT INTO dbo.Colours (ColourName) VALUES ('Blue')"
-		// delete => "DELETE FROM dbo.Animals WHERE ID = 16"
+		// delete => "DELETE FROM [KMDB].[dbo].[BookingObjects] where BookingID > 16805"
 		// select => "SELECT * FROM dbo.Animals"
 
+		//catch errors in this block
 		let pool = await sql.connect(sqlConfig)
 		let t = Date.now()
 		let result = await pool.request()
 			 .query("SELECT * from dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID")
-		console.log((Date.now() - t))
+		//if err sql.close
 
-		// "SELECT top 1 * from dbo.BookingObjects order by BookingID desc"
+
+		// "SELECT top 1 * from dbo.BookingObjects order by BookingID desc" // returns most recently assigned ID
+
 		let y = Date.now()
 		let bookings = await pool.request()
-				 .query("SELECT * from dbo.BookingObjects ,dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
-			console.log((Date.now() - y ))
+			 .query("SELECT * from dbo.BookingObjects ,dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
+		//if err sql.close
 
-			let num = await pool.request()
-				 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
 
-			console.log(num)
+		let num = await pool.request()
+			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
+		//if err sql.close
+
 		sql.close()
 
 		this.setState({
 			dog_list : result.recordset,
 			booking : {current_id : num.recordset[0].BookingID},
-			// booking_list : bookings.recordset
+			booking_list : bookings.recordset
 		})
 
-		console.log(this.state.booking_list)
-		console.log(this.state.booking.current_id)
-		console.log(bookings.recordset)   
 	}
 
 	updateScreen(new_screen){
@@ -133,13 +143,14 @@ export default class Main extends React.Component {
 		this.state.booking.current_id++
 
 		let tmp = create_booking(animal)
-		tmp.BookingId = this.state.booking.current_id
+		tmp.BookingID = this.state.booking.current_id
 		this.state.booking_list.push(tmp)
 		//create a booking here
-		animal.BookingId = this.state.booking.current_id
+		animal.BookingID = this.state.booking.current_id
 
 		//buffer array until a neat way to put array push /w set state 
 		let bookings = this.state.booking_list
+
 		this.setState({ 
 			booking_list : bookings
 		}) //simple value
@@ -163,7 +174,7 @@ export default class Main extends React.Component {
 				<div>
 					<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 					<div className = "wrapper">
-						<Screen screen = {this.state.screen} dogs = {this.state.dog_list}/>
+						<Screen screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					</div>
 				</div>
 			);
