@@ -2,7 +2,17 @@
 
 import React from 'react';
 let week = 0;
+
+//move constants to a new js file
 const load_pages = 7
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"]
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+
+function printDate(date){
+	return `${date.getDate()} ${dayNames[date.getDay()]} ${monthNames[date.getMonth()]}`
+}
 
 function filter_date(booking){
 	let range = getDateRange(week)
@@ -69,6 +79,12 @@ export default class Calendar extends React.Component {
 	}
 
 	changeStatus(event){
+
+		// NCO - Not Checked Out
+		// NCI - Not Checked In
+		// CO - Checked Out
+		// CI - Checked In
+
 		let cur_content = event.currentTarget.innerHTML
 		
 		if (cur_content.includes("Not Checked In"))
@@ -80,13 +96,17 @@ export default class Calendar extends React.Component {
 
 	render() {
 		week = this.state.week;
+		let range = getDateRange(week)
 		let {bookings_list} = this.state;
 
 		if (bookings_list){
 			return(
 			<div className="box item2">
-			<div><button onClick = {this.prevWeek}> left </button>
-			<button onClick = {this.nextWeek}> rite </button></div>
+			<div>
+				<button onClick = {this.nextWeek}> left </button>
+				<button onClick = {this.prevWeek}> right </button>
+			</div>
+			<div>{printDate(range.mon)} / {printDate(range.sun)}</div>
 
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead

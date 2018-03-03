@@ -1,6 +1,7 @@
 // ---------------------------------------- TO DO ----------------------------------------
 // inputbox onSubmt prevent default
 // duplicate/modify filter_function and render clients on search as well
+// unified form of convention among all files => functions vs variable names
 
 'use babel';
 
@@ -9,7 +10,8 @@ import React from 'react';
 function filter_function(query){
 	return function(obj){
 		let max_letter = 2  //option to change on admin panel?
-		return (obj.AnimalName.toLowerCase().includes(query.toLowerCase()) || obj.FirstName.toLowerCase().includes(query.toLowerCase()) || obj.LastName.toLowerCase().includes(query.toLowerCase()))
+		let concat_name = `${obj.FirstName.toLowerCase()}${obj.LastName.toLowerCase()}`.replace(/ /g,'') // trim this maybe?
+		return (obj.AnimalName.toLowerCase().includes(query.toLowerCase()) || obj.FirstName.toLowerCase().includes(query.toLowerCase()) || obj.LastName.toLowerCase().includes(query.toLowerCase()) || concat_name.includes(query.toLowerCase().replace(/ /g,'')))
 		&& (query.length > max_letter || (obj.AnimalName === max_letter || obj.FirstName === max_letter || obj.LastName === max_letter))
 		&& obj;	
 		// test to confirm if this works on 2 letter matching queries
