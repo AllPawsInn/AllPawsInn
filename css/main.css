@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400');
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 h1 {
   font-family: Lato-Bold;
   font-size: 24px;
@@ -9,22 +17,27 @@ h1 {
   grid-gap: 10px;
   grid-template-columns: 75% auto;
   grid-template-rows: 50% 50%;
-  height: 1000px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 3px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  /* border: 3px solid black; */
   margin-top: -20px;
+  height:94vh;
 }
 
 .sideWrapper {
   display: grid;
   grid-gap: 10px;
   grid-template-rows: 50% 50%;
-  height: 1000px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 3px solid black;
-  margin-top: -20px;
+  height:92vh;
+  /* border: 3px solid black; */
+}
+
+.leftWrapper {
+  display: grid;
+  height: calc(100% + 10px);
+  /* border: 3px solid black; */
+  height:93vh;
 }
 
 .box {
@@ -40,13 +53,11 @@ h1 {
 }
 
 .cal {
-  grid-row: 1/2 span;
-  grid-column: 1/1 span;
+  align-content: stretch;
 }
 
 .item3 {
   grid-row: 1/1 span;
-  grid-column: 2/1 span;
 }
 
 .search {
@@ -55,5 +66,4 @@ h1 {
 
 .item4 {
   grid-row: 2/1 span;
-  grid-column: 2/1 span;
 }

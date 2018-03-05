@@ -45,7 +45,7 @@ export default class Sidescreen extends React.Component {
 	render(){
 		if (this.state.search){
 			return(
-				<div>
+				<div className= 'sideWrapper'>
 					<button onClick = {this.props.side}> X </button>
 					<SearchPane dogs = {this.state.dogs} screen = {this.switch_screen} show = {this.show_animal} query = {this.props.query}/>
 					<AnimalDetails proc = {this.props.proc} dogs = {this.state.dogs} animal = {this.state.animal}/>       
@@ -54,7 +54,7 @@ export default class Sidescreen extends React.Component {
 		}
 		else{
 			return(
-				<div>
+				<div className= 'sideWrapper'>
 					<Alerts dogs = {this.props.dogs}/>
 					<Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/> 
 				</div>
