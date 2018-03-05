@@ -9,29 +9,29 @@ import About from "./navbar/About"
 
 export default class Screen extends React.Component {
 	componentWillMount() {
-			this.setState({
-					screen: "home"
-			})
+		this.setState({
+			screen: "home"
+		})
 	}
 
 	componentWillReceiveProps(nextProps) {
-			this.setState({
-					screen: nextProps.screen
-			})
+		this.setState({
+			screen: nextProps.screen
+		})
 	}
 
 
 	render() {
-			const addDog = this.state.addDog;
+		const addDog = this.state.addDog;
 
-			if(this.state.screen == "about")
-					return <About/>
-			else{
-					return (
-						<div>
-								<Home currentId = {this.props.currentId} bookings = {this.props.bookings}/>
-						</div>
-					)
-			}
+		if(this.state.screen == "about")
+			return <About/>
+		else{
+			return (
+				<div>
+					<Home currentId = {this.props.currentId} bookings = {this.props.bookings}/>
+				</div>
+			)
+		}
 	}
 }
