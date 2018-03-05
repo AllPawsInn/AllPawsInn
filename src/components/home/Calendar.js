@@ -101,7 +101,7 @@ export default class Calendar extends React.Component {
 
 		if (bookings_list){
 			return(
-			<div className="box item2">
+			<div className="box cal">
 			<div>
 				<button onClick = {this.nextWeek}> left </button>
 				<button onClick = {this.prevWeek}> right </button>
@@ -124,7 +124,7 @@ export default class Calendar extends React.Component {
 		}
 		else{
 			 return (
-				<div className="box item2">
+				<div className="box cal">
 					<h1>This is calendar</h1><br></br>
 				</div>
 			);

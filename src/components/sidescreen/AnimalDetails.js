@@ -18,7 +18,7 @@ export default class About extends React.Component {
 
 		render() {
 			if (this.props.animal)
-				return  (<div className = "animalDet">
+				return  (<div className = "box animalDet">
 							<h3>Animal Details</h3>
 							Animal Name: {this.props.animal.AnimalName} <br></br>
 							Breed: {this.props.animal.Breed} <br></br>
@@ -32,6 +32,6 @@ export default class About extends React.Component {
 						</div>
 						);
 			else
-				return <div className = "animalDet"><h3>Animal Details</h3></div>;
+				return <div className = "box animalDet"><h3>Animal Details</h3></div>;
 		}
 }

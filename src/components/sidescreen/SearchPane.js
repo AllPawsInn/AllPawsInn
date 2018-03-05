@@ -67,7 +67,7 @@ export default class SearchPane extends React.Component {
 
 		//can use array index for as unique div key as well
 		return (
-			<div className = "search">Search
+			<div className = "box search">Search
 				{
 					list.filter(filter_function(query)).map(obj => //arrow function instead
 						<div onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID}>

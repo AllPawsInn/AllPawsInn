@@ -1,33 +1,45 @@
+h1 {
+  font-family: Lato-Bold;
+  font-size: 24px;
+  color: #000000;
+}
+
 .wrapper {
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: 67% 33%;
+  grid-template-columns: 75% auto;
   grid-template-rows: 50% 50%;
-  justify-content: center;
-  align-content: center;
+  height: 1000px;
   padding-left: 10px;
   padding-right: 10px;
+  border: 3px solid black;
+  margin-top: -20px;
+}
+
+.sideWrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-rows: 50% 50%;
+  height: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 3px solid black;
+  margin-top: -20px;
 }
 
 .box {
-  background-color: lightGray;
   color: black;
-  border 2px solid darkGray;
+  background: #FAFAFA;
+  border: 1px solid #ADADAD;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
   padding: 20px;
 }
 
 .animalDet {
-  background-color: lightGray;
-  color: black;
-  border-radius: 5px;
-  border-color: black;
-  border-width: medium;
-  padding: 20px;
   grid-row: 2/1 span;
-  grid-column: 2/1 span;
 }
 
-.item2 {
+.cal {
   grid-row: 1/2 span;
   grid-column: 1/1 span;
 }
@@ -38,14 +50,7 @@
 }
 
 .search {
-  background-color: lightGray;
-  color: black;
-  border-radius: 5px;
-  border-color: black;
-  border-width: medium;
-  padding: 20px;
   grid-row: 1/1 span;
-  grid-column: 2/1 span;
 }
 
 .item4 {
