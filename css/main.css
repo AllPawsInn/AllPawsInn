@@ -6,6 +6,10 @@
   margin: 0;
 }
 
+body{
+  font-size: 11px !important;
+}
+
 h1 {
   font-family: Lato-Bold;
   font-size: 24px;
@@ -15,7 +19,7 @@ h1 {
 .wrapper {
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: 75% auto;
+  grid-template-columns: 80% auto;
   grid-template-rows: 50% 50%;
   padding-left: 15px;
   padding-right: 15px;

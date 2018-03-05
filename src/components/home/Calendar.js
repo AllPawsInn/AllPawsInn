@@ -97,6 +97,9 @@ export default class Calendar extends React.Component {
 	render() {
 		week = this.state.week;
 		let range = getDateRange(week)
+		// encountered an issue on calculation in first week of march due to daylight saving time calculations 
+		// getDateRarnge.sun will also be a monday due to that excess 1 hour
+		// fix if possible
 		let {bookings_list} = this.state;
 
 		if (bookings_list){
