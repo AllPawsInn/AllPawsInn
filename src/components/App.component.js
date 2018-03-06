@@ -99,6 +99,8 @@ export default class Main extends React.Component {
 		this.toggle_side_off = this.toggle_side_off.bind(this)
 		this.grab_animal = this.grab_animal.bind(this)
 		this.full_profile = this.full_profile.bind(this)
+		this.full_profile = this.full_profile.bind(this)
+		this.get_client = this.get_client.bind(this)
 	}
 
 	async grabDogs(){
@@ -181,13 +183,20 @@ export default class Main extends React.Component {
 		})
 	}
 
+	get_client(animal){
+		this.setState({
+			animal : animal,
+			screen : "client"
+		})
+	}
+
 	render(){
 		return(
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
 					<Screen animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
-					<Sidescreen profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
+					<Sidescreen client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
 		);

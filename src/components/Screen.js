@@ -7,6 +7,7 @@ import React from 'react';
 import Home from "./navbar/Home"
 import About from "./navbar/About"
 import FullProfile from "./animal/FullProfile"
+import ClientProfile from "./client/ClientProfile"
 
 export default class Screen extends React.Component {
 	componentWillMount() {
@@ -29,6 +30,11 @@ export default class Screen extends React.Component {
 		else if(this.state.screen == "full_profile"){
 			return(
 				<FullProfile animal = {this.props.animal}/>
+			)
+		}
+		else if(this.state.screen == "client"){
+			return(
+				<ClientProfile animal = {this.props.animal}/>
 			)
 		}
 		else{
