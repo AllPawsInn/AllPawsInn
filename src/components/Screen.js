@@ -6,6 +6,7 @@
 import React from 'react';
 import Home from "./navbar/Home"
 import About from "./navbar/About"
+import FullProfile from "./animal/FullProfile"
 
 export default class Screen extends React.Component {
 	componentWillMount() {
@@ -25,12 +26,10 @@ export default class Screen extends React.Component {
 
 		if(this.state.screen == "about")
 			return <About/>
-		else if {
+		else if(this.state.screen == "full_profile"){
 			return(
-				<div>
-					<Fullprofile animal = {this.props.animal}/>
-				</div>
-				)
+				<FullProfile animal = {this.props.animal}/>
+			)
 		}
 		else{
 			return (

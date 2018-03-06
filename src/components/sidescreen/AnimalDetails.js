@@ -10,6 +10,7 @@ export default class AnimalDetails extends React.Component {
 		}
 
 		this.get_profile = this.get_profile.bind(this)
+		this.get_fullprofile = this.get_fullprofile.bind(this)
 	}
 
 	get_profile(){
@@ -17,9 +18,9 @@ export default class AnimalDetails extends React.Component {
 	}
 
 	get_fullprofile(){
-		this.props.prof(this.props.animal)
+		this.props.profile(this.props.animal)
 	}
-	
+
 	render() {
 		if (this.props.animal)
 			return  (
@@ -31,7 +32,7 @@ export default class AnimalDetails extends React.Component {
 					Age: {this.props.animal.Age} <br></br>
 					Bites: {this.props.animal.Bites} <br></br>
 					ShareKennel: {this.props.animal.ShareKennel} <br></br>
-					<button onClick = {this.prof} >Full Profile</button>
+					<button onClick = {this.get_fullprofile} >Full Profile</button>
 					<button onClick = {this.get_profile}>New Reservation</button>
 					<button>Client Profile</button>
 				</div>

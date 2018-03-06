@@ -12,16 +12,16 @@ import Sidescreen from './Sidescreen'
 const sql = require('mssql')
 
 let sqlConfig = {
-	user: 'admin', // your mssql account	
-	password: 'alisan12',
-	server: 'DESKTOP-RA1SLRQ', // your server name
+	user: 'sa', // your mssql account
+	password: 'asdqwe123',
+	server: 'DESKTOP-9BJOBVM\\SQLEXPRESS', // your server name
 	database: 'KMDB'
 }
 
 function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
 	if (val < 10)
 		return '0' + val
-	else 
+	else
 		return val
 }
 
@@ -73,14 +73,14 @@ function create_booking(animal){
 	}
 
 	insertDog(new_booking)
-	
+
 	return new_booking
 }
 
 
 export default class Main extends React.Component {
 	constructor(props) {
-		super(props) 
+		super(props)
 		this.state = {
 			dog_list : [],
 			booking_list : [],
@@ -102,7 +102,7 @@ export default class Main extends React.Component {
 	}
 
 	async grabDogs(){
-		
+
 		// insert => "INSERT INTO dbo.Colours (ColourName) VALUES ('Blue')"
 		// delete => "DELETE FROM [KMDB].[dbo].[BookingObjects] where BookingID > 16805"
 		// select => "SELECT * FROM dbo.Animals"
@@ -166,10 +166,10 @@ export default class Main extends React.Component {
 		//create a booking here
 		animal.BookingID = this.state.booking.current_id
 
-		//buffer array until a neat way to put array push /w set state 
+		//buffer array until a neat way to put array push /w set state
 		let bookings = this.state.booking_list
 
-		this.setState({ 
+		this.setState({
 			booking_list : bookings
 		}) //simple value
 	}
@@ -192,5 +192,5 @@ export default class Main extends React.Component {
 			</div>
 		);
 	}
-	
+
 }
