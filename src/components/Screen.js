@@ -20,12 +20,18 @@ export default class Screen extends React.Component {
 		})
 	}
 
-
 	render() {
 		const addDog = this.state.addDog;
 
 		if(this.state.screen == "about")
 			return <About/>
+		else if {
+			return(
+				<div>
+					<Fullprofile animal = {this.props.animal}/>
+				</div>
+				)
+		}
 		else{
 			return (
 				<div>
