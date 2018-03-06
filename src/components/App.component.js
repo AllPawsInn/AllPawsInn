@@ -9,14 +9,8 @@ import Navbar from './Navbar'
 import Screen from './Screen'
 import Sidescreen from './Sidescreen'
 
+const sqlConfig = require('./sqlconfig')
 const sql = require('mssql')
-
-let sqlConfig = {
-	user: 'sa', // your mssql account
-	password: 'asdqwe123',
-	server: 'DESKTOP-9BJOBVM\\SQLEXPRESS', // your server name
-	database: 'KMDB'
-}
 
 function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
 	if (val < 10)
