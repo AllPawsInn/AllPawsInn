@@ -86,7 +86,7 @@ export default class Calendar extends React.Component {
 		// CI - Checked In
 
 		let cur_content = event.currentTarget.innerHTML
-		
+
 		if (cur_content.includes("Not Checked In"))
 			event.currentTarget.innerHTML = "Status : <!-- /react-text --><b>Checked In</b><!-- react-text: 304 -->"
 		else if (cur_content.includes("Checked In"))
@@ -97,7 +97,7 @@ export default class Calendar extends React.Component {
 	render() {
 		week = this.state.week;
 		let range = getDateRange(week)
-		// encountered an issue on calculation in first week of march due to daylight saving time calculations 
+		// encountered an issue on calculation in first week of march due to daylight saving time calculations
 		// getDateRarnge.sun will also be a monday due to that excess 1 hour
 		// fix if possible
 		let {bookings_list} = this.state;
@@ -106,10 +106,11 @@ export default class Calendar extends React.Component {
 			return(
 			<div className="box cal">
 			<div>
-				<button onClick = {this.nextWeek}> left </button>
-				<button onClick = {this.prevWeek}> right </button>
+				<button onClick = {this.nextWeek}> Prev </button>
+				<b>{printDate(range.mon)} / {printDate(range.sun)}</b>
+				<button onClick = {this.prevWeek}> Next </button>
 			</div>
-			<div>{printDate(range.mon)} / {printDate(range.sun)}</div>
+
 
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead
