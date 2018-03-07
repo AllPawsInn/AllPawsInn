@@ -19,7 +19,6 @@ export default class ClientProfile extends React.Component {
 					<h3>Client Details</h3>
 					Last Name: {this.props.animal.LastName} <br></br>
 					First Name: {this.props.animal.FirstName} Title: {this.props.animal.Title}<br></br>
-					{console.log(this.props.animal)}
 					Partner Name: {this.props.animal.PartnerName} <br></br>
 					Address1: {!Array.isArray(this.props.animal.Address1) ? this.props.animal.Address1 : this.props.animal.Address1[1]} <br></br>
 					Address2: {!Array.isArray(this.props.animal.Address2) ? this.props.animal.Address2 : this.props.animal.Address2[1]} <br></br>
