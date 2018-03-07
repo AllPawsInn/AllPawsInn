@@ -107,7 +107,7 @@ export default class Main extends React.Component {
 		let pool = await sql.connect(sqlConfig)
 		let t = Date.now()
 		let result = await pool.request()
-			 .query("SELECT * from dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID")
+			 .query("SELECT * from dbo.Animals, dbo.VetDetails, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID")
 		//if err sql.close
 
 
@@ -115,7 +115,7 @@ export default class Main extends React.Component {
 
 		let y = Date.now()
 		let bookings = await pool.request()
-			 .query("SELECT * from dbo.BookingObjects ,dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
+			 .query("SELECT * from dbo.BookingObjects ,dbo.VetDetails, dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
 		//if err sql.close
 
 
@@ -123,6 +123,8 @@ export default class Main extends React.Component {
 			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
 		//if err sql.close
 
+		console.log(result.recordset[10].Address1)
+console.log(bookings.recordset)
 		sql.close()
 
 		this.setState({
