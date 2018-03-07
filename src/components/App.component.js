@@ -123,8 +123,6 @@ export default class Main extends React.Component {
 			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
 		//if err sql.close
 
-		console.log(result.recordset[10].Address1)
-console.log(bookings.recordset)
 		sql.close()
 
 		this.setState({
