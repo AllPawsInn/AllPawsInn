@@ -12,65 +12,6 @@ import Sidescreen from './Sidescreen'
 const sqlConfig = require('./sqlconfig')
 const sql = require('mssql')
 
-function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
-	if (val < 10)
-		return '0' + val
-	else
-		return val
-}
-
-function toDatetime(date){
-	let formatted = `${date.getFullYear()}-${sqlParse(date.getMonth() + 1)}-${sqlParse(date.getDate())}T${sqlParse(date.getHours())}:${sqlParse(date.getMinutes())}:${sqlParse(date.getSeconds())}`
-	return formatted
-}
-
-function dateNow(){
-	let dt = new Date ()
-	return dt
-}
-
-function dateOut(epoch){
-	//use an epoch converter to build the check out date
-	//epoch is to supposed to be the appointment duration
-	let dt = new Date (Date.now() + 604800000)
-	return dt
-}
-
-function forceDate(booking){
-	booking.DateIn = toDatetime(new Date(Date.parse(booking.DateIn)))
-	booking.DateOut = toDatetime(new Date(Date.parse(booking.DateOut)))
-}
-
-async function insertDog(booking){
-
-	let new_booking = JSON.parse(JSON.stringify(booking))
-	forceDate(new_booking)
-	let pool = await sql.connect(sqlConfig)
-	let result = await pool.request()
-		.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, '${new_booking.DateIn}', '${new_booking.DateOut}', '${new_booking.status}')`)
-		//if err sql.close
-
-	sql.close()
-}
-
-function create_booking(animal){
-
-	//push animal's and client's properties to booking
-	let new_booking = {
-		FirstName : animal.FirstName,
-		LastName : animal.LastName,
-		animal_id : animal.AnimalID,
-		kennel_id : 20, //user prompted in the future
-		DateIn : dateNow(),
-		DateOut : dateOut(),
-		status : "NCI"
-	}
-
-	insertDog(new_booking)
-
-	return new_booking
-}
-
 
 export default class Main extends React.Component {
 	constructor(props) {
@@ -79,7 +20,7 @@ export default class Main extends React.Component {
 			dog_list : [],
 			booking_list : [],
 		}
-	this.grabDogs()
+		this.grabDogs()
 	}
 
 	componentWillMount(){
@@ -153,20 +94,9 @@ export default class Main extends React.Component {
 	}
 
 	grab_animal(animal){
-		//increment booking id
-		this.state.booking.current_id++
-
-		let tmp = create_booking(animal)
-		tmp.BookingID = this.state.booking.current_id
-		this.state.booking_list.push(tmp)
-		//create a booking here
-		animal.BookingID = this.state.booking.current_id
-
-		//buffer array until a neat way to put array push /w set state
-		let bookings = this.state.booking_list
-
 		this.setState({
-			booking_list : bookings
+			animal : animal,
+			screen : "new_booking"
 		}) //simple value
 	}
 
@@ -189,8 +119,8 @@ export default class Main extends React.Component {
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
-					<Sidescreen client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
+					<Screen id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Sidescreen update_screen = {this.update_screen} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
 		);
