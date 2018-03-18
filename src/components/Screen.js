@@ -9,7 +9,7 @@ import About from "./navbar/About"
 import FullProfile from "./animal/FullProfile"
 import ClientProfile from "./client/ClientProfile"
 import NewBooking from "./NewBooking"
-
+import Report from "./navbar/Report"
 
 export default class Screen extends React.Component {
 	componentWillMount() {
@@ -33,10 +33,15 @@ export default class Screen extends React.Component {
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen == "client")
 			return(<ClientProfile animal = {this.props.animal}/>)
+		else if(this.state.screen == "report"){
+			return(
+			<Report bookings = {this.props.bookings}/>
+		)
+		}
 		else if(this.state.screen == "new_booking")
 			return(<NewBooking id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else
 			return (<Home currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
-		
+
 	}
 }
