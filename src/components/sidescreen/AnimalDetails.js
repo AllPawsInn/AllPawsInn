@@ -30,7 +30,6 @@ export default class AnimalDetails extends React.Component {
 		if (this.props.animal)
 			return  (
 				<div className = "box animalDet">
-					{console.log(this.props)}
 					<h3>Animal Details</h3>
 					Animal Name: {this.props.animal.AnimalName} <br></br>
 					Breed: {this.props.animal.Breed} <br></br>

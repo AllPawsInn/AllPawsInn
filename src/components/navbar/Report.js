@@ -122,7 +122,6 @@ export default class Report extends React.Component {
     if (this.props.bookings){
 			return  (
 				<div className = "box cal">
-          {console.log(this.state.bookings)}
 					<h3>Basic Stats</h3><br></br>
           <h4>KENNEL UNITS</h4><br></br>
           Total number of units:  86<br></br>
