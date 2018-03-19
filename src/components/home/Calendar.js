@@ -43,6 +43,24 @@ function getDateRange(week){
 	}
 }
 
+
+async function updateStatusQuery(bookingObject){
+
+		const sqlConfig = require('../sqlconfig')
+		const sql = require('mssql')
+		let pool = await sql.connect(sqlConfig)
+
+		let stat = bookingObject.Status
+		let bookingId = parseInt(bookingObject.BookingID)
+
+		let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+
+		let result = await pool.request()
+		 	 .query(queryString)
+
+		sql.close()
+}
+
 export default class Calendar extends React.Component {
 	constructor(props){
 		super(props)
@@ -52,10 +70,11 @@ export default class Calendar extends React.Component {
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings
 		}
-		this.changeStatus = this.changeStatus.bind(this)
+		this.changeState = this.changeState.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
 		this.prevWeek = this.prevWeek.bind(this)
-
+		this.getStatus = this.getStatus.bind(this)
+		this.getNextAction = this.getNextAction.bind(this)
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -78,21 +97,67 @@ export default class Calendar extends React.Component {
 		})
 	}
 
-	changeStatus(event){
+	changeState(obj){
 
 		// NCO - Not Checked Out
 		// NCI - Not Checked In
 		// CO - Checked Out
 		// CI - Checked In
 
-		let cur_content = event.currentTarget.innerHTML
+		updateStatusQuery(obj)
 
-		if (cur_content.includes("Not Checked In"))
-			event.currentTarget.innerHTML = "Status : <!-- /react-text --><b>Checked In</b><!-- react-text: 304 -->"
-		else if (cur_content.includes("Checked In"))
-			event.currentTarget.innerHTML = "Status : <!-- /react-text --><b>Checked Out</b><!-- react-text: 304 -->"
+		let status = '';
 
+		if(obj.Status == "NCI"){
+			status = "CI"
+		}
+		else if(obj.Status == "CI"){
+			status = "CO"
+		}
+		else if(obj.Status == "NCO"){
+			status = "CO"
+		}
+		else{
+			status = "CO"
+		}
+
+		obj.Status = status
+
+		this.setState({
+			week : this.state.week
+		})
 	}
+
+	getStatus(booking){
+		if(booking.Status == "NCI"){
+			return "Not Checked-In"
+		}
+		else if(booking.Status == "CI"){
+			return "Checked-In"
+		}
+		else if(booking.Status == "NCO"){
+			return "Not Checked-Out"
+		}
+		else{
+			return "Checked-Out"
+		}
+	}
+
+	getNextAction(booking){
+		if(booking.Status == "NCI"){
+			return "Check-In"
+		}
+		else if(booking.Status == "CI"){
+			return "Check-Out"
+		}
+		else if(booking.Status == "NCO"){
+			return "Check-Out"
+		}
+		else{
+			return "Check-Out"
+		}
+	}
+
 
 	render() {
 		week = this.state.week;
@@ -109,19 +174,22 @@ export default class Calendar extends React.Component {
 				<button onClick = {this.nextWeek}> Prev </button>
 				<b>{printDate(range.mon)} / {printDate(range.sun)}</b>
 				<button onClick = {this.prevWeek}> Next </button>
+				<hr></hr>
 			</div>
-
-
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead
 				<div key = {obj.BookingID}>
 					{obj.FirstName} {obj.LastName}/{obj.AnimalName}/{obj.Breed}<br></br>
 					DateIn : {obj.DateIn.toString()} <br></br>
 					DateOut : {obj.DateOut.toString()} <br></br>
-					<div onClick = {this.changeStatus}>
-						Status : <b>Not Checked In</b>
+					<div>
+						Status : <b>{this.getStatus(obj)}</b>
+						<br></br>
+						{this.getStatus(obj).includes('Checked-Out') ? '' : <button onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>}
 					</div>
+					<hr></hr>
 				</div>
+
 				)
 			}
 			</div>);
