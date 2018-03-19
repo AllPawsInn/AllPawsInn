@@ -7,7 +7,7 @@ export default class Home extends React.Component {
 	render() {
 		return (
 			<div className='leftWrapper'>
-				<Calendar currentId = {this.props.currentId} bookings = {this.props.bookings}/>
+				<Calendar payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>
 			</div>
 		);
 	}

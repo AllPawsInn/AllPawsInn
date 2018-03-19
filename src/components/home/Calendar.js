@@ -104,24 +104,31 @@ export default class Calendar extends React.Component {
 		// CO - Checked Out
 		// CI - Checked In
 
-		updateStatusQuery(obj)
 
 		let status = '';
 
 		if(obj.Status == "NCI"){
 			status = "CI"
 		}
-		else if(obj.Status == "CI"){
-			status = "CO"
-		}
-		else if(obj.Status == "NCO"){
-			status = "CO"
-		}
+
 		else{
-			status = "CO"
+			if(obj.Status == "CI"){
+				status = "CO"
+			}
+			else if(obj.Status == "NCO"){
+				status = "CO"
+			}
+			else{
+				status = "CO"
+			}
+			this.props.payment(obj)
 		}
 
+
+
 		obj.Status = status
+
+		updateStatusQuery(obj)
 
 		this.setState({
 			week : this.state.week
@@ -158,7 +165,6 @@ export default class Calendar extends React.Component {
 		}
 	}
 
-
 	render() {
 		week = this.state.week;
 		let range = getDateRange(week)
@@ -166,7 +172,9 @@ export default class Calendar extends React.Component {
 		// getDateRarnge.sun will also be a monday due to that excess 1 hour
 		// fix if possible
 		let {bookings_list} = this.state;
+		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
 
+		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
 			return(
 			<div className="box cal">
@@ -183,9 +191,9 @@ export default class Calendar extends React.Component {
 					DateIn : {obj.DateIn.toString()} <br></br>
 					DateOut : {obj.DateOut.toString()} <br></br>
 					<div>
-						Status : <b>{this.getStatus(obj)}</b>
+						Status : <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 						<br></br>
-						{this.getStatus(obj).includes('Checked-Out') ? '' : <button onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>}
+						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
 					</div>
 					<hr></hr>
 				</div>
@@ -202,4 +210,16 @@ export default class Calendar extends React.Component {
 			);
 		}
 	}
+}
+
+const coStyle = {
+	color : "green"
+}
+
+const notStyle = {
+	color : "red"
+}
+
+const ciStyle = {
+	color : "#CCCC00"
 }

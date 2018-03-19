@@ -130,7 +130,7 @@ export default class Report extends React.Component {
           <h4>BOOKING</h4><br></br>
           Number of Bookings Started over previous year:  {filterBookingsLessYear(this.state.bookings)}<br></br>
           Total Number of Future Bookings:  {filterFutureBookings(this.state.bookings)}<br></br>
-          Bookings Expected to Start This Week:  {filterFutureWeekBookings(this.state.bookings)}v>
+          Bookings Expected to Start This Week:  {filterFutureWeekBookings(this.state.bookings)}<br></br>
           Compare with a year ago:  {filterFutureWeekCompareBookings(this.state.bookings)}<br></br>
           Bookings Expected to Start This Month  {filterThisMonthBookings(this.state.bookings)}<br></br>
           Compare with a year ago:  {filterThisMonthCompareBookings(this.state.bookings)}<br></br>
