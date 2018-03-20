@@ -58,6 +58,7 @@ h6 {
 .cal {
   align-content: stretch;
   grid-row: 1/2 span;
+  height: 93vh;
 }
 
 .item3 {
