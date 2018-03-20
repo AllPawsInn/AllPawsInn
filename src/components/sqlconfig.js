@@ -1,7 +1,7 @@
 let sqlConfig = {
 	user: 'sa', // your mssql account
-	password: 'P@55w0rd',
-	server: 'localhost', // your server name
+	password: 'asdqwe123',
+	server: 'DESKTOP-9BJOBVM\\SQLEXPRESS', // your server name
 	database: 'KMDB'
 }
 
