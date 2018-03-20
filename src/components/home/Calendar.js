@@ -179,21 +179,21 @@ export default class Calendar extends React.Component {
 			return(
 			<div className="box cal">
 			<div>
-				<button onClick = {this.nextWeek}> Prev </button>
-				<b>{printDate(range.mon)} / {printDate(range.sun)}</b>
-				<button onClick = {this.prevWeek}> Next </button>
+				<button className = "profileButton" Click = {this.nextWeek}> Prev </button>
+				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
 				<hr></hr>
 			</div>
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead
 				<div key = {obj.BookingID}>
 					{obj.FirstName} {obj.LastName}/{obj.AnimalName}/{obj.Breed}<br></br>
-					DateIn : {obj.DateIn.toString()} <br></br>
-					DateOut : {obj.DateOut.toString()} <br></br>
+					<h6>DateIn :</h6> {obj.DateIn.toString()} <br></br>
+					<h6>DateOut :</h6> {obj.DateOut.toString()} <br></br>
 					<div>
-						Status : <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+						<h6>Status :</h6> <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 						<br></br>
-						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
+						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
 					</div>
 					<hr></hr>
 				</div>

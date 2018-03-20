@@ -12,6 +12,7 @@ import NewBooking from "./NewBooking"
 import Report from "./navbar/Report"
 import Payment from "./payment/Payment"
 import Scheduler from "./functions/Scheduler"
+
 export default class Screen extends React.Component {
 	componentWillMount() {
 		this.setState({
@@ -36,14 +37,10 @@ export default class Screen extends React.Component {
 			return(<ClientProfile animal = {this.props.animal}/>)
 		else if(this.state.screen == "payment")
 			return(<Payment booking = {this.props.booking}/>)
-		else if(this.state.screen == "report"){
+		else if(this.state.screen == "report")
 			return(<Report bookings = {this.props.bookings}/>)
-		}
-		else if(this.state.screen == "scheduler"){
-	return(
-	<Scheduler dogs = {this.props.dogs}/>
-)
-}
+		else if(this.state.screen == "scheduler")
+	    return(<Scheduler dogs = {this.props.dogs}/>)
 		else if(this.state.screen == "new_booking")
 			return(<NewBooking id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else
