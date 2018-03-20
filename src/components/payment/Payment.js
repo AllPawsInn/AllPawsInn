@@ -8,13 +8,13 @@ export default class Payment extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-
+			booking : this.props.booking
 		}
 	}
 
 	render(){
 		//this.state.id = this.props.id_object
-
+		let booking = this.state.booking;
 		//increment booking id
 		//this.state.id.current_id++
 
@@ -28,10 +28,22 @@ export default class Payment extends React.Component {
 		// let bookings = this.state.booking_list
 
 		return (
-			<div>
+			<div className = "box cal">
 				<h1>Payment</h1>
+				<div>
+					<button style = {accept}>Accept</button>
+					<button style = {cancel}>Cancel</button>
+				</div>
 			</div>
 			)
 	}
 
+}
+
+const accept = {
+	color : "green"
+}
+
+const cancel = {
+	color : "red"
 }
