@@ -39,7 +39,7 @@ export default class Navbar extends React.Component {
 								</ul>
 							</li>
 							<li><a onClick = {this.props.updateScreen.bind(this, "about")}>Print</a></li>
-							<li><a onClick = {this.props.updateScreen.bind(this, "report")}>Report</a></li>								
+							<li><a onClick = {this.props.updateScreen.bind(this, "report")}>Basic Stats</a></li>
 						</ul>
 						<ul className ="nav navbar-nav navbar-right">
 							<li className ="dropdown">

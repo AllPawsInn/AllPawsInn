@@ -56,7 +56,7 @@ function create_booking(animal){
 		kennel_id : 20, //user prompted in the future
 		DateIn : dateNow(),
 		DateOut : dateOut(),
-		status : "NCI"
+		Status : "NCI"
 	}
 
 	insertDog(new_booking)
@@ -69,7 +69,7 @@ export default class NewBooking extends React.Component {
 		super(props)
 		this.state = {
 			id : this.props.id_object
-		} 
+		}
 	}
 
 	render(){
