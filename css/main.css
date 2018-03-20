@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400');
-
 *{
   box-sizing: border-box;
   padding: 0;
@@ -11,9 +9,11 @@ body{
 }
 
 h1 {
-  font-family: Lato-Bold;
   font-size: 24px;
-  color: #000000;
+}
+
+h6 {
+  display: inline;
 }
 
 .wrapper {
@@ -26,7 +26,7 @@ h1 {
   padding-bottom: 15px;
   /* border: 3px solid black; */
   margin-top: -20px;
-  height:94vh;
+  height:95vh;
 }
 
 .sideWrapper {
@@ -34,14 +34,13 @@ h1 {
   grid-gap: 10px;
   grid-template-rows: 50% 50%;
   height:92vh;
-  /* border: 3px solid black; */
+  max-height: 92vh;
 }
 
 .leftWrapper {
   display: grid;
-  height: calc(100% + 10px);
-  /* border: 3px solid black; */
   height:93vh;
+  max-height: 93vh;
 }
 
 .box {
@@ -67,8 +66,34 @@ h1 {
 
 .search {
   grid-row: 1/1 span;
+  height: 46vh;
 }
 
 .item4 {
   grid-row: 2/1 span;
+}
+
+.profileButton {
+  background: #D7E8F7;
+  color: #299CF5;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+  border: none;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  padding: 8px 17px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 5px;
+}
+
+.profileButton:hover {
+    background-color: royalblue;
+    color: #FAFAFA;
+}
+
+.profileButtonPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
