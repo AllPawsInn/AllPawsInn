@@ -36,10 +36,14 @@ export default class AnimalDetails extends React.Component {
 					Sex: {this.props.animal.Sex} <br></br>
 					Age: {this.props.animal.Age} <br></br>
 					Bites: {this.props.animal.Bites} <br></br>
-					ShareKennel: {this.props.animal.ShareKennel} <br></br>
-					<button onClick = {this.get_fullprofile}>Full Profile</button>
-					<button onClick = {this.get_profile}>New Reservation</button>
-					<button onClick = {this.get_client}>Client Profile</button>
+					ShareKennel: {this.props.animal.ShareKennel} <br></br><br></br>
+					<div className = "profileButtonPanel">
+						<button className = "profileButton" onClick = {this.get_profile}>New Reservation</button>
+					</div><br></br>
+					<div className = "profileButtonPanel">
+						<button className = "profileButton" onClick = {this.get_fullprofile}>Full Profile</button>
+						<button className = "profileButton" onClick = {this.get_client}>Client Profile</button>
+					</div>
 				</div>
 			);
 		else

@@ -46,7 +46,7 @@ export default class Navbar extends React.Component {
 								<a href="#" className ="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span className
 									="glyphicon glyphicon-link" aria-hidden="true"></span> Functions<span className ="caret"></span></a>
 								<ul className ="dropdown-menu">
-									<li><a href="#">Scheduler</a></li>
+									<li><a onClick = {this.props.updateScreen.bind(this, "scheduler")}>Scheduler</a></li>
 								</ul>
 							</li>
 							<li>

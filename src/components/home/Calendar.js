@@ -179,9 +179,9 @@ export default class Calendar extends React.Component {
 			return(
 			<div className="box cal">
 			<div>
-				<button onClick = {this.nextWeek}> Prev </button>
-				<b>{printDate(range.mon)} / {printDate(range.sun)}</b>
-				<button onClick = {this.prevWeek}> Next </button>
+				<button className = "profileButton" Click = {this.nextWeek}> Prev </button>
+				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
 				<hr></hr>
 			</div>
 			{
@@ -198,8 +198,13 @@ export default class Calendar extends React.Component {
 					</div>
 					<div style = {left}>
 						Status : <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+					{obj.FirstName} {obj.LastName}/{obj.AnimalName}/{obj.Breed}<br></br>
+					<h6>DateIn :</h6> {obj.DateIn.toString()} <br></br>
+					<h6>DateOut :</h6> {obj.DateOut.toString()} <br></br>
+					<div>
+						<h6>Status :</h6> <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 						<br></br>
-						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
+						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
 					</div>
 					<hr></hr>
 				</div>
