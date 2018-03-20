@@ -36,6 +36,7 @@ export default class Main extends React.Component {
 		this.full_profile = this.full_profile.bind(this)
 		this.full_profile = this.full_profile.bind(this)
 		this.get_client = this.get_client.bind(this)
+		this.get_payment = this.get_payment.bind(this)
 	}
 
 	async grabDogs(){
@@ -114,12 +115,19 @@ export default class Main extends React.Component {
 		})
 	}
 
+	get_payment(booking){
+		this.setState({
+			payBooking : booking,
+			screen : "payment"
+		})
+	}
+
 	render(){
 		return(
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Screen payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					<Sidescreen update_screen = {this.update_screen} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>

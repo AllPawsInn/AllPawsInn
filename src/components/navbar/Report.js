@@ -107,6 +107,8 @@ function filterNextMonthCompareBookings(bookings){
   return next_month_compare_bookings;
 }
 
+
+
 export default class Report extends React.Component {
   constructor(props){
 		super(props)
@@ -120,24 +122,23 @@ export default class Report extends React.Component {
     if (this.props.bookings){
 			return  (
 				<div className = "box cal">
-          <h1>Reports, Exports, Printouts</h1><br></br>
-					<h2>Basic Stats</h2><br></br>
-          <h3>KENNEL UNITS</h3><br></br>
-          Total number of units:  <b>86</b><br></br><br></br>
-          Current number of occupants: <b>{this.state.bookings.length}</b><br></br><br></br>
-          % of units Occupied:  <b>78</b><br></br><br></br>
-          <h3>BOOKING</h3><br></br><br></br>
-          Number of Bookings Started over previous year:  <b>{filterBookingsLessYear(this.state.bookings)}</b><br></br>
-          Total Number of Future Bookings:  <b>{filterFutureBookings(this.state.bookings)}</b><br></br><br></br>
-          Bookings Expected to Start This Week:  <b>{filterFutureWeekBookings(this.state.bookings)}</b><br></br>
-          Compare with a year ago:  <b>{filterFutureWeekCompareBookings(this.state.bookings)}</b><br></br><br></br>
-          Bookings Expected to Start This Month  <b>{filterThisMonthBookings(this.state.bookings)}</b><br></br>
-          Compare with a year ago:  <b>{filterThisMonthCompareBookings(this.state.bookings)}</b><br></br><br></br>
-          Bookings Expected to Start Next Month:<b>{filterNextMonthBookings(this.state.bookings)}</b><br></br>
-          Compare with a year ago:  <b>{filterNextMonthCompareBookings(this.state.bookings)}</b><br></br><br></br>
-          <h3>DATABASE</h3><br></br><br></br>
-          Number of Clients in database: <b>1398</b><br></br><br></br>
-          Number of Animals in database: <b>1976</b>
+					<h3>Basic Stats</h3><br></br>
+          <h4>KENNEL UNITS</h4><br></br>
+          Total number of units:  86<br></br>
+          Current number of occupants: {this.state.bookings.length}<br></br>
+          % of units Occupied:  78<br></br>
+          <h4>BOOKING</h4><br></br>
+          Number of Bookings Started over previous year:  {filterBookingsLessYear(this.state.bookings)}<br></br>
+          Total Number of Future Bookings:  {filterFutureBookings(this.state.bookings)}<br></br>
+          Bookings Expected to Start This Week:  {filterFutureWeekBookings(this.state.bookings)}<br></br>
+          Compare with a year ago:  {filterFutureWeekCompareBookings(this.state.bookings)}<br></br>
+          Bookings Expected to Start This Month  {filterThisMonthBookings(this.state.bookings)}<br></br>
+          Compare with a year ago:  {filterThisMonthCompareBookings(this.state.bookings)}<br></br>
+          Bookings Expected to Start Next Month:{filterNextMonthBookings(this.state.bookings)}<br></br>
+          Compare with a year ago:  {filterNextMonthCompareBookings(this.state.bookings)}<br></br>
+          <h4>DATABASE</h4><br></br>
+          Number of Clients in database: 1398<br></br>
+          Number of Animals in database: 1976<br></br>
 				</div>
 			);
   }
