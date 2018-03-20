@@ -44,14 +44,22 @@ export default class Report extends React.Component {
 			return  (
 				<div className = "box cal">
 					<h1>Feed/Tasks/Meds Scheduler</h1>
-          <h3>Dog Name</h3>
-          {dogNames(this.props.dogs)}
-          <h3>Food Type</h3>
-          {foodTypes(this.props.dogs)}
-          <h3>Food Quantity</h3>
-          {foodQuantitys(this.props.dogs)}
-          <h3>Food Frequency</h3>
-          {foodFreqs(this.props.dogs)}
+          <div className = "box" style = {left}>
+            <h3>Dog Name</h3>
+            {dogNames(this.props.dogs)}
+          </div>
+          <div  className = "box" style = {left}>
+           <h3>Food Type</h3>
+           {foodTypes(this.props.dogs)}
+          </div>
+          <div  className = "box" style = {left}>
+           <h3>Food Quantity</h3>
+           {foodQuantitys(this.props.dogs)}
+          </div>
+          <div  className = "box" style = {left}>
+            <h3>Food Frequency</h3>
+            {foodFreqs(this.props.dogs)}
+          </div>
 				</div>
 			);
   }
@@ -59,4 +67,9 @@ export default class Report extends React.Component {
 			return <div className = "box cal"><h3>Loading...</h3></div>;
 	}
 
+}
+
+const left = {
+  display : "inline-block",
+  margin : "10px"
 }

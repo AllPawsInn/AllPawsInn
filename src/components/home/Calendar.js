@@ -187,16 +187,16 @@ export default class Calendar extends React.Component {
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead
 				<div key = {obj.BookingID}>
-					<div style = {left}>
+					<div className = "box" style = {left}>
 						Dog Name: <b>{obj.AnimalName}</b><br></br>
 						Client Name: <b>{obj.FirstName} {obj.LastName}</b><br></br>
 						Breed: <b>{obj.Breed}</b>
 					</div>
-					<div style = {left}>
+					<div className = "box" style = {left}>
 						DateIn : <b>{obj.DateIn.toString()}</b> <br></br>
 						DateOut : <b>{obj.DateOut.toString()}</b> <br></br>
 					</div>
-					<div style = {left}>
+					<div className = "box" style = {left}>
 						<h6>Status :</h6> <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 						<br></br>
 						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
@@ -231,6 +231,5 @@ const ciStyle = {
 
 const left = {
 	display : "inline-block",
-
 	margin : "10px"
 }
