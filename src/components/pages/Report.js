@@ -1,7 +1,7 @@
 'use babel';
 
 import React from 'react';
-let date=new Date();
+let date = new Date(); //global?
 
 function filterBookingsLessYear(bookings){
   let len= bookings.length;

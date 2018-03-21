@@ -1,6 +1,6 @@
 // ---------------------------------------- TO DO ----------------------------------------
 // -- Calendar shouldnt re-render on search
-
+// -- Prevent default for input fields including and especially search box
 'use babel';
 
 import React from 'react'
@@ -9,7 +9,7 @@ import Navbar from './Navbar'
 import Screen from './Screen'
 import Sidescreen from './Sidescreen'
 
-const sqlConfig = require('./sqlconfig')
+const sqlConfig = require('../js/sqlconfig')
 const sql = require('mssql')
 
 
@@ -45,9 +45,9 @@ export default class Main extends React.Component {
 		// delete => "DELETE FROM [KMDB].[dbo].[BookingObjects] where BookingID > 16805"
 		// select => "SELECT * FROM dbo.Animals"
 
-		//catch errors in this block
+		// catch errors in this block
+		// fill out empty id's before pushing the sql
 		let pool = await sql.connect(sqlConfig)
-		let t = Date.now()
 		let result = await pool.request()
 			 .query("SELECT * from dbo.Animals, dbo.VetDetails, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID")
 		//if err sql.close
@@ -55,12 +55,10 @@ export default class Main extends React.Component {
 
 		// "SELECT top 1 * from dbo.BookingObjects order by BookingID desc" // returns most recently assigned ID
 
-		let y = Date.now()
+		
 		let bookings = await pool.request()
 			 .query("SELECT * from dbo.BookingObjects ,dbo.VetDetails, dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
 		//if err sql.close
-
-
 		let num = await pool.request()
 			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
 		//if err sql.close
@@ -97,7 +95,7 @@ export default class Main extends React.Component {
 	grab_animal(animal){
 		this.setState({
 			animal : animal,
-			screen : "new_booking"
+			screen : "booking"
 		}) //simple value
 	}
 
@@ -123,12 +121,14 @@ export default class Main extends React.Component {
 	}
 
 	render(){
+		//order props neatly
+		//pay booking && booking is passed as undefined
 		return(
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
-					<Sidescreen update_screen = {this.update_screen} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
+					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Sidescreen client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
 		);

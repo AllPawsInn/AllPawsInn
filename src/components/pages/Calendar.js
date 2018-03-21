@@ -46,19 +46,19 @@ function getDateRange(week){
 
 async function updateStatusQuery(bookingObject){
 
-		const sqlConfig = require('../sqlconfig')
-		const sql = require('mssql')
-		let pool = await sql.connect(sqlConfig)
+	const sqlConfig = require('../sqlconfig')
+	const sql = require('mssql')
+	let pool = await sql.connect(sqlConfig)
 
-		let stat = bookingObject.Status
-		let bookingId = parseInt(bookingObject.BookingID)
+	let stat = bookingObject.Status
+	let bookingId = parseInt(bookingObject.BookingID)
 
-		let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
 
-		let result = await pool.request()
-		 	 .query(queryString)
+	let result = await pool.request()
+	 	 .query(queryString)
 
-		sql.close()
+	sql.close()
 }
 
 export default class Calendar extends React.Component {
@@ -103,28 +103,20 @@ export default class Calendar extends React.Component {
 		// NCI - Not Checked In
 		// CO - Checked Out
 		// CI - Checked In
-
-
 		let status = '';
 
-		if(obj.Status == "NCI"){
+		if(obj.Status == "NCI")
 			status = "CI"
-		}
-
 		else{
-			if(obj.Status == "CI"){
+			if(obj.Status == "CI")
 				status = "CO"
-			}
-			else if(obj.Status == "NCO"){
+			else if(obj.Status == "NCO")
 				status = "CO"
-			}
-			else{
+			else
 				status = "CO"
-			}
+
 			this.props.payment(obj)
 		}
-
-
 
 		obj.Status = status
 
@@ -136,33 +128,25 @@ export default class Calendar extends React.Component {
 	}
 
 	getStatus(booking){
-		if(booking.Status == "NCI"){
+		if(booking.Status == "NCI")
 			return "Not Checked-In"
-		}
-		else if(booking.Status == "CI"){
+		else if(booking.Status == "CI")
 			return "Checked-In"
-		}
-		else if(booking.Status == "NCO"){
+		else if(booking.Status == "NCO")
 			return "Not Checked-Out"
-		}
-		else{
+		else
 			return "Checked-Out"
-		}
 	}
 
 	getNextAction(booking){
-		if(booking.Status == "NCI"){
+		if(booking.Status == "NCI")
 			return "Check-In"
-		}
-		else if(booking.Status == "CI"){
+		else if(booking.Status == "CI")
 			return "Check-Out"
-		}
-		else if(booking.Status == "NCO"){
+		else if(booking.Status == "NCO")
 			return "Check-Out"
-		}
-		else{
+		else
 			return "Check-Out"
-		}
 	}
 
 	render() {
@@ -207,13 +191,8 @@ export default class Calendar extends React.Component {
 			}
 			</div>);
 		}
-		else{
-			 return (
-				<div className="box cal">
-					<h1>This is calendar</h1><br></br>
-				</div>
-			);
-		}
+		else
+			 return (<div className="box cal"><h1>This is calendar</h1><br></br></div>);
 	}
 }
 
