@@ -15,21 +15,6 @@ h1 {
 h6 {
   display: inline;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 3px solid royalblue;
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even) {
-    background-color: white;
-}
 
 .item.selected {
   background: #ddd;
