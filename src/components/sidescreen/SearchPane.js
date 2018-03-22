@@ -57,6 +57,7 @@ export default class SearchPane extends React.Component {
 
 	handleElement(index){
 		let element = this.state.list[index]
+		this.state.selectedKeys = []
 		this.props.show(element)
 	}
 
@@ -90,6 +91,7 @@ export default class SearchPane extends React.Component {
 								 <SelectableItem 
 									key = {obj.AnimalID}
 									selectableKey = {list.indexOf(obj)} 
+									selected = {this.state.selectedKeys.includes(list.indexOf(obj))}
 									className = "try" 
 									FirstName = {obj.FirstName} 
 									LastName = {obj.LastName} 
@@ -100,16 +102,6 @@ export default class SearchPane extends React.Component {
 							)
 						}
 					</SelectableGroup>
-				</div>
-				<div className = "box search"><h1>Search</h1>
-					<button onClick = {this.props.side}> X </button>
-					{
-						list.filter(filter_function(query)).map(obj => //arrow function instead
-							<div className = "searchItem" onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID} tabIndex={1} >
-								<span><b>{obj.FirstName} {obj.LastName} / {obj.AnimalName} /</b> {obj.Breed}<br></br></span>
-							</div>
-						)
-					}
 				</div>
 			</div>
 		);
