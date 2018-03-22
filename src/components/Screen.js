@@ -40,7 +40,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "report")
 			return(<Report bookings = {this.props.bookings}/>)
 		else if(this.state.screen === "scheduler")
-			return(<Scheduler dogs = {this.props.dogs}/>)
+			return(<Scheduler dogs = {this.props.bookings}/>)
 		else if(this.state.screen === "booking")
 			return(<Booking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else if(this.state.screen === "new_booking")
