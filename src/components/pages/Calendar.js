@@ -180,7 +180,7 @@ export default class Calendar extends React.Component {
 				<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-				<select onChange = {this.switch_booking} value = {this.state.daycare}>
+				<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
 					<option value = {true}>Daycare</option>
 					<option value = {false}>Boarding</option>
 				</select>

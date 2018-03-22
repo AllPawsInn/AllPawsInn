@@ -73,8 +73,8 @@ export default class SearchPane extends React.Component {
 			<button onClick = {this.props.side}> X </button>
 				{
 					list.filter(filter_function(query)).map(obj => //arrow function instead
-						<div onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID}>
-							<span>{obj.FirstName} {obj.LastName}/{obj.AnimalName}/{obj.Breed}<br></br></span>
+						<div className = "searchItem" onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID} tabIndex={1} >
+							<span><b>{obj.FirstName} {obj.LastName} / {obj.AnimalName} /</b> {obj.Breed}<br></br></span>
 						</div>
 					)
 				}
