@@ -16,7 +16,7 @@ function foodTypes(dogs){
   }
   return food_types;
 }
-function foodQuantitys(dogs){
+function foodQuantities(dogs){
   let food_quantity = [];
   for (let i =0; i<dogs.length/PAGE_SIZER;i++){
     food_quantity.push(<li key={i}>{dogs[i].Food1Amount}</li>)
@@ -54,7 +54,7 @@ export default class Report extends React.Component {
           </div>
           <div  className = "box" style = {left}>
            <h3>Food Quantity</h3>
-           {foodQuantitys(this.props.dogs)}
+           {foodQuantities(this.props.dogs)}
           </div>
           <div  className = "box" style = {left}>
             <h3>Food Frequency</h3>

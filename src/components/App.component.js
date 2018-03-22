@@ -51,26 +51,31 @@ export default class Main extends React.Component {
 		let result = await pool.request()
 			 .query("SELECT * from dbo.Animals, dbo.VetDetails, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID")
 		//if err sql.close
-
-
 		// "SELECT top 1 * from dbo.BookingObjects order by BookingID desc" // returns most recently assigned ID
-
-		
 		let bookings = await pool.request()
 			 .query("SELECT * from dbo.BookingObjects ,dbo.VetDetails, dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
 		//if err sql.close
 		let num = await pool.request()
 			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
+
+		let client = await pool.request()
+			 .query("SELECT top 1 * from dbo.ClientDetails order by ClientID desc")
+
+		let animal = await pool.request()
+			 .query("SELECT top 1 * from dbo.Animals order by AnimalID desc")
 		//if err sql.close
 
 		sql.close()
 
 		this.setState({
 			dog_list : result.recordset,
-			booking : {current_id : num.recordset[0].BookingID},
+			id_object : {
+				booking_id : num.recordset[0].BookingID,
+				client_id : client.recordset[0].ClientID,
+				animal_id : animal.recordset[0].AnimalID		
+			},
 			booking_list : bookings.recordset
 		})
-
 	}
 
 	updateScreen(new_screen){
@@ -127,7 +132,7 @@ export default class Main extends React.Component {
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.booking} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					<Sidescreen client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>

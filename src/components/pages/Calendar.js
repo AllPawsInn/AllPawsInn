@@ -1,7 +1,12 @@
+// ---------------------------------------- TO DO ----------------------------------------
+// css Calendar element width should be constant
+
 'use babel';
+
 
 import React from 'react';
 let week = 0;
+let dayCare = false;
 
 //move constants to a new js file
 const load_pages = 7
@@ -16,7 +21,7 @@ function printDate(date){
 
 function filter_date(booking){
 	let range = getDateRange(week)
-	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon)
+	return booking.DayCare == (dayCare == 'true') && ((booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon))
 }
 
 //can just use moment.js and avoid the fuss beleow
@@ -68,13 +73,15 @@ export default class Calendar extends React.Component {
 			current_page : 0,
 			week : 0,
 			cur_id : this.props.currentId,
-			bookings_list : this.props.bookings
+			bookings_list : this.props.bookings,
+			daycare: false,
 		}
 		this.changeState = this.changeState.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
 		this.prevWeek = this.prevWeek.bind(this)
 		this.getStatus = this.getStatus.bind(this)
 		this.getNextAction = this.getNextAction.bind(this)
+		this.switch_booking = this.switch_booking.bind(this)
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -127,6 +134,13 @@ export default class Calendar extends React.Component {
 		})
 	}
 
+	switch_booking(event){
+		dayCare = event.target.value
+		this.setState({
+			daycare: event.target.value //dummy
+		})
+	}
+
 	getStatus(booking){
 		if(booking.Status == "NCI")
 			return "Not Checked-In"
@@ -166,7 +180,11 @@ export default class Calendar extends React.Component {
 				<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-				<hr></hr>
+				<select onChange = {this.switch_booking} value = {this.state.daycare}>
+					<option value = {true}>Daycare</option>
+					<option value = {false}>Boarding</option>
+				</select>
+				<br></br>
 			</div>
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead

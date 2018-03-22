@@ -7,6 +7,7 @@ import About from "./pages/About"
 import FullProfile from "./animal/FullProfile"
 import ClientProfile from "./client/ClientProfile"
 import Booking from "./pages/Booking"
+import NewBooking from "./pages/NewBooking"
 import Report from "./pages/Report"
 import Payment from "./payment/Payment"
 import Scheduler from "./functions/Scheduler"
@@ -41,6 +42,8 @@ export default class Screen extends React.Component {
 			return(<Scheduler dogs = {this.props.dogs}/>)
 		else if(this.state.screen === "booking")
 			return(<Booking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
+		else if(this.state.screen === "new_booking")
+			return(<NewBooking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else
 			return (<Calendar payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
 
