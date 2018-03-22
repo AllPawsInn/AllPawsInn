@@ -101,6 +101,16 @@ export default class SearchPane extends React.Component {
 						}
 					</SelectableGroup>
 				</div>
+				<div className = "box search"><h1>Search</h1>
+					<button onClick = {this.props.side}> X </button>
+					{
+						list.filter(filter_function(query)).map(obj => //arrow function instead
+							<div className = "searchItem" onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID} tabIndex={1} >
+								<span><b>{obj.FirstName} {obj.LastName} / {obj.AnimalName} /</b> {obj.Breed}<br></br></span>
+							</div>
+						)
+					}
+				</div>
 			</div>
 		);
 	}
