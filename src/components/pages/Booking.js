@@ -20,10 +20,18 @@ export default class Booking extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			check : false
+			check : false,
+			rate: 35.00,
+			disco: 0,
+			days: 5,
+			kennel: 1
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.check = this.check.bind(this)
+		this.onRateChange = this.onRateChange.bind(this)
+		this.onDiscoChange = this.onDiscoChange.bind(this)
+		this.onDaysChange = this.onDaysChange.bind(this)
+		this.onKennelChange = this.onKennelChange.bind(this)
 	}
 
 	check(){
@@ -35,7 +43,6 @@ export default class Booking extends React.Component {
 
 	handleSubmit(event){
 		event.preventDefault();
-
 		//hardcode
 		let obj = {
 			DayCare : this.state.check ? 1 : 0,
@@ -44,7 +51,10 @@ export default class Booking extends React.Component {
 			type : event.target[2].value,
 			kennel : event.target[3].value,
 			DateIn : create_date(event.target[4].value),
-			DateOut : create_date(event.target[5].value)
+			DateOut : create_date(event.target[5].value),
+			Days: event.target[6].value,
+			BoardingRate : event.target[7].value,
+			Discount: event.target[8].value
 		}
 
 		//clean this pack up
@@ -55,6 +65,30 @@ export default class Booking extends React.Component {
 		this.props.updateScreen("home")
 
 	}
+
+	onRateChange(value){
+        this.setState({
+             rate: value
+        });
+    }
+
+    onDiscoChange(value){
+        this.setState({
+             disco: value
+        });
+    }
+
+    onDaysChange(value){
+        this.setState({
+             days: value
+        });
+    }
+
+    onKennelChange(value){
+        this.setState({
+             kennel: value
+        });
+    }
 
 	render(){
 		//default date value
@@ -72,14 +106,22 @@ export default class Booking extends React.Component {
 						<b>Client Name</b><input disabled name = "client_name" type = "text" value = {`${this.props.animal.FirstName} ${this.props.animal.LastName}`}/><br></br>
 						<b>Animal Name</b><input disabled name = "animal_name" type = "text" value = {this.props.animal.AnimalName}/><br></br>
 						<b>Animal Breed</b><input disabled name = "type" type = "text" value = {this.props.animal.Breed}/><br></br>
-						<b>Kennel Unit</b><input name = "kennel_unit" type = "number" value = {1}/><br></br>
+						<b>Kennel Unit</b><input name = "kennel" type = "text"  value = {this.state.kennel} onChange={e => this.onKennelChange(e.target.value)}/><br></br>
 						<b>Date In</b><Calendar format = 'MM/DD/YYYY' date = '3-20-2018'/><br></br>
 						<b>Date Out</b><Calendar format = 'MM/DD/YYYY' date = '3-25-2018'/><br></br>
-						<input type = "Submit" value = "Submit"/>
+						<b>Days</b><input name = "days" type = "text" value = {this.state.days} onChange={e => this.onDaysChange(e.target.value)}/><br></br>
+						<b>Boarding Rate   $</b><input name = "rate" type = "text" value = {this.state.rate} onChange={e => this.onRateChange(e.target.value)}/><br></br>
+						<b>Discount Rate   %</b><input name = "disco" type = "text" value = {this.state.disco} onChange={e => this.onDiscoChange(e.target.value)}/><br></br>
+						<span style={left}><input type = "Submit" value = "Submit"/></span>
 					</div>
 				</form>
 			</div>
 		)
 	}
 
+}
+
+const left = {
+	display : "inline-block",
+	margin : "10px"
 }

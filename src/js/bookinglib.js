@@ -15,7 +15,7 @@ module.exports = {
 			forceDate(new_booking)
 			let pool = await sql.connect(sqlConfig)
 			let result = await pool.request()
-				.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status, DayCare) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, '${new_booking.DateIn}', '${new_booking.DateOut}', '${new_booking.Status}', ${new_booking.DayCare})`)
+				.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status, DayCare, BoardingRate, Discount, NoDays) VALUES (${new_booking.animal_id}, ${new_booking.KennelID}, '${new_booking.DateIn}', '${new_booking.DateOut}', '${new_booking.Status}', ${new_booking.DayCare}, ${new_booking.BoardingRate}, ${new_booking.Discount}, ${new_booking.NoDays})`)
 				//if err sql.close
 
 			sql.close()
@@ -54,10 +54,15 @@ module.exports = {
 			FirstName : animal.FirstName,
 			LastName : animal.LastName,
 			animal_id : animal.AnimalID,
-			kennel_id : obj.kennel, //user prompted in the future
+			KennelID : obj.kennel, //user prompted in the future
 			DateIn : obj.DateIn,
 			DateOut : obj.DateOut,
-			Status : "NCI"
+			Status : "NCI",
+			BoardingRate : obj.BoardingRate,
+			Discount : obj.Discount,
+			NoDays : obj.Days,
+			AnimalName : obj.animal,
+			Breed : obj.type
 		}
 
 		insertDog(new_booking)
