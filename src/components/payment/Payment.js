@@ -32,7 +32,11 @@ export default class Payment extends React.Component {
 
 	getTotal(booking){
 		let total = this.getSubTotal(booking)
-		let discoRate = booking.Discount[0]
+		let discoRate = 0
+
+		if(Array.isArray(booking.Discount)){
+			discoRate = booking.Discount[0]
+		}
 
 		let disco = (total*discoRate)/100
 
@@ -95,7 +99,7 @@ export default class Payment extends React.Component {
 			</div>
 			<div className = "box" style = {left}>
 				Sub Total: <b>$ {this.getSubTotal(booking).toFixed(2)}</b><br></br>
-				Discount: <b>% {!Array.isArray(this.props.booking.Discount) ? ' ' : this.props.booking.Discount[0]}</b><br></br>
+				Discount: <b>% {!Array.isArray(this.props.booking.Discount) ? '0' : this.props.booking.Discount[0]}</b><br></br>
 				TOTAL: <b>$ {this.getTotal(booking).toFixed(2)}</b><br></br>
 			</div>
 			<br></br>
