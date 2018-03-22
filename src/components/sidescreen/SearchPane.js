@@ -2,10 +2,15 @@
 // inputbox onSubmt prevent default
 // duplicate/modify filter_function and render clients on search as well
 // unified form of convention among all files => functions vs variable names
+// onfocus search item broken
 
 'use babel';
 
 import React from 'react';
+import { SelectableGroup, createSelectable } from 'react-selectable';
+import SearchItem from './SearchItem';
+
+const SelectableItem = createSelectable(SearchItem);
 
 function filter_function(query){
 	return function(obj){
@@ -29,12 +34,20 @@ export default class SearchPane extends React.Component {
 		this.state = {
 			list : this.props.dogs,
 			query : this.props.query,
-			test : this.props.test
+			test : this.props.test,
+			selectedKeys : []
 		}
 
 		this.searchHandler = this.searchHandler.bind(this)
 		this.handleElement = this.handleElement.bind(this)
+		this.handleSelection = this.handleSelection.bind(this)
 	}
+
+	handleSelection (selectedKeys) {
+  	this.setState({
+  		selectedKeys : selectedKeys
+  	});
+  }
 
 	searchHandler(event){
 		this.setState({
@@ -68,17 +81,36 @@ export default class SearchPane extends React.Component {
 		//can use array index for as unique div key as well
 		return (
 			<div>
-			
-			<div className = "box search"><h1>Search</h1>
-			<button onClick = {this.props.side}> X </button>
-				{
-					list.filter(filter_function(query)).map(obj => //arrow function instead
-						<div onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID}>
-							<span>{obj.FirstName} {obj.LastName}/{obj.AnimalName}/{obj.Breed}<br></br></span>
-						</div>
-					)
-				}
-			</div>
+				<div className = "box search"><h1>Search</h1>
+					<button onClick = {this.props.side}> X </button>
+					<SelectableGroup onSelection={this.handleSelection} >
+						{
+							list.filter(filter_function(query)).map(obj => //arrow function instead
+								 <div className = "searchItem" tabIndex = {1} key = {obj.AnimalID} onClick = {() => {this.handleElement(list.indexOf(obj))}}>
+								 <SelectableItem 
+									key = {obj.AnimalID}
+									selectableKey = {list.indexOf(obj)} 
+									className = "try" 
+									FirstName = {obj.FirstName} 
+									LastName = {obj.LastName} 
+									AnimalName = {obj.AnimalName} 
+									Breed = {obj.Breed}/
+								>	
+								</div>			
+							)
+						}
+					</SelectableGroup>
+				</div>
+				<div className = "box search"><h1>Search</h1>
+					<button onClick = {this.props.side}> X </button>
+					{
+						list.filter(filter_function(query)).map(obj => //arrow function instead
+							<div className = "searchItem" onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID} tabIndex={1} >
+								<span><b>{obj.FirstName} {obj.LastName} / {obj.AnimalName} /</b> {obj.Breed}<br></br></span>
+							</div>
+						)
+					}
+				</div>
 			</div>
 		);
 	}
