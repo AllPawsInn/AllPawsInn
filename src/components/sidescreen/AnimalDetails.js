@@ -31,10 +31,11 @@ export default class AnimalDetails extends React.Component {
 			return  (
 				<div className = "box animalDet">
 					<h3>Animal Details</h3>
-					Animal Name: {this.props.animal.AnimalName} <br></br>
-					Breed: {this.props.animal.Breed} <br></br>
-					Sex: {this.props.animal.Sex} <br></br>
-					Age: {this.props.animal.Age} <br></br><br></br>
+					Animal Name: <b>{this.props.animal.AnimalName}</b> <br></br>
+					Client Name: <b>{this.props.animal.FirstName} {this.props.animal.LastName}</b> <br></br>
+					Breed: <b>{this.props.animal.Breed}</b> <br></br>
+					Sex: <b>{this.props.animal.Sex}</b> <br></br>
+					Age: <b>{this.props.animal.Age}</b> <br></br><br></br>
 					<div className = "profileButtonPanel">
 						<button className = "profileButton" onClick = {this.get_profile}>New Reservation</button>
 					</div><br></br>

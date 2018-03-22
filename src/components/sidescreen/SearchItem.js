@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 
 const SearchItem = ({
 	selected,
@@ -10,7 +11,7 @@ const SearchItem = ({
 	const classes = selected ? 'item selected' : 'item';
 	return (
 		<div className = {classes}>
-			{FirstName} {LastName}/{AnimalName}/{Breed}
+			<span ><b>{FirstName} {LastName}</b>/<b>{AnimalName}</b><hr></hr></span>
 		</div>
 	)
 };

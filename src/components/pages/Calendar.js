@@ -193,6 +193,7 @@ export default class Calendar extends React.Component {
 			{
 			bookings_list.filter(filter_date).map(obj => //arrow function instead
 				<div key = {obj.BookingID}>
+					<hr></hr>
 					<div className = "box" style = {left}>
 						Dog Name: <b>{obj.AnimalName}</b><br></br>
 						Client Name: <b>{obj.FirstName} {obj.LastName}</b><br></br>
@@ -207,7 +208,6 @@ export default class Calendar extends React.Component {
 						<br></br>
 						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
 					</div>
-					<hr></hr>
 				</div>
 				)
 			}
