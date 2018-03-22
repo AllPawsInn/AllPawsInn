@@ -16,6 +16,10 @@ h6 {
   display: inline;
 }
 
+.item.selected {
+  background: #ddd;
+}
+
 .wrapper {
   display: grid;
   grid-gap: 10px;
@@ -26,7 +30,7 @@ h6 {
   padding-bottom: 15px;
   /* border: 3px solid black; */
   margin-top: -20px;
-  height:95vh;
+  height:94vh;
 }
 
 .sideWrapper {
@@ -34,7 +38,6 @@ h6 {
   grid-gap: 10px;
   grid-template-rows: 50% 50%;
   height:92vh;
-  max-height: 92vh;
 }
 
 .leftWrapper {
@@ -51,6 +54,11 @@ h6 {
   padding: 20px;
 }
 
+.box input{
+  left: 200px;
+  position: absolute;
+}
+
 .animalDet {
   grid-row: 2/1 span;
 }
@@ -59,6 +67,7 @@ h6 {
   align-content: stretch;
   grid-row: 1/2 span;
   height: 93vh;
+  overflow-y: scroll;
 }
 
 .item3 {
@@ -68,6 +77,48 @@ h6 {
 .search {
   grid-row: 1/1 span;
   height: 46vh;
+  overflow-y: scroll;
+  padding-bottom: 20px;
+}
+
+.searchItem {
+  border-radius: 8px;
+  padding-left: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transition-duration: 0.3s;
+}
+
+.searchItem:hover {
+  background-color: #D7E8F7;
+  color: #299CF5;
+}
+
+.searchItem:focus {
+  background-color: royalblue;
+  color: #FAFAFA;
+  outline:none;
+}
+
+.calendarSwitch {
+  background: #EFF7FE;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+  border: none;
+  border-radius: 8px;
+  color: #299CF5;
+  letter-spacing: -0.4px;
+  transition-duration: 0.4s;
+  width: 80px;
+  height: 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 35px;
+}
+
+.calendarSwitch:hover {
+  background-color: royalblue;
+  color: #FAFAFA;
 }
 
 .item4 {
@@ -89,8 +140,8 @@ h6 {
 }
 
 .profileButton:hover {
-    background-color: royalblue;
-    color: #FAFAFA;
+  background-color: royalblue;
+  color: #FAFAFA;
 }
 
 .profileButtonPanel {

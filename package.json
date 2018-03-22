@@ -23,6 +23,7 @@
     "mssql": "^4.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-input-calendar": "^0.5.2"
+    "react-input-calendar": "^0.5.2",
+    "react-selectable": "^2.0.1"
   }
 }

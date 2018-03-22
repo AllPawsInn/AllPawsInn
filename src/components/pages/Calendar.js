@@ -19,7 +19,11 @@ function printDate(date){
 	return `${date.getDate()} ${dayNames[date.getDay()]} ${monthNames[date.getMonth()]}`
 }
 
+function parseDate(date){
+	return date.toString().split('GMT')[0]
+}
 function filter_date(booking){
+	//keep week on an array iterate within that
 	let range = getDateRange(week)
 	return booking.DayCare == (dayCare == 'true') && ((booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon))
 }
@@ -51,7 +55,7 @@ function getDateRange(week){
 
 async function updateStatusQuery(bookingObject){
 
-	const sqlConfig = require('../sqlconfig')
+	const sqlConfig = require('../../js/sqlconfig')
 	const sql = require('mssql')
 	let pool = await sql.connect(sqlConfig)
 
@@ -180,7 +184,7 @@ export default class Calendar extends React.Component {
 				<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-				<select onChange = {this.switch_booking} value = {this.state.daycare}>
+				<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
 					<option value = {true}>Daycare</option>
 					<option value = {false}>Boarding</option>
 				</select>
@@ -195,8 +199,8 @@ export default class Calendar extends React.Component {
 						Breed: <b>{obj.Breed}</b>
 					</div>
 					<div className = "box" style = {left}>
-						DateIn : <b>{obj.DateIn.toString()}</b> <br></br>
-						DateOut : <b>{obj.DateOut.toString()}</b> <br></br>
+						DateIn : <b>{parseDate(obj.DateIn)}</b> <br></br>
+						DateOut : <b>{parseDate(obj.DateOut)}</b> <br></br>
 					</div>
 					<div className = "box" style = {left}>
 						<h6>Status :</h6> <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>

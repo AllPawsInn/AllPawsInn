@@ -38,7 +38,7 @@ export default class Booking extends React.Component {
 
 		//hardcode
 		let obj = {
-			Daycare : this.state.check ? 1 : 0,
+			DayCare : this.state.check ? 1 : 0,
 			client : event.target[0].value,
 			animal : event.target[1].value,
 			type : event.target[2].value,
@@ -64,7 +64,7 @@ export default class Booking extends React.Component {
 		//value wont change when a new reservation is prompted while already on the booking page
 		return (
 			<div className = "box cal">
-				<h1>New Booking</h1>
+				<h1>Booking</h1>
 				<b>Daycare</b><input onChange = {this.check} type = "checkbox" checked = {this.state.check}/><br></br>
 				<form onSubmit = {this.handleSubmit}>
 					<br></br>
