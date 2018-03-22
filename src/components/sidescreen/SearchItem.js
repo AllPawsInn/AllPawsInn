@@ -10,7 +10,7 @@ const SearchItem = ({
 	const classes = selected ? 'item selected' : 'item';
 	return (
 		<div className = {classes}>
-			{FirstName} {LastName}/{AnimalName}/{Breed}
+			<span ><b>{FirstName} {LastName}</b>/<b>{AnimalName}</b><br></br></span>
 		</div>
 	)
 };
