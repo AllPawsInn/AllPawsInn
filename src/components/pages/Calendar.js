@@ -175,7 +175,6 @@ export default class Calendar extends React.Component {
 		// fix if possible
 		let {bookings_list} = this.state;
 		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
-
 		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
 			return(

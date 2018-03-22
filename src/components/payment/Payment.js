@@ -95,7 +95,7 @@ export default class Payment extends React.Component {
 			</div>
 			<div className = "box" style = {left}>
 				Sub Total: <b>$ {this.getSubTotal(booking).toFixed(2)}</b><br></br>
-				Discount: <b>% {this.props.booking.Discount[0]}</b><br></br>
+				Discount: <b>% {!Array.isArray(this.props.booking.Discount) ? ' ' : this.props.animal.Discount[0]}</b><br></br>
 				TOTAL: <b>$ {this.getTotal(booking).toFixed(2)}</b><br></br>
 			</div>
 			<br></br>
