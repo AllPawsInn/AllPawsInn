@@ -1,8 +1,6 @@
 // ---------------------------------------- TO DO ----------------------------------------
 // css Calendar element width should be constant
-
 'use babel';
-
 
 import React from 'react';
 let week = 0;

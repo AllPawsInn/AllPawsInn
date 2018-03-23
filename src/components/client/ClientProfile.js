@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-
 export default class ClientProfile extends React.Component {
 	constructor(props){
 		super(props)

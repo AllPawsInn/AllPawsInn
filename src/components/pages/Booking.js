@@ -38,18 +38,21 @@ export default class Booking extends React.Component {
 		this.setState({
 			check : !this.state.check
 		})
-		console.log(this.state.check)
 	}
 
 	handleSubmit(event){
 		event.preventDefault();
 		//hardcode
+
 		let obj = {
+			FirstName: this.props.animal.FirstName,
+			LastName : this.props.animal.LastName,
+			AnimalID: this.props.animal.AnimalID,
+			Status: "NCI",
+			Breed : this.props.animal.Breed,
 			DayCare : this.state.check ? 1 : 0,
-			client : event.target[0].value,
-			animal : event.target[1].value,
-			type : event.target[2].value,
-			kennel : event.target[3].value,
+			AnimalName : this.props.animal.AnimalName,
+			KennelID : event.target[3].value,
 			DateIn : create_date(event.target[4].value),
 			DateOut : create_date(event.target[5].value),
 			Days: event.target[6].value,
@@ -57,38 +60,49 @@ export default class Booking extends React.Component {
 			Discount: event.target[8].value
 		}
 
+		let sql_obj = {
+			DayCare : this.state.check ? 1 : 0,
+			AnimalID : this.props.animal.AnimalID,
+			KennelID: event.target[3].value,
+			DateIn : create_date(event.target[4].value),
+			DateOut : create_date(event.target[5].value),
+			BoardingRate : event.target[7].value * 1,
+			Discount: event.target[8].value * 1,
+			Status: 'NCI'
+		}
+
 		//clean this pack up
-		let tmp = booking_lib.create_booking(this.props.animal, obj)
-		tmp.BookingID = this.props.id_object.booking_id++
-		this.props.bookings.push(tmp)
+		booking_lib.create_booking(sql_obj)
+		obj.BookingID = this.props.id_object.booking_id++
+		this.props.bookings.push(obj)
 		// buffer array until a neat way to put array push /w set state
 		this.props.updateScreen("home")
 
 	}
 
 	onRateChange(value){
-        this.setState({
-             rate: value
-        });
-    }
+    this.setState({
+    	rate: value
+    });
+  }
 
-    onDiscoChange(value){
-        this.setState({
-             disco: value
-        });
-    }
+  onDiscoChange(value){
+    this.setState({
+    	disco: value
+    });
+  }
 
-    onDaysChange(value){
-        this.setState({
-             days: value
-        });
-    }
+  onDaysChange(value){
+    this.setState({
+    	days: value
+    });
+  }
 
-    onKennelChange(value){
-        this.setState({
-             kennel: value
-        });
-    }
+  onKennelChange(value){
+    this.setState({
+    	kennel: value
+    });
+  }
 
 	render(){
 		//default date value
@@ -105,7 +119,7 @@ export default class Booking extends React.Component {
 					<div className = "box">
 						<b>Client Name</b><input disabled name = "client_name" type = "text" value = {`${this.props.animal.FirstName} ${this.props.animal.LastName}`}/><br></br>
 						<b>Animal Name</b><input disabled name = "animal_name" type = "text" value = {this.props.animal.AnimalName}/><br></br>
-						<b>Animal Breed</b><input disabled name = "type" type = "text" value = {this.props.animal.Breed}/><br></br>
+						<b>Animal Breed</b><input disabled name = "breed" type = "text" value = {this.props.animal.Breed}/><br></br>
 						<b>Kennel Unit</b><input name = "kennel" type = "text"  value = {this.state.kennel} onChange={e => this.onKennelChange(e.target.value)}/><br></br>
 						<b>Date In</b><Calendar format = 'MM/DD/YYYY' date = '3-20-2018'/><br></br>
 						<b>Date Out</b><Calendar format = 'MM/DD/YYYY' date = '3-25-2018'/><br></br>
