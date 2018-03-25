@@ -16,17 +16,6 @@ h6 {
   display: inline;
 }
 
-.item.selected {
-  background-color: royalblue;
-  color: #FAFAFA;
-  outline:none;
-  border-radius: 8px;
-  padding-left: 10px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  transition-duration: 0.3s;
-}
-
 .wrapper {
   display: grid;
   grid-gap: 10px;
@@ -89,19 +78,30 @@ h6 {
 }
 
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 td, th {
-    border: 3px solid royalblue;
-    text-align: left;
-    padding: 15px;
+  border: 3px solid royalblue;
+  text-align: left;
+  padding: 15px;
 }
 
 tr:nth-child(even) {
-    background-color: white;
+  background-color: white;
+}
+
+.selected{
+  background-color: royalblue;
+  color: #FAFAFA;
+  outline:none;
+  border-radius: 8px;
+  padding-left: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  transition-duration: 0.3s;
 }
 
 .searchItem {
@@ -115,12 +115,6 @@ tr:nth-child(even) {
 .searchItem:hover {
   background-color: #D7E8F7;
   color: #299CF5;
-}
-
-.searchItem:focus {
-  background-color: royalblue;
-  color: #FAFAFA;
-  outline:none;
 }
 
 .calendarSwitch {

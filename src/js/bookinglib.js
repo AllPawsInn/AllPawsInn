@@ -11,28 +11,31 @@ module.exports = {
 		}
 
 		async function insertDog(booking){
-			let new_booking = JSON.parse(JSON.stringify(booking))
-			forceDate(new_booking)
-			new_booking.DateIn = new_booking.DateIn.toString()
-			new_booking.DateOut = new_booking.DateIn.toString()
-
-			let keys = ''
-			let values = ''
-			for (let key in new_booking){
-				keys = keys + key + ', '
-				if(typeof new_booking[key] === 'string')
-					values = values + `'${new_booking[key]}'` + ', '
-				else
-					values = values + new_booking[key] + ', '
-			}
-			values = values.slice(0, -2) //trim off the extra comma and whitespace
-			keys = keys.slice(0, -2)
-
-			let qr = `INSERT INTO BookingObjects (${keys}) VALUES (${values})`
 			let pool = await sql.connect(sqlConfig)
+
+			for(let i = 0; i < booking.length; i++){
+				let new_booking = JSON.parse(JSON.stringify(booking[i]))
+				forceDate(new_booking)
+				new_booking.DateIn = new_booking.DateIn.toString()
+				new_booking.DateOut = new_booking.DateIn.toString()
+
+				let keys = ''
+				let values = ''
+				for (let key in new_booking){
+					keys = keys + key + ', '
+					if(typeof new_booking[key] === 'string')
+						values = values + `'${new_booking[key]}'` + ', '
+					else
+						values = values + new_booking[key] + ', '
+				}
+				values = values.slice(0, -2) //trim off the extra comma and whitespace
+				keys = keys.slice(0, -2)
+
+				let qr = `INSERT INTO BookingObjects (${keys}) VALUES (${values})`
 				//if err s
-			let result = await pool.request()
-				.query(qr)
+				await pool.request() 
+					.query(qr)
+			}
 
 			sql.close()
 		}

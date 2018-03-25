@@ -20,10 +20,16 @@ function printDate(date){
 function parseDate(date){
 	return date.toString().split('GMT')[0]
 }
+
 function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)
-	return booking.DayCare == (dayCare == 'true') && ((booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon))
+	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon)
+	//booking.DayCare == (dayCare == 'true') && 
+}
+
+function filter_daycare(booking){
+	return booking.DayCare == (dayCare == 'true')
 }
 
 //can just use moment.js and avoid the fuss beleow
@@ -50,7 +56,6 @@ function getDateRange(week){
 	}
 }
 
-
 async function updateStatusQuery(bookingObject){
 
 	const sqlConfig = require('../../js/sqlconfig')
@@ -72,10 +77,10 @@ export default class Calendar extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			current_page : 0,
+			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
 			cur_id : this.props.currentId,
-			bookings_list : this.props.bookings,
+			bookings_list : this.props.bookings, //isnt really necessary
 			daycare: false,
 		}
 		this.changeState = this.changeState.bind(this)
@@ -95,14 +100,18 @@ export default class Calendar extends React.Component {
 	}
 
 	nextWeek(){
+		week = this.state.week + 1
 		this.setState({
-			week : this.state.week + 1
+			week : week,
+			current_week : this.props.bookings.filter(filter_date)
 		})
 	}
 
 	prevWeek(){
+		week = this.state.week - 1
 		this.setState({
-			week : this.state.week - 1
+			week : week,
+			current_week : this.props.bookings.filter(filter_date)
 		})
 	}
 
@@ -167,11 +176,13 @@ export default class Calendar extends React.Component {
 
 	render() {
 		week = this.state.week;
+		//to do // have current week's bookings in a new array as another state property
+						// avoid iterating over all the bookings on a daycare/boarding switch
 		let range = getDateRange(week)
 		// encountered an issue on calculation in first week of march due to daylight saving time calculations
 		// getDateRarnge.sun will also be a monday due to that excess 1 hour
 		// fix if possible
-		let {bookings_list} = this.state;
+		let {bookings_list, current_week} = this.state;
 		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
 		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
@@ -188,7 +199,7 @@ export default class Calendar extends React.Component {
 				<br></br>
 			</div>
 			{
-			bookings_list.filter(filter_date).map(obj => //arrow function instead
+			current_week.filter(filter_daycare).map(obj => //arrow function instead
 				<div key = {obj.BookingID}>
 					<hr></hr>
 					<div className = "box" style = {left}>
@@ -197,11 +208,11 @@ export default class Calendar extends React.Component {
 						Breed: <b>{obj.Breed}</b>
 					</div>
 					<div className = "box" style = {left}>
-						DateIn : <b>{parseDate(obj.DateIn)}</b> <br></br>
-						DateOut : <b>{parseDate(obj.DateOut)}</b> <br></br>
+						DateIn : <b>{parseDate(obj.DateIn)}</b><br></br>
+						DateOut : <b>{parseDate(obj.DateOut)}</b><br></br>
 					</div>
 					<div className = "box" style = {left}>
-						<h6>Status :</h6> <span style={this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+						<h6>Status :</h6> <span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 						<br></br>
 						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
 					</div>
