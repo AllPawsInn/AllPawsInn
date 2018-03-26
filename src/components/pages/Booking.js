@@ -80,6 +80,8 @@ export default class Booking extends React.Component {
 		let dummy = this.state.book
 		if (dummy.length > 1) {
 			dummy.splice([this.state.dropdown_pick], 1)
+			if (this.state.dropdown_pick != 0)
+				this.state.dropdown_pick--
 			this.setState({
 				book : dummy
 			})
@@ -154,9 +156,29 @@ export default class Booking extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+	let date = new Date()
   // You don't have to do this check first, but it can help prevent an unneeded render
 	  if (nextProps.animal !== this.state.animal) {
-	    this.setState({ dropdown_pick: 0 });
+	  	for(let i = 0; i < this.props.animal.length; i++){
+				this.state.book[i] = {
+					FirstName: this.props.animal[i].FirstName,
+					LastName : this.props.animal[i].LastName,
+					AnimalID: this.props.animal[i].AnimalID,
+					Status: "NCI",
+					Breed : this.props.animal[i].Breed,
+					DayCare : false, //this will probably be broken after multiple booking checks
+					AnimalName : this.props.animal[i].AnimalName,
+					KennelID : 1, //to-do first available kennel
+					DateIn : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+					DateOut : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+					Days: 1,
+					BoardingRate : 35,
+					Discount: 0
+				}
+			}
+	    this.setState({
+	     dropdown_pick: 0
+	   });
 	  }
 	}
 
