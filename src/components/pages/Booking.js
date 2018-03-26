@@ -56,6 +56,7 @@ export default class Booking extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.submitAll = this.submitAll.bind(this)
 		this.check = this.check.bind(this)
+		this.popBooking = this.popBooking.bind(this)
 		this.dropdownSelected = this.dropdownSelected.bind(this)
 
 	}
@@ -73,6 +74,18 @@ export default class Booking extends React.Component {
 		this.setState({
 			check : this.state.check //dummy
 		})
+	}
+
+	popBooking(){
+		let dummy = this.state.book
+		if (dummy.length > 1) {
+			dummy.splice([this.state.dropdown_pick], 1)
+			this.setState({
+				book : dummy
+			})
+		}
+		else
+			this.props.updateScreen("home")
 	}
 
 	handleSubmit(event){
@@ -148,7 +161,6 @@ export default class Booking extends React.Component {
 	}
 
 	render(){
-		let {animal} = this.props;
 		let {dropdown_pick, book} = this.state;
 		//default date value
 		//disabled vs readonly fields
@@ -156,9 +168,10 @@ export default class Booking extends React.Component {
 		//calendar no hour input atm
 		//value wont change when a new reservation is prompted while already on the booking pag
 		let dropdown = [];         
-		for (let i = 0; i < animal.length; i++) {             
-		    dropdown.push(<option key={i} value={i}>{`${animal[i].FirstName} ${animal[i].LastName} - ${animal[i].AnimalName}`}</option>);   
+		for (let i = 0; i < book.length; i++) {             
+		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);   
 		}
+
 		return(
 			<div className = "box cal">
 				<h1>Booking</h1>
@@ -166,21 +179,20 @@ export default class Booking extends React.Component {
 					{dropdown}
 				</select><br></br>
 				<b>Daycare</b><input onChange = {this.check} name = "DayCare" type = "checkbox" checked = {this.state.book[this.state.dropdown_pick].DayCare}/><br></br>
-				<form onSubmit = {this.handleSubmit}>
-					<br></br>
-					<div className = "box">
-						<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} /><br></br>
-						<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
-						<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
-						<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
-						<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '3-20-2018' onChange = {this.dateinChange}/><br></br>
-						<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '3-25-2018' onChange = {this.dateoutChange}/><br></br>
-						<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
-						<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
-						<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
-						<span style={left}><input type = "Submit" value = "Submit"/></span>
-					</div>
-				</form>
+				<br></br>
+				<div className = "box">
+					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />asd
+					<button className = "bookingbutton" onClick = {this.popBooking}> X </button><br></br>
+					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
+					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
+					<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
+					<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '3-20-2018' onChange = {this.dateinChange}/><br></br>
+					<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '3-25-2018' onChange = {this.dateoutChange}/><br></br>
+					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
+					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
+					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
+					<span style={left}><button onClick = {this.handleSubmit}> Submit </button></span>
+				</div>
 				<button onClick = {this.submitAll}>Submit All</button>
 			</div>
 		)

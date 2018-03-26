@@ -92,7 +92,9 @@ td, th {
 tr:nth-child(even) {
   background-color: white;
 }
-
+.bookingbutton{
+  float: right;
+}
 .selected{
   background-color: royalblue;
   color: #FAFAFA;
