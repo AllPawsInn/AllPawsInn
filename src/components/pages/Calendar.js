@@ -3,6 +3,7 @@
 'use babel';
 
 import React from 'react';
+import GridLayout from 'react-grid-layout';
 let week = 0;
 let dayCare = false;
 
@@ -79,6 +80,7 @@ export default class Calendar extends React.Component {
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
+			calendar : false,
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare: false,
@@ -89,6 +91,7 @@ export default class Calendar extends React.Component {
 		this.getStatus = this.getStatus.bind(this)
 		this.getNextAction = this.getNextAction.bind(this)
 		this.switch_booking = this.switch_booking.bind(this)
+		this.switch_view = this.switch_view.bind(this)
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -145,6 +148,12 @@ export default class Calendar extends React.Component {
 		})
 	}
 
+	switch_view(event){
+		this.setState({
+			calendar : event.target.value
+		})
+	}
+
 	switch_booking(event){
 		dayCare = event.target.value
 		this.setState({
@@ -175,6 +184,11 @@ export default class Calendar extends React.Component {
 	}
 
 	render() {
+		var layout = [
+      {i: 'a', x: 0, y: 0, w: 1, h: 2, static: true},
+      {i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
+      {i: 'c', x: 4, y: 0, w: 1, h: 2}
+    ];
 		week = this.state.week;
 		//to do // have current week's bookings in a new array as another state property
 						// avoid iterating over all the bookings on a daycare/boarding switch
@@ -186,40 +200,92 @@ export default class Calendar extends React.Component {
 		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
 		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
-			return(
-			<div className="box cal">
-			<div>
-				<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-				<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
-				<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-				<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
-					<option value = {true}>Daycare</option>
-					<option value = {false}>Boarding</option>
-				</select>
-				<br></br>
-			</div>
-			{
-			current_week.filter(filter_daycare).map(obj => //arrow function instead
-				<div key = {obj.BookingID}>
-					<hr></hr>
-					<div className = "box" style = {left}>
-						Dog Name: <b>{obj.AnimalName}</b><br></br>
-						Client Name: <b>{obj.FirstName} {obj.LastName}</b><br></br>
-						Breed: <b>{obj.Breed}</b>
-					</div>
-					<div className = "box" style = {left}>
-						DateIn : <b>{parseDate(obj.DateIn)}</b><br></br>
-						DateOut : <b>{parseDate(obj.DateOut)}</b><br></br>
-					</div>
-					<div className = "box" style = {left}>
-						<h6>Status :</h6> <span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+			if (this.state.calendar){
+				return(
+				<div className="box cal">
+					<div>
+						<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
+							<option value = {true}>Daycare</option>
+							<option value = {false}>Boarding</option>
+						</select>
+						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
+						<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
+							<option value = {true}>List</option>
+							<option value = {false}>Grid</option>
+						</select>
 						<br></br>
-						{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
+						<br></br>
 					</div>
-				</div>
-				)
+					<div className = "center"><h2>    Monday     Tuesday   Wednesday   Thursday     Friday      Saturday      Sunday</h2></div>
+					
+					<GridLayout className="layout" cols={12} rowHeight={10} width={1900} isResizable = {false}>
+		        <div className = "red" key="a" data-grid={{x: 0, y: 0, w: 1, h: 2, static: true}}><b>{bookings_list[1300].AnimalName}/{bookings_list[1300].FirstName} {bookings_list[1300].LastName}</b></div>
+		        <div className = "b" key="b" data-grid={{x: 1, y: 0, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
+		        <div className = "b" key="z" data-grid={{x: 2, y: 0, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
+		        <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
+		        <div className = "green" key="e" data-grid={{x: 4, y: 0, w: 1, h: 2}}><b>{bookings_list[1201].AnimalName}/{bookings_list[1201].FirstName} {bookings_list[1201].LastName}</b></div>
+		        <div className = "c" key="f" data-grid={{x: 5, y: 0, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="g" data-grid={{x: 6, y: 0, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="j" data-grid={{x: 0, y: 1, w: 1, h: 2}} >c</div>
+		        <div className = "b" key="1" data-grid={{x: 1, y: 1, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
+		        <div className = "c" key="2" data-grid={{x: 2, y: 1, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="3" data-grid={{x: 3, y: 1, w: 1, h: 2}}>c</div>
+		        <div className = "yellow" key="4" data-grid={{x: 4, y: 1, w: 1, h: 2}}><b>{bookings_list[1204].AnimalName}/{bookings_list[1204].FirstName} {bookings_list[1204].LastName}</b></div>
+		        <div className = "c" key="5" data-grid={{x: 5, y: 1, w: 1, h: 2}}>c</div>
+		        <div className = "green" key="6" data-grid={{x: 6, y: 1, w: 1, h: 2}}><b>{bookings_list[1202].AnimalName}/{bookings_list[1202].FirstName} {bookings_list[1202].LastName}</b></div>
+		        <div className = "c" key="7" data-grid={{x: 0, y: 2, w: 1, h: 2}} >c</div>
+		        <div className = "b" key="8" data-grid={{x: 1, y: 2, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
+		        <div className = "c" key="9" data-grid={{x: 2, y: 2, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="10" data-grid={{x: 3, y: 2, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="11" data-grid={{x: 4, y: 2, w: 1, h: 2}}>c</div>
+		        <div className = "c" key="12" data-grid={{x: 5, y: 2, w: 1, h: 2}}>c</div>
+		        <div className = "green" key="13" data-grid={{x: 6, y: 2, w: 1, h: 2}}><b>{bookings_list[1207].AnimalName}/{bookings_list[1207].FirstName} {bookings_list[1207].LastName}</b></div>
+	        </GridLayout>
+      	 </div>
+      	 )
 			}
-			</div>);
+			else{
+				return(
+				<div className="box cal">
+					<div>
+						<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
+							<option value = {true}>Daycare</option>
+							<option value = {false}>Boarding</option>
+						</select>
+						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
+						<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {true}>
+							<option value = {true}>List</option>
+							<option value = {false}>Grid</option>
+						</select>
+						<br></br>
+					</div>
+					{
+					current_week.filter(filter_daycare).map(obj => //arrow function instead
+						<div key = {obj.BookingID}>
+							<hr></hr>
+							<div className = "box" style = {left}>
+								Dog Name: <b>{obj.AnimalName}</b><br></br>
+								Client Name: <b>{obj.FirstName} {obj.LastName}</b><br></br>
+								Breed: <b>{obj.Breed}</b>
+							</div>
+							<div className = "box" style = {left}>
+								DateIn : <b>{parseDate(obj.DateIn)}</b><br></br>
+								DateOut : <b>{parseDate(obj.DateOut)}</b><br></br>
+							</div>
+							<div className = "box" style = {left}>
+								<h6>Status :</h6> <span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+								<br></br>
+								{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
+							</div>
+						</div>
+						)
+					}
+				</div>);
+			}
 		}
 		else
 			 return (<div className="box cal"><h1>This is calendar</h1><br></br></div>);

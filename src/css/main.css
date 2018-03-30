@@ -36,6 +36,27 @@ h6 {
   height:92vh;
 }
 
+.a{
+  background: grey;
+}
+
+.c{
+  background: grey;
+}
+
+.yellow{
+  background: yellow;
+}
+.red{
+  background: red;
+}
+.green{
+  background: green;
+}
+.b{
+  background: grey;
+}
+
 .leftWrapper {
   display: grid;
   height:93vh;
@@ -104,6 +125,11 @@ tr:nth-child(even) {
   padding-top: 6px;
   padding-bottom: 6px;
   transition-duration: 0.3s;
+}
+
+.center{
+  text-align: justify;
+  white-space: pre-wrap;
 }
 
 .searchItem {
