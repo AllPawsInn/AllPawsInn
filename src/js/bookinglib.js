@@ -31,7 +31,6 @@ module.exports = {
 				}
 				values = values.slice(0, -2) //trim off the extra comma and whitespace
 				keys = keys.slice(0, -2)
-				console.log(new_booking)
 				let qr = `INSERT INTO BookingObjects (${keys}) VALUES (${values})`
 				//if err s
 				await pool.request()
@@ -59,9 +58,7 @@ module.exports = {
 		}
 
 		function forceDate(booking){
-
 			if(booking.DayCare){
-				console.log('dsadsanjdasjk')
 				booking.DateIn = toDatetime(new Date(Date.now()))
 				booking.DateOut = booking.DateIn
 			}
