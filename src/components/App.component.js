@@ -11,7 +11,7 @@ import Sidescreen from './Sidescreen'
 
 const sqlConfig = require('../js/sqlconfig')
 const sql = require('mssql')
-
+const booking_lib = require('../js/bookinglib')
 
 export default class Main extends React.Component {
 	constructor(props) {
@@ -37,6 +37,7 @@ export default class Main extends React.Component {
 		this.full_profile = this.full_profile.bind(this)
 		this.get_client = this.get_client.bind(this)
 		this.get_payment = this.get_payment.bind(this)
+		this.get_daycare = this.get_daycare.bind(this)
 	}
 
 	async grabDogs(){
@@ -72,7 +73,7 @@ export default class Main extends React.Component {
 			id_object : {
 				booking_id : num.recordset[0].BookingID,
 				client_id : client.recordset[0].ClientID,
-				animal_id : animal.recordset[0].AnimalID		
+				animal_id : animal.recordset[0].AnimalID
 			},
 			booking_list : bookings.recordset
 		})
@@ -125,6 +126,34 @@ export default class Main extends React.Component {
 		})
 	}
 
+	get_daycare(animal){
+		console.log(animal)
+		let sql_obj = {
+			DayCare : 1,
+			NoDays: 1,
+			AnimalID :animal[0].AnimalID,
+			KennelID: 1,
+			DateIn :animal[0].DateIn,
+			DateOut :animal[0].DateOut,
+			DayCareRate :20,
+			Discount:animal[0].Discount,
+			Status: 'NCI'
+		}
+		console.log(sql_obj)
+		let sqlArray = []
+		sqlArray.push(sql_obj)
+
+		this.state.id_object.booking_id++
+	    this.state.booking_list.push(sqlArray[0])
+
+		booking_lib.create_booking(sqlArray)
+
+		this.setState({
+			animal : animal,
+			screen : "home"
+		})
+	}
+
 	render(){
 		//order props neatly
 		//pay booking && booking is passed as undefined
@@ -133,7 +162,7 @@ export default class Main extends React.Component {
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
 					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
-					<Sidescreen client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
+					<Sidescreen daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
 		);

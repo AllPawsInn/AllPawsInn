@@ -8,11 +8,17 @@ export default class AnimalDetails extends React.Component {
 		this.get_profile = this.get_profile.bind(this)
 		this.get_fullprofile = this.get_fullprofile.bind(this)
 		this.get_client = this.get_client.bind(this)
+		this.get_daycare = this.get_daycare.bind(this)
 	}
 
 	get_profile(){
 		this.props.proc(this.props.animal)
 	}
+
+	get_daycare(){
+		this.props.daycare(this.props.animal)
+	}
+
 
 	get_fullprofile(){
 		this.props.profile(this.props.animal)
@@ -35,6 +41,7 @@ export default class AnimalDetails extends React.Component {
 					Age: <b>{this.props.animal[0].Age}</b> <br></br><br></br>
 					<div className = "profileButtonPanel">
 						<button className = "profileButton" onClick = {this.get_profile}>New Reservation</button>
+						<button className = "profileButton" onClick = {this.get_daycare}>New Daycare</button>
 					</div><br></br>
 					<div className = "profileButtonPanel">
 						<button className = "profileButton" onClick = {this.get_fullprofile}>Full Profile</button>
