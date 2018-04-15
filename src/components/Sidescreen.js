@@ -47,7 +47,7 @@ export default class Sidescreen extends React.Component {
 			return(
 				<div className= 'sideWrapper'>
 					<SearchPane side = {this.props.side} dogs = {this.state.dogs} screen = {this.switch_screen} show = {this.show_animal} query = {this.props.query}/>
-					<AnimalDetails client = {this.props.client} profile = {this.props.profile} proc = {this.props.proc} dogs = {this.state.dogs} animal = {this.state.animal}/>
+					<AnimalDetails daycare = {this.props.daycare} client = {this.props.client} profile = {this.props.profile} proc = {this.props.proc} dogs = {this.state.dogs} animal = {this.state.animal}/>
 				</div>
 			);
 		}

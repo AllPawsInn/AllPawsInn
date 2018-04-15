@@ -2,7 +2,8 @@ const sqlConfig = require('./sqlconfig')
 const sql = require('mssql')
 
 module.exports = {
- create_booking: function(animal, obj){
+ create_booking: function(obj){
+
 		function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
 			if (val < 10)
 				return '0' + val
@@ -11,12 +12,30 @@ module.exports = {
 		}
 
 		async function insertDog(booking){
-			let new_booking = JSON.parse(JSON.stringify(booking))
-			forceDate(new_booking)
 			let pool = await sql.connect(sqlConfig)
-			let result = await pool.request()
-				.query(`INSERT INTO BookingObjects (AnimalID, KennelID, DateIn, DateOut, Status, DayCare) VALUES (${new_booking.animal_id}, ${new_booking.kennel_id}, '${new_booking.DateIn}', '${new_booking.DateOut}', '${new_booking.Status}', ${new_booking.DayCare})`)
-				//if err sql.close
+
+			for(let i = 0; i < booking.length; i++){
+				let new_booking = JSON.parse(JSON.stringify(booking[i]))
+				forceDate(new_booking)
+				new_booking.DateIn = new_booking.DateIn.toString()
+				new_booking.DateOut = new_booking.DateIn.toString()
+
+				let keys = ''
+				let values = ''
+				for (let key in new_booking){
+					keys = keys + key + ', '
+					if(typeof new_booking[key] === 'string')
+						values = values + `'${new_booking[key]}'` + ', '
+					else
+						values = values + new_booking[key] + ', '
+				}
+				values = values.slice(0, -2) //trim off the extra comma and whitespace
+				keys = keys.slice(0, -2)
+				let qr = `INSERT INTO BookingObjects (${keys}) VALUES (${values})`
+				//if err s
+				await pool.request()
+					.query(qr)
+			}
 
 			sql.close()
 		}
@@ -39,29 +58,21 @@ module.exports = {
 		}
 
 		function forceDate(booking){
-			booking.DateIn = toDatetime(new Date(Date.parse(booking.DateIn)))
-			booking.DateOut = toDatetime(new Date(Date.parse(booking.DateOut)))
+			if(booking.DayCare){
+				booking.DateIn = toDatetime(new Date(Date.now()))
+				booking.DateOut = booking.DateIn
+			}
+			else{
+				booking.DateIn = toDatetime(new Date(Date.parse(booking.DateIn)))
+				booking.DateOut = toDatetime(new Date(Date.parse(booking.DateOut)))
+			}
 		}
 		//check if values are empty
-		//push animal's and client's properties to booking
-		if(!Number.isInteger(obj.kennel))
-			obj.kennel = 1 //do something else with this?
+		//push animal client's properties to booking
+		if(!Number.isInteger(obj.KennelID))
+			obj.KennelID = 1 //do something else with this?
+		//check if kennel is empty
 
-
-		//iterate over animal/obj properties instead of hardcodeing
-		let new_booking = {
-			DayCare: obj.DayCare,
-			FirstName : animal.FirstName,
-			LastName : animal.LastName,
-			animal_id : animal.AnimalID,
-			kennel_id : obj.kennel, //user prompted in the future
-			DateIn : obj.DateIn,
-			DateOut : obj.DateOut,
-			Status : "NCI"
-		}
-
-		insertDog(new_booking)
-
-		return new_booking
+		insertDog(obj)
 	}
 }

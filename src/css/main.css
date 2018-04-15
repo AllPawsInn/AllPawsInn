@@ -15,25 +15,6 @@ h1 {
 h6 {
   display: inline;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 3px solid royalblue;
-    text-align: left;
-    padding: 15px;
-}
-
-tr:nth-child(even) {
-    background-color: white;
-}
-
-.item.selected {
-  background: #ddd;
-}
 
 .wrapper {
   display: grid;
@@ -53,6 +34,27 @@ tr:nth-child(even) {
   grid-gap: 10px;
   grid-template-rows: 50% 50%;
   height:92vh;
+}
+
+.a{
+  background: grey;
+}
+
+.c{
+  background: grey;
+}
+
+.yellow{
+  background: yellow;
+}
+.red{
+  background: red;
+}
+.green{
+  background: green;
+}
+.b{
+  background: grey;
 }
 
 .leftWrapper {
@@ -96,11 +98,43 @@ tr:nth-child(even) {
   padding-bottom: 20px;
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 3px solid royalblue;
+  text-align: left;
+  padding: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: white;
+}
+.bookingbutton{
+  float: right;
+}
+.selected{
+  background-color: royalblue;
+  color: #FAFAFA;
+  outline:none;
+  border-radius: 8px;
+  padding-left: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  transition-duration: 0.3s;
+}
+
+.center{
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
 .searchItem {
   border-radius: 8px;
   padding-left: 10px;
-  padding-top: 8px;
-  padding-bottom: 8px;
   padding-top: 6px;
   padding-bottom: 6px;
   transition-duration: 0.3s;
@@ -109,12 +143,6 @@ tr:nth-child(even) {
 .searchItem:hover {
   background-color: #D7E8F7;
   color: #299CF5;
-}
-
-.searchItem:focus {
-  background-color: royalblue;
-  color: #FAFAFA;
-  outline:none;
 }
 
 .calendarSwitch {

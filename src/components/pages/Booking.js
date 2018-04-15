@@ -16,70 +16,215 @@ function create_date(datestr){
 	return buffer;
 }
 
+function form_date(datestr){
+
+}
+
 export default class Booking extends React.Component {
 	constructor(props) {
 		super(props)
+		let date = new Date()
+
 		this.state = {
-			check : false
+			check : false,
+			dropdown_pick : 0,
+			animal: this.props.animal,
+			book : []
 		}
+
+		for(let i = 0; i < this.props.animal.length; i++){
+			this.state.book[i] = {
+				FirstName: this.props.animal[i].FirstName,
+				LastName : this.props.animal[i].LastName,
+				AnimalID: this.props.animal[i].AnimalID,
+				Status: "NCI",
+				Breed : this.props.animal[i].Breed,
+				DayCare : false, //this will probably be broken after multiple booking checks
+				AnimalName : this.props.animal[i].AnimalName,
+				KennelID : 1, //to-do first available kennel
+				DateIn : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+				DateOut : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+				Days: 1,
+				BoardingRate : 35,
+				Discount: 0
+			}
+		}
+
+		this.dateinChange = this.dateinChange.bind(this)
+		this.dateoutChange = this.dateoutChange.bind(this)
+		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.submitAll = this.submitAll.bind(this)
 		this.check = this.check.bind(this)
+		this.popBooking = this.popBooking.bind(this)
+		this.dropdownSelected = this.dropdownSelected.bind(this)
+
+	}
+
+	dateinChange(event){
+		this.state.book[this.state.dropdown_pick][DateIn] = create_date(event)
+	}
+
+	dateoutChange(event){
+		this.state.book[this.state.dropdown_pick][DateOut] = create_date(event)
 	}
 
 	check(){
+		this.state.book[this.state.dropdown_pick].DayCare = !this.state.book[this.state.dropdown_pick].DayCare
 		this.setState({
-			check : !this.state.check
+			check : this.state.check //dummy
 		})
-		console.log(this.state.check)
+	}
+
+	popBooking(){
+		let dummy = this.state.book
+		if (dummy.length > 1) {
+			dummy.splice([this.state.dropdown_pick], 1)
+			if (this.state.dropdown_pick != 0)
+				this.state.dropdown_pick--
+			this.setState({
+				book : dummy
+			})
+		}
+		else
+			this.props.updateScreen("home")
 	}
 
 	handleSubmit(event){
 		event.preventDefault();
 
-		//hardcode
-		let obj = {
-			DayCare : this.state.check ? 1 : 0,
-			client : event.target[0].value,
-			animal : event.target[1].value,
-			type : event.target[2].value,
-			kennel : event.target[3].value,
-			DateIn : create_date(event.target[4].value),
-			DateOut : create_date(event.target[5].value)
+		let {dropdown_pick, book} = this.state;
+		let sqlArray = []
+		//can make this block a function and use in the submitAll function aw to prevent redundant code
+		let sql_obj = {
+			DayCare : book[dropdown_pick].DayCare ? 1 : 0,
+			AnimalID : book[dropdown_pick].AnimalID,
+			KennelID: book[dropdown_pick].KennelID,
+			DateIn : book[dropdown_pick].DateIn,
+			DateOut : book[dropdown_pick].DateOut,
+			BoardingRate : book[dropdown_pick].BoardingRate,
+			Discount: book[dropdown_pick].Discount,
+			Status: 'NCI'
 		}
+		sqlArray.push(sql_obj)
+		
+		book[dropdown_pick].BookingID = this.props.id_object.booking_id++
+		this.props.bookings.push(book[dropdown_pick])
 
-		//clean this pack up
-		let tmp = booking_lib.create_booking(this.props.animal, obj)
-		tmp.BookingID = this.props.id_object.booking_id++
-		this.props.bookings.push(tmp)
-		// buffer array until a neat way to put array push /w set state
+		booking_lib.create_booking(sqlArray)
 		this.props.updateScreen("home")
+		
+	}
 
+	submitAll(){
+
+		let {book} = this.state;
+
+		let sqlArray = []
+		for(let i = 0; i < book.length; i++){
+			let sql_obj = {
+				DayCare : book[i].DayCare ? 1 : 0,
+				AnimalID : book[i].AnimalID,
+				KennelID: book[i].KennelID,
+				DateIn : book[i].DateIn,
+				DateOut : book[i].DateOut,
+				BoardingRate : book[i].BoardingRate,
+				Discount: book[i].Discount,
+				Status: 'NCI'
+			}
+			//clean this pack up
+			sqlArray.push(sql_obj)
+			book[i].BookingID = this.props.id_object.booking_id++
+			this.props.bookings.push(book[i])
+		}
+		booking_lib.create_booking(sqlArray)
+		this.props.updateScreen("home")
+	}
+
+	handleChange(event){//test this
+		let dummy = this.state.book
+		dummy[this.state.dropdown_pick][event.target.name] = event.target.value
+		this.setState({
+			book : dummy
+		})
+	}
+
+	dropdownSelected(event){
+		this.setState({
+			dropdown_pick: event.target.value
+		})
+	}
+
+	componentWillReceiveProps(nextProps) {
+	let date = new Date()
+  // You don't have to do this check first, but it can help prevent an unneeded render
+	  if (nextProps.animal !== this.state.animal) {
+	  	this.state.book = []
+	  	for(let i = 0; i < nextProps.animal.length; i++){
+				this.state.book[i] = {
+					FirstName: nextProps.animal[i].FirstName,
+					LastName : nextProps.animal[i].LastName,
+					AnimalID: nextProps.animal[i].AnimalID,
+					Status: "NCI",
+					Breed : nextProps.animal[i].Breed,
+					DayCare : false, //this will probably be broken after multiple booking checks
+					AnimalName : nextProps.animal[i].AnimalName,
+					KennelID : 1, //to-do first available kennel
+					DateIn : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+					DateOut : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+					Days: 1,
+					BoardingRate : 35,
+					Discount: 0
+				}
+			}
+	    this.setState({
+	     dropdown_pick: 0,
+	     animal : nextProps.animal
+	   });
+	  }
 	}
 
 	render(){
+		let {dropdown_pick, book} = this.state;
 		//default date value
 		//disabled vs readonly fields
 		//default kennel unit?
 		//calendar no hour input atm
-		//value wont change when a new reservation is prompted while already on the booking page
-		return (
+		//value wont change when a new reservation is prompted while already on the booking pag
+		let dropdown = [];         
+		for (let i = 0; i < book.length; i++) {             
+		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);   
+		}
+
+		return(
 			<div className = "box cal">
 				<h1>Booking</h1>
-				<b>Daycare</b><input onChange = {this.check} type = "checkbox" checked = {this.state.check}/><br></br>
-				<form onSubmit = {this.handleSubmit}>
-					<br></br>
-					<div className = "box">
-						<b>Client Name</b><input disabled name = "client_name" type = "text" value = {`${this.props.animal.FirstName} ${this.props.animal.LastName}`}/><br></br>
-						<b>Animal Name</b><input disabled name = "animal_name" type = "text" value = {this.props.animal.AnimalName}/><br></br>
-						<b>Animal Breed</b><input disabled name = "type" type = "text" value = {this.props.animal.Breed}/><br></br>
-						<b>Kennel Unit</b><input name = "kennel_unit" type = "number" value = {1}/><br></br>
-						<b>Date In</b><Calendar format = 'MM/DD/YYYY' date = '3-20-2018'/><br></br>
-						<b>Date Out</b><Calendar format = 'MM/DD/YYYY' date = '3-25-2018'/><br></br>
-						<input type = "Submit" value = "Submit"/>
-					</div>
-				</form>
+				<select onChange = {this.dropdownSelected} label="Multiple Select" multiple>
+					{dropdown}
+				</select><br></br>
+				<b>Daycare</b><input onChange = {this.check} name = "DayCare" type = "checkbox" checked = {this.state.book[this.state.dropdown_pick].DayCare}/><br></br>
+				<br></br>
+				<div className = "box">
+					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />asd
+					<button className = "bookingbutton" onClick = {this.popBooking}> X </button><br></br>
+					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
+					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
+					<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
+					<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '3-20-2018' onChange = {this.dateinChange}/><br></br>
+					<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '3-25-2018' onChange = {this.dateoutChange}/><br></br>
+					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
+					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
+					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
+					<span style={left}><button onClick = {this.handleSubmit}> Submit </button></span>
+				</div>
+				<button onClick = {this.submitAll}>Submit All</button>
 			</div>
 		)
 	}
 
+}
+
+const left = {
+	display : "inline-block",
+	margin : "10px"
 }

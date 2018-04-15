@@ -18,11 +18,11 @@ function filter_function(query){
 		let concat_name = `${obj.FirstName.toLowerCase()}${obj.LastName.toLowerCase()}`.replace(/ /g,'') // trim this maybe?
 		return (obj.AnimalName.toLowerCase().includes(query.toLowerCase()) || obj.FirstName.toLowerCase().includes(query.toLowerCase()) || obj.LastName.toLowerCase().includes(query.toLowerCase()) || concat_name.includes(query.toLowerCase().replace(/ /g,'')))
 		&& (query.length > max_letter || (obj.AnimalName === max_letter || obj.FirstName === max_letter || obj.LastName === max_letter))
-		&& obj;	
+		&& obj;
 		// test to confirm if this works on 2 letter matching queries
 	}
 }
-	
+
 function query_match(obj, query){
 	obj.toLowerCase.includes(query.toLowerCase())
 }
@@ -39,14 +39,12 @@ export default class SearchPane extends React.Component {
 		}
 
 		this.searchHandler = this.searchHandler.bind(this)
-		this.handleElement = this.handleElement.bind(this)
 		this.handleSelection = this.handleSelection.bind(this)
 	}
 
 	handleSelection (selectedKeys) {
-  	this.setState({
-  		selectedKeys : selectedKeys
-  	});
+		this.state.selectedKeys = selectedKeys
+		this.props.show(this.state.selectedKeys.map(key => this.state.list[key]))
   }
 
 	searchHandler(event){
@@ -55,9 +53,12 @@ export default class SearchPane extends React.Component {
 		})
 	}
 
-	handleElement(index){
-		let element = this.state.list[index]
-		this.props.show(element)
+	//use property initializer syntax instead!
+	handleClick(index, e) {
+		//use event.currentTarget.className to manually edit css
+	  this.state.selectedKeys = []
+	  this.state.selectedKeys.push(this.state.list[index])
+		this.props.show(this.state.selectedKeys)
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -74,42 +75,32 @@ export default class SearchPane extends React.Component {
 		// abbreviation for
 		// query = this.state.query
 		// list = this.state.list
-		
-		if (!list) 
+
+		if (!list)
 			list = []
 
 		//can use array index for as unique div key as well
 		return (
 			<div>
-				<div className = "box search"><h1>Search</h1>
+				<div className = "box search"><h3>Search</h3>
 					<button onClick = {this.props.side}> X </button>
 					<SelectableGroup onSelection={this.handleSelection} >
 						{
 							list.filter(filter_function(query)).map(obj => //arrow function instead
-								 <div className = "searchItem" tabIndex = {1} key = {obj.AnimalID} onClick = {() => {this.handleElement(list.indexOf(obj))}}>
-								 <SelectableItem 
+								 <div className = "searchItem" tabIndex = {1} key = {obj.AnimalID} onClick = {(e) => this.handleClick(list.indexOf(obj), e)}>
+								 <SelectableItem
 									key = {obj.AnimalID}
 									selectableKey = {list.indexOf(obj)} 
-									className = "try" 
+									selected = {this.state.selectedKeys.includes(list.indexOf(obj))}
 									FirstName = {obj.FirstName} 
 									LastName = {obj.LastName} 
-									AnimalName = {obj.AnimalName} 
+									AnimalName = {obj.AnimalName}									
 									Breed = {obj.Breed}/
-								>	
-								</div>			
+								>
+								</div>
 							)
 						}
 					</SelectableGroup>
-				</div>
-				<div className = "box search"><h1>Search</h1>
-					<button onClick = {this.props.side}> X </button>
-					{
-						list.filter(filter_function(query)).map(obj => //arrow function instead
-							<div className = "searchItem" onClick = {() => {this.handleElement(list.indexOf(obj))}} key = {obj.AnimalID} tabIndex={1} >
-								<span><b>{obj.FirstName} {obj.LastName} / {obj.AnimalName} /</b> {obj.Breed}<br></br></span>
-							</div>
-						)
-					}
 				</div>
 			</div>
 		);

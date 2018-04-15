@@ -2,16 +2,7 @@
 
 import React from 'react';
 
-
 export default class ClientProfile extends React.Component {
-	constructor(props){
-		super(props)
-		this.state = {
-			animal : this.props.animal
-		}
-
-	}
-
 	render() {
 		if (this.props.animal)
 			return  (
@@ -19,23 +10,23 @@ export default class ClientProfile extends React.Component {
 					<h3>Client Details</h3>
 					<br></br>
 					<div className = "box">
-						<h6>Last Name:</h6> {this.props.animal.LastName} <br></br>
-						<h6>First Name:</h6> {this.props.animal.FirstName} Title: {this.props.animal.Title}<br></br>
-						<h6>Partner Name:</h6> {this.props.animal.PartnerName} <br></br>
-						<h6>Address1:</h6> {!Array.isArray(this.props.animal.Address1) ? this.props.animal.Address1 : this.props.animal.Address1[1]} <br></br>
-						<h6>Address2:</h6> {!Array.isArray(this.props.animal.Address2) ? this.props.animal.Address2 : this.props.animal.Address2[1]} <br></br>
-						<h6>Town/City:</h6> {this.props.animal.Address3} <br></br>
-						<h6>Region/State:</h6> {!Array.isArray(this.props.animal.Region) ? this.props.animal.Region :this.props.animal.Region[1] }<br></br>
-						<h6>Postcode/ZIP:</h6> {!Array.isArray(this.props.animal.PostcodeZIP) ? this.props.animal.PostcodeZIP : this.props.animal.PostcodeZIP[1]} Mailings Permitted: {this.props.animal.Mailings ? 'Yes' : 'No'}<br></br>
-						<h6>Country:</h6> {this.props.animal.Country}<br></br>
-						<h6>Tel (home):</h6> {this.props.animal.TelHome}<br></br>
-						<h6>Tel (work):</h6> {this.props.animal.TelWork}<br></br>
-						<h6>Mobile/Cell:</h6> {this.props.animal.CellMobile}<br></br>
-						<h6>Email:</h6> {!Array.isArray(this.props.animal.Email) ? this.props.animal.Email : this.props.animal.Email[1]} <br></br>
-						<h6>Web Contact:</h6> {this.props.animal.WebContact} <br></br>
-						<h6>Indetification:</h6> {this.props.animal.ClientIdent} <br></br>
-						<h6>Referred By:</h6> {this.props.animal.Referred} Discount: {this.props.animal.Discount}<br></br>
-						<h6>Notes:</h6> {this.props.animal.ClientNotes} <br></br>
+						<h6>Last Name:</h6> {this.props.animal[0].LastName} <br></br>
+						<h6>First Name:</h6> {this.props.animal[0].FirstName} Title: {this.props.animal[0].Title}<br></br>
+						<h6>Partner Name:</h6> {this.props.animal[0].PartnerName} <br></br>
+						<h6>Address1:</h6> {!Array.isArray(this.props.animal[0].Address1) ? this.props.animal[0].Address1 : this.props.animal[0].Address1[1]} <br></br>
+						<h6>Address2:</h6> {!Array.isArray(this.props.animal[0].Address2) ? this.props.animal[0].Address2 : this.props.animal[0].Address2[1]} <br></br>
+						<h6>Town/City:</h6> {this.props.animal[0].Address3} <br></br>
+						<h6>Region/State:</h6> {!Array.isArray(this.props.animal[0].Region) ? this.props.animal[0].Region :this.props.animal[0].Region[1] }<br></br>
+						<h6>Postcode/ZIP:</h6> {!Array.isArray(this.props.animal[0].PostcodeZIP) ? this.props.animal[0].PostcodeZIP : this.props.animal[0].PostcodeZIP[1]} Mailings Permitted: {this.props.animal[0].Mailings ? 'Yes' : 'No'}<br></br>
+						<h6>Country:</h6> {this.props.animal[0].Country}<br></br>
+						<h6>Tel (home):</h6> {this.props.animal[0].TelHome}<br></br>
+						<h6>Tel (work):</h6> {this.props.animal[0].TelWork}<br></br>
+						<h6>Mobile/Cell:</h6> {this.props.animal[0].CellMobile}<br></br>
+						<h6>Email:</h6> {!Array.isArray(this.props.animal[0].Email) ? this.props.animal[0].Email : this.props.animal[0].Email[1]} <br></br>
+						<h6>Web Contact:</h6> {this.props.animal[0].WebContact} <br></br>
+						<h6>Indetification:</h6> {this.props.animal[0].ClientIdent} <br></br>
+						<h6>Referred By:</h6> {this.props.animal[0].Referred} Discount: {this.props.animal[0].Discount}<br></br>
+						<h6>Notes:</h6> {this.props.animal[0].ClientNotes} <br></br>
 					</div>
 					<br></br>
 					<div className = "box">
@@ -44,14 +35,14 @@ export default class ClientProfile extends React.Component {
 					<br></br>
 					<div className = "box">
 						<h4>Veterinary</h4>
-						<h6>Surgery:</h6> {this.props.animal.PracticeName} <br></br>
-						<h6>Vet Name:</h6> {this.props.animal.VetName} <br></br>
-						<h6>Address1:</h6> {!Array.isArray(this.props.animal.Address1) ? '' : this.props.animal.Address1[0]} <br></br>
-						<h6>Address2:</h6> {!Array.isArray(this.props.animal.Address2) ? '' : this.props.animal.Address2[0]} <br></br>
-						<h6>Town/City:</h6> {this.props.animal.Town} <br></br>
-						<h6>Region/State:</h6> {!Array.isArray(this.props.animal.Region) ? '' :this.props.animal.Region[0] }<br></br>
-						<h6>Postcode/ZIP:</h6> {!Array.isArray(this.props.animal.PostcodeZIP) ? '' : this.props.animal.PostcodeZIP[0]}<br></br>
-						<h6>Email:</h6> {!Array.isArray(this.props.animal.Email) ? '' : this.props.animal.Email[0]} <br></br>
+						<h6>Surgery:</h6> {this.props.animal[0].PracticeName} <br></br>
+						<h6>Vet Name:</h6> {this.props.animal[0].VetName} <br></br>
+						<h6>Address1:</h6> {!Array.isArray(this.props.animal[0].Address1) ? '' : this.props.animal[0].Address1[0]} <br></br>
+						<h6>Address2:</h6> {!Array.isArray(this.props.animal[0].Address2) ? '' : this.props.animal[0].Address2[0]} <br></br>
+						<h6>Town/City:</h6> {this.props.animal[0].Town} <br></br>
+						<h6>Region/State:</h6> {!Array.isArray(this.props.animal[0].Region) ? '' :this.props.animal[0].Region[0] }<br></br>
+						<h6>Postcode/ZIP:</h6> {!Array.isArray(this.props.animal[0].PostcodeZIP) ? '' : this.props.animal[0].PostcodeZIP[0]}<br></br>
+						<h6>Email:</h6> {!Array.isArray(this.props.animal[0].Email) ? '' : this.props.animal[0].Email[0]} <br></br>
 					</div>
 				</div>
 			);

@@ -28,7 +28,7 @@ export default class Screen extends React.Component {
 	render() {
 		const addDog = this.state.addDog;
 
-		//can use spread operator on some of them in order to pass properties
+		//can use spread operator on some of them in order to pass properties	
 		if(this.state.screen === "about")
 			return <About/>
 		else if(this.state.screen === "full_profile")
