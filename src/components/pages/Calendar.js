@@ -26,7 +26,7 @@ function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)
 	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon)
-	//booking.DayCare == (dayCare == 'true') && 
+	//booking.DayCare == (dayCare == 'true') &&
 }
 
 function filter_daycare(booking){
@@ -209,7 +209,7 @@ export default class Calendar extends React.Component {
 							<option value = {false}>Boarding</option>
 						</select>
 						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-						<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+						<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
 						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
 							<option value = {true}>List</option>
@@ -219,7 +219,7 @@ export default class Calendar extends React.Component {
 						<br></br>
 					</div>
 					<div className = "center"><h2>    Monday     Tuesday   Wednesday   Thursday     Friday      Saturday      Sunday</h2></div>
-					
+
 					<GridLayout className="layout" cols={12} rowHeight={10} width={1900} isResizable = {false}>
 		        <div className = "red" key="a" data-grid={{x: 0, y: 0, w: 1, h: 2, static: true}}><b>{bookings_list[1300].AnimalName}/{bookings_list[1300].FirstName} {bookings_list[1300].LastName}</b></div>
 		        <div className = "b" key="b" data-grid={{x: 1, y: 0, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
@@ -263,27 +263,32 @@ export default class Calendar extends React.Component {
 						</select>
 						<br></br>
 					</div>
+          <table className = "table table-hover" style={{marginTop: '20px'}}>
+            <thead>
+              <tr>
+                <th style={{width: '10%'}}>Dog Name</th>
+                <th style={{width: '20%'}}>Client Name</th>
+                <th style={{width: '23%'}}>Date In</th>
+                <th style={{width: '23%'}}>Date Out</th>
+                <th style={{width: '24%'}}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
 					{
 					current_week.filter(filter_daycare).map(obj => //arrow function instead
-						<div key = {obj.BookingID}>
-							<hr></hr>
-							<div className = "box" style = {left}>
-								Dog Name: <b>{obj.AnimalName}</b><br></br>
-								Client Name: <b>{obj.FirstName} {obj.LastName}</b><br></br>
-								Breed: <b>{obj.Breed}</b>
-							</div>
-							<div className = "box" style = {left}>
-								DateIn : <b>{parseDate(obj.DateIn)}</b><br></br>
-								DateOut : <b>{parseDate(obj.DateOut)}</b><br></br>
-							</div>
-							<div className = "box" style = {left}>
-								<h6>Status :</h6> <span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
-								<br></br>
-								{this.getStatus(obj) == ('Checked-Out') ? '' :  <button className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button>  }
-							</div>
-						</div>
+						<tr style={{height: '50px'}} key = {obj.BookingID}>
+								<td>{obj.AnimalName}</td>
+								<td>{obj.FirstName} {obj.LastName}</td>
+								<td>{parseDate(obj.DateIn)}</td>
+								<td>{parseDate(obj.DateOut)}</td>
+								<td><span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+								{this.getStatus(obj) == ('Checked-Out') ? '' : <button style={{right:'0px'}} className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button> }</td>
+
+						</tr>
 						)
 					}
+          </tbody>
+          </table>
 				</div>);
 			}
 		}
@@ -293,15 +298,18 @@ export default class Calendar extends React.Component {
 }
 
 const coStyle = {
-	color : "green"
+	color : "green",
+  paddingRight : 10
 }
 
 const notStyle = {
-	color : "red"
+	color : "red",
+  paddingRight : 10
 }
 
 const ciStyle = {
-	color : "#CCCC00"
+	color : "#CCCC00",
+  paddingRight : 10
 }
 
 const left = {
