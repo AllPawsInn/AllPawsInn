@@ -127,35 +127,58 @@ export default class Main extends React.Component {
 	}
 
 	get_daycare(animal){
+		let date = new Date (Date.now())
+		let day = date.toString().substring(0,3)
+
+		switch(day) {
+		    case 'Mon':
+		        day = 'm'
+		        break;
+		    case 'Tue':
+		        day = 't'
+		        break;
+	     	case 'Wed':
+	        	day = 'w'
+	        	break;
+	        case 'Thu':
+	        	day = 'r'
+	        	break;
+	        case 'Fri':
+	        	day = 'f'
+	        	break;
+
+		}
+
 		this.state.id_object.booking_id++
 		let sql_obj = {
 			DayCare : 1,
 			NoDays: 1,
 			AnimalID : animal[0].AnimalID,
 			KennelID: 1,
-			DateIn : new Date (Date.now()),
-			DateOut : new Date (Date.now()),
+			DateIn : date,
+			DateOut : date,
 			DayCareRate : 21.99,
+			Days: day,
 			Discount:animal[0].Discount,
 			Status: 'NCI'
 		}
+
+		let newobj = JSON.parse(JSON.stringify(sql_obj))
+		newobj.DateIn = new Date(Date.parse(newobj.DateIn))
+		newobj.DateOut  = new Date(Date.parse(newobj.DateOut))
 
 		let sqlArray = []
 		sqlArray.push(sql_obj)
 
 		booking_lib.create_booking(sqlArray)
 
-		let newobj = JSON.parse(JSON.stringify(sqlArray))
-		console.log(newobj)
+		newobj.BookingID = this.state.id_object.booking_id
+		newobj.AnimalName = animal[0].AnimalName
+		newobj.FirstName = animal[0].FirstName
+		newobj.LastName = animal[0].LastName
 
-		newobj[0].BookingID = this.state.id_object.booking_id
-		newobj[0].AnimalName = animal[0].AnimalName
-		newobj[0].FirstName = animal[0].FirstName
-		newobj[0].LastName = animal[0].LastName
+		this.state.booking_list.push(newobj)
 
-		this.state.booking_list.push(newobj[0])
-
-		console.log(this.state.booking_list)
 		this.setState({
 			animal : animal,
 			screen : "home",
