@@ -40,7 +40,7 @@ module.exports = {
 			sql.close()
 		}
 
-		function toDatetime(date){
+		function toDatetime(date){ // THIS IS PROBABLY INFACT Date.toISOString
 			let formatted = `${date.getFullYear()}-${sqlParse(date.getMonth() + 1)}-${sqlParse(date.getDate())}T${sqlParse(date.getHours())}:${sqlParse(date.getMinutes())}:${sqlParse(date.getSeconds())}`
 			return formatted
 		}

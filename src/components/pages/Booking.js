@@ -8,7 +8,7 @@ import Calendar from 'react-input-calendar'
 const booking_lib = require('../../js/bookinglib')
 
 function create_date(datestr){
-	let dt_in = datestr.split('/')
+	let dt_in = datestr.split('-')
 	let buffer = new Date(Date.now())
 	buffer.setMonth(dt_in[0] - 1)
 	buffer.setDate(dt_in[1])
@@ -17,7 +17,7 @@ function create_date(datestr){
 }
 
 function form_date(datestr){
-
+	return `${datestr.getDate()}-${datestr.getMonth() + 1}-${datestr.getFullYear()}`
 }
 
 export default class Booking extends React.Component {
@@ -42,8 +42,8 @@ export default class Booking extends React.Component {
 				DayCare : false, //this will probably be broken after multiple booking checks
 				AnimalName : this.props.animal[i].AnimalName,
 				KennelID : 1, //to-do first available kennel
-				DateIn : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
-				DateOut : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+				DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
+				DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 				Days: 1,
 				BoardingRate : 35,
 				Discount: 0
@@ -62,11 +62,11 @@ export default class Booking extends React.Component {
 	}
 
 	dateinChange(event){
-		this.state.book[this.state.dropdown_pick][DateIn] = create_date(event)
+		this.state.book[this.state.dropdown_pick].DateIn = create_date(event)
 	}
 
 	dateoutChange(event){
-		this.state.book[this.state.dropdown_pick][DateOut] = create_date(event)
+		this.state.book[this.state.dropdown_pick].DateOut = create_date(event)
 	}
 
 	check(){
@@ -156,8 +156,8 @@ export default class Booking extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-	let date = new Date()
-  // You don't have to do this check first, but it can help prevent an unneeded render
+		let date = new Date()
+	  // You don't have to do this check first, but it can help prevent an unneeded render
 	  if (nextProps.animal !== this.state.animal) {
 	  	this.state.book = []
 	  	for(let i = 0; i < nextProps.animal.length; i++){
@@ -170,8 +170,8 @@ export default class Booking extends React.Component {
 					DayCare : false, //this will probably be broken after multiple booking checks
 					AnimalName : nextProps.animal[i].AnimalName,
 					KennelID : 1, //to-do first available kennel
-					DateIn : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
-					DateOut : create_date(`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`),
+					DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
+					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					Days: 1,
 					BoardingRate : 35,
 					Discount: 0
@@ -196,6 +196,10 @@ export default class Booking extends React.Component {
 		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);   
 		}
 
+		//get rid of retarded date picker
+		// <b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateinChange}/><br></br>
+		// <b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateoutChange}/><br></br>
+
 		return(
 			<div className = "box cal">
 				<h1>Booking</h1>
@@ -205,13 +209,13 @@ export default class Booking extends React.Component {
 				<b>Daycare</b><input onChange = {this.check} name = "DayCare" type = "checkbox" checked = {this.state.book[this.state.dropdown_pick].DayCare}/><br></br>
 				<br></br>
 				<div className = "box">
-					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />asd
+					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />
 					<button className = "bookingbutton" onClick = {this.popBooking}> X </button><br></br>
 					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
 					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
 					<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
-					<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '3-20-2018' onChange = {this.dateinChange}/><br></br>
-					<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '3-25-2018' onChange = {this.dateoutChange}/><br></br>
+					<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '4-17-2018' onChange = {this.dateinChange}/><br></br>
+					<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '4-17-2018' onChange = {this.dateoutChange}/><br></br>
 					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
 					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>

@@ -4,7 +4,7 @@
 'use babel';
 
 import React from 'react'
-import ReactDOM  from 'react-dom'
+import ReactDOM from 'react-dom'
 import Navbar from './Navbar'
 import Screen from './Screen'
 import Sidescreen from './Sidescreen'
@@ -14,7 +14,7 @@ const sql = require('mssql')
 const booking_lib = require('../js/bookinglib')
 
 export default class Main extends React.Component {
-	constructor(props) {
+	constructor(props){
 		super(props)
 		this.state = {
 			dog_list : [],
@@ -50,20 +50,20 @@ export default class Main extends React.Component {
 		// fill out empty id's before pushing the sql
 		let pool = await sql.connect(sqlConfig)
 		let result = await pool.request()
-			 .query("SELECT * from dbo.Animals, dbo.VetDetails, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID")
+			.query("SELECT * from dbo.Animals, dbo.VetDetails, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID")
 		//if err sql.close
 		// "SELECT top 1 * from dbo.BookingObjects order by BookingID desc" // returns most recently assigned ID
 		let bookings = await pool.request()
-			 .query("SELECT * from dbo.BookingObjects ,dbo.VetDetails, dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
+			.query("SELECT * from dbo.BookingObjects ,dbo.VetDetails, dbo.Animals, dbo.ClientDetails where dbo.Animals.ClientID = dbo.ClientDetails.ClientID and dbo.Animals.AnimalID =  dbo.BookingObjects.AnimalID and dbo.ClientDetails.VetSurgeryId = dbo.VetDetails.ID and dbo.BookingObjects.DateOut > '2017-07-06 12:00:00.000'")
 		//if err sql.close
 		let num = await pool.request()
-			 .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
+			.query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc")
 
 		let client = await pool.request()
-			 .query("SELECT top 1 * from dbo.ClientDetails order by ClientID desc")
+			.query("SELECT top 1 * from dbo.ClientDetails order by ClientID desc")
 
 		let animal = await pool.request()
-			 .query("SELECT top 1 * from dbo.Animals order by AnimalID desc")
+			.query("SELECT top 1 * from dbo.Animals order by AnimalID desc")
 		//if err sql.close
 
 		sql.close()
@@ -88,7 +88,7 @@ export default class Main extends React.Component {
 	toggle_side(query){
 		this.setState({
 			sidescreen : true,
-			query: query
+			query : query
 		})
 	}
 
@@ -127,45 +127,44 @@ export default class Main extends React.Component {
 	}
 
 	get_daycare(animal){
-		let date = new Date (Date.now())
-		let day = date.toString().substring(0,3)
+		let date = new Date(Date.now())
+		let day = date.toString().substring(0, 3)
 
-		switch(day) {
-		    case 'Mon':
-		        day = 'm'
-		        break;
-		    case 'Tue':
-		        day = 't'
-		        break;
-	     	case 'Wed':
-	        	day = 'w'
-	        	break;
-	        case 'Thu':
-	        	day = 'r'
-	        	break;
-	        case 'Fri':
-	        	day = 'f'
-	        	break;
-
+		switch (day){
+			case 'Mon':
+				day = 'm'
+				break;
+			case 'Tue':
+				day = 't'
+				break;
+			case 'Wed':
+				day = 'w'
+				break;
+			case 'Thu':
+				day = 'r'
+				break;
+			case 'Fri':
+				day = 'f'
+				break;
 		}
 
 		this.state.id_object.booking_id++
-		let sql_obj = {
-			DayCare : 1,
-			NoDays: 1,
-			AnimalID : animal[0].AnimalID,
-			KennelID: 1,
-			DateIn : date,
-			DateOut : date,
-			DayCareRate : 21.99,
-			Days: day,
-			Discount:animal[0].Discount,
-			Status: 'NCI'
-		}
+			let sql_obj = {
+				DayCare : 1,
+				NoDays : 1,
+				AnimalID : animal[0].AnimalID,
+				KennelID : 1,
+				DateIn : date,
+				DateOut : date,
+				DayCareRate : 21.99,
+				Days : day,
+				Discount : animal[0].Discount,
+				Status : 'NCI'
+			}
 
 		let newobj = JSON.parse(JSON.stringify(sql_obj))
 		newobj.DateIn = new Date(Date.parse(newobj.DateIn))
-		newobj.DateOut  = new Date(Date.parse(newobj.DateOut))
+		newobj.DateOut = new Date(Date.parse(newobj.DateOut))
 
 		let sqlArray = []
 		sqlArray.push(sql_obj)
@@ -198,5 +197,4 @@ export default class Main extends React.Component {
 			</div>
 		);
 	}
-
-}
+	}

@@ -15,7 +15,7 @@ const rowGetter = rowNumber => rows[rowNumber];
 //move constants to a new js file
 const load_pages = 7
 const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"]
+	"July", "August", "September", "October", "November", "December"]
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 
@@ -51,7 +51,7 @@ function getDateRange(week){
 	let day = td.getDay() || 7; 	  // Get current day number, converting Sun. to 7
 	if (day !== 1)              	  // Only manipulate the date if it isn't Mon.
 		td.setHours(-24 * (day - 1)); // Set the hours to day number minus 1
-									  // multiplied by negative 24
+										// multiplied by negative 24
 	td.setHours(0)
 	td.setMinutes(0)
 	td.setSeconds(0)
@@ -74,7 +74,7 @@ async function updateStatusQuery(bookingObject){
 	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
 
 	let result = await pool.request()
-	 	 .query(queryString)
+		 .query(queryString)
 
 	sql.close()
 }
@@ -91,14 +91,14 @@ async function updateDaysQuery(bookingObject){
 	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Days = '" + days + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
 
 	let result = await pool.request()
-	 	 .query(queryString)
+		 .query(queryString)
 
 	let noDays = bookingObject.NoDays
 
 	queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.NoDays = " + noDays + " WHERE dbo.BookingObjects.BookingID = " + bookingId
 
 	result = await pool.request()
-	 	 .query(queryString)
+		 .query(queryString)
 
 	sql.close()
 }
@@ -116,15 +116,15 @@ export default class Calendar extends React.Component {
 			rows,
 			selectedIndexes: [],
 		}
-    this._columns = [
-      { key: 'info', name: 'Client/Dog' },
-      { key: 'm', name: 'Monday'},
-      { key: 't', name: 'Tuesday' },
-      { key: 'w', name: 'Wednesday' },
-      { key: 'r', name: 'Thursday' },
-      { key: 'f', name: 'Friday' },
-      { key: 'total', name: 'Total'},
-      { key: 'co', name: 'Check-Out' } ];
+		this._columns = [
+			{ key: 'info', name: 'Client/Dog' },
+			{ key: 'm', name: 'Monday'},
+			{ key: 't', name: 'Tuesday' },
+			{ key: 'w', name: 'Wednesday' },
+			{ key: 'r', name: 'Thursday' },
+			{ key: 'f', name: 'Friday' },
+			{ key: 'total', name: 'Total'},
+			{ key: 'co', name: 'Check-Out' } ];
 
 
 		this.changeState = this.changeState.bind(this)
@@ -232,199 +232,201 @@ export default class Calendar extends React.Component {
 		else
 			return "Check-Out"
 	}
-    createRows(booking) {
+	
+	createRows(booking) {
 		let day = (booking.Days)
 
 		let total = booking.NoDays * booking.DayCareRate
 
-    	let taxRate = 8
+		let taxRate = 8
 
 		let tax = ((total*taxRate)/100)
 
 		total = total + tax
 
-        rows.push({
-            info: booking.FirstName + ' ' + booking.LastName + '/' + booking.AnimalName,
-            m: (day.includes("m")) ? 'X' : '',
-            t: (day.includes("t")) ? 'X' : '',
-            w: (day.includes("w")) ? 'X' : '',
-            r: (day.includes("r")) ? 'X' : '',
-            f: (day.includes("f")) ? 'X' : '',
-            total: total.toFixed(2),
-            co: 'button',
-            booking: booking
-        });
-    }
+		rows.push({
+			info: booking.FirstName + ' ' + booking.LastName + '/' + booking.AnimalName,
+			m: (day.includes("m")) ? 'X' : '',
+			t: (day.includes("t")) ? 'X' : '',
+			w: (day.includes("w")) ? 'X' : '',
+			r: (day.includes("r")) ? 'X' : '',
+			f: (day.includes("f")) ? 'X' : '',
+			total: total.toFixed(2),
+			co: 'button',
+			booking: booking
+			}
+		);
+	}
 
-    rowGetter(i) {
-        return this._rows[i];
-    }
+	rowGetter(i) {
+			return this._rows[i];
+	}
 
 
-  onCellSelected ( rowIdx, idx )  {
-  	if(rowIdx.idx >= 1 && rowIdx.idx <= 5){
-	  	switch(rowIdx.idx) {
-		    case 1:
-			    if( this._rows[rowIdx.rowIdx].m !== 'X'){
-			        this._rows[rowIdx.rowIdx].m = 'X'
-			        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+	onCellSelected ( rowIdx, idx )  {
+		if(rowIdx.idx >= 1 && rowIdx.idx <= 5){
+			switch(rowIdx.idx) {
+				case 1:
+					if( this._rows[rowIdx.rowIdx].m !== 'X'){
+							this._rows[rowIdx.rowIdx].m = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
 					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
 
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-			    	let taxRate = 8
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
-			    }
-			    else{
-			    	this._rows[rowIdx.rowIdx].m = ''
-			    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-			    	this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+							this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
+					}
+					else{
+						this._rows[rowIdx.rowIdx].m = ''
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-			    	let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    break;
-		    case 2:
-			    if( this._rows[rowIdx.rowIdx].t !== 'X'){
-			        this._rows[rowIdx.rowIdx].t = 'X'
-			        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-			        this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-			    	let taxRate = 8
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    else{
-			    	this._rows[rowIdx.rowIdx].t = ''
-			    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-			    	this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					break;
+				case 2:
+					if( this._rows[rowIdx.rowIdx].t !== 'X'){
+							this._rows[rowIdx.rowIdx].t = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-			    	let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    break;
-		    case 3:
-			    if( this._rows[rowIdx.rowIdx].w !== 'X'){
-			        this._rows[rowIdx.rowIdx].w = 'X'
-			        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-			        this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-			    	let taxRate = 8
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    else{
-			    	this._rows[rowIdx.rowIdx].w = ''
-			    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-			    	this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					else{
+						this._rows[rowIdx.rowIdx].t = ''
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-			    	let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    break;
-		    case 4:
-			    if( this._rows[rowIdx.rowIdx].r !== 'X'){
-			        this._rows[rowIdx.rowIdx].r = 'X'
-			        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-			        this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-			    	let taxRate = 8
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    else{
-			    	this._rows[rowIdx.rowIdx].r = ''
-			    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-			    	this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					break;
+				case 3:
+					if( this._rows[rowIdx.rowIdx].w !== 'X'){
+							this._rows[rowIdx.rowIdx].w = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-			    	let taxRate = 8
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    break;
-		    case 5:
-			    if( this._rows[rowIdx.rowIdx].f !== 'X'){
-			        this._rows[rowIdx.rowIdx].f = 'X'
-			        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					else{
+						this._rows[rowIdx.rowIdx].w = ''
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+						let taxRate = 8
+
+					let tax = ((total*taxRate)/100)
+
+					total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					break;
+				case 4:
+					if( this._rows[rowIdx.rowIdx].r !== 'X'){
+							this._rows[rowIdx.rowIdx].r = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+						let taxRate = 8
+
+					let tax = ((total*taxRate)/100)
+
+					total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					else{
+						this._rows[rowIdx.rowIdx].r = ''
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+						let taxRate = 8
+
+					let tax = ((total*taxRate)/100)
+
+					total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					break;
+				case 5:
+					if( this._rows[rowIdx.rowIdx].f !== 'X'){
+							this._rows[rowIdx.rowIdx].f = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
 					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'f'
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-			    	let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    else{
-			    	this._rows[rowIdx.rowIdx].f = ''
-			    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-			    	this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
-			        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-			    	let taxRate = 8
+						let taxRate = 8
 
 					let tax = ((total*taxRate)/100)
 
 					total = total + tax
-			        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-			    }
-			    break;
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					else{
+						this._rows[rowIdx.rowIdx].f = ''
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+						let taxRate = 8
+
+					let tax = ((total*taxRate)/100)
+
+					total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					break;
 		}
 		updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
 		this.setRows()
 	}
-  };
+	};
 
-  setRows(){
+	setRows(){
 	this._rows = rows;
-  };
+	};
 
-  emptyRows(){
-  	rows = []
-  	this._rows = []
-  }
+	emptyRows(){
+		rows = []
+		this._rows = []
+	}
 
 	render() {
 		var layout = [
-      {i: 'a', x: 0, y: 0, w: 1, h: 2, static: true},
-      {i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
-      {i: 'c', x: 4, y: 0, w: 1, h: 2}
-    ];
+			{i: 'a', x: 0, y: 0, w: 1, h: 2, static: true},
+			{i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
+			{i: 'c', x: 4, y: 0, w: 1, h: 2}
+		];
 		week = this.state.week;
 		//to do // have current week's bookings in a new array as another state property
 						// avoid iterating over all the bookings on a daycare/boarding switch
@@ -464,15 +466,15 @@ export default class Calendar extends React.Component {
 				<div style={{marginTop: '20px'}} >
 					 <ReactDataGrid
 					 ref={ node => this.grid = node }
-	                columns={this._columns}
-	                rowGetter={this.rowGetter}
-	                rowsCount={this._rows.length}
-	                minHeight={500}
+									columns={this._columns}
+									rowGetter={this.rowGetter}
+									rowsCount={this._rows.length}
+									minHeight={500}
 					enableCellSelect={true}
-          			onCellSelected={this.onCellSelected}
-	                 />
-                </div>
-                </div>);
+								onCellSelected={this.onCellSelected}
+									 />
+								</div>
+				</div>);
 			}
 			else{
 				return(
@@ -491,17 +493,17 @@ export default class Calendar extends React.Component {
 						</select>
 						<br></br>
 					</div>
-          <table className = "table table-hover" style={{marginTop: '20px'}}>
-            <thead>
-              <tr>
-                <th style={{width: '10%'}}>Dog Name</th>
-                <th style={{width: '20%'}}>Client Name</th>
-                <th style={{width: '23%'}}>Date In</th>
-                <th style={{width: '23%'}}>Date Out</th>
-                <th style={{width: '24%'}}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
+					<table className = "table table-hover" style={{marginTop: '20px'}}>
+						<thead>
+							<tr>
+								<th style={{width: '10%'}}>Dog Name</th>
+								<th style={{width: '20%'}}>Client Name</th>
+								<th style={{width: '23%'}}>Date In</th>
+								<th style={{width: '23%'}}>Date Out</th>
+								<th style={{width: '24%'}}>Status</th>
+							</tr>
+						</thead>
+						<tbody>
 					{
 					current_week.filter(filter_daycare).map(obj => //arrow function instead
 						<tr style={{height: '50px'}} key = {obj.BookingID}>
@@ -511,12 +513,11 @@ export default class Calendar extends React.Component {
 								<td>{parseDate(obj.DateOut)}</td>
 								<td><span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
 								{this.getStatus(obj) == ('Checked-Out') ? '' : <button style={{right:'0px'}} className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button> }</td>
-
 						</tr>
 						)
 					}
-          </tbody>
-          </table>
+					</tbody>
+					</table>
 				</div>);
 			}
 		}
@@ -527,17 +528,17 @@ export default class Calendar extends React.Component {
 
 const coStyle = {
 	color : "green",
-  paddingRight : 10
+	paddingRight : 10
 }
 
 const notStyle = {
 	color : "red",
-  paddingRight : 10
+	paddingRight : 10
 }
 
 const ciStyle = {
 	color : "#CCCC00",
-  paddingRight : 10
+	paddingRight : 10
 }
 
 const left = {
