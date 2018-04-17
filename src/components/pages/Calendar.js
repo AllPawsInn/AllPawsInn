@@ -236,7 +236,7 @@ export default class Calendar extends React.Component {
 		else
 			return "Check-Out"
 	}
-	
+
 	createRows(booking) {
 		let day = (booking.Days)
 
@@ -274,20 +274,7 @@ export default class Calendar extends React.Component {
 					if( this._rows[rowIdx.rowIdx].m !== 'X'){
 							this._rows[rowIdx.rowIdx].m = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
-
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
-					}
-					else{
-						this._rows[rowIdx.rowIdx].m = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
 						let taxRate = 8
@@ -296,6 +283,21 @@ export default class Calendar extends React.Component {
 
 					total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+					}
+					else{
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].m = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+							let taxRate = 8
+
+							let tax = ((total*taxRate)/100)
+
+							total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 2:
@@ -313,17 +315,19 @@ export default class Calendar extends React.Component {
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].t = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].t = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 3:
@@ -341,17 +345,19 @@ export default class Calendar extends React.Component {
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].w = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].w = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 4:
@@ -369,17 +375,19 @@ export default class Calendar extends React.Component {
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].r = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].r = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 5:
@@ -397,17 +405,19 @@ export default class Calendar extends React.Component {
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].f = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].f = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 		}
@@ -505,7 +515,7 @@ export default class Calendar extends React.Component {
 								<div className = "green" key="6" data-grid={{x: 6, y: 1, w: 1, h: 2}}><b>{bookings_list[1202].AnimalName}/{bookings_list[1202].FirstName} {bookings_list[1202].LastName}</b></div>
 								<div className = "green" key="13" data-grid={{x: 6, y: 2, w: 1, h: 2}}><b>{bookings_list[1207].AnimalName}/{bookings_list[1207].FirstName} {bookings_list[1207].LastName}</b></div>
 							</GridLayout>
-						</div>	
+						</div>
 					)
 				}
 			}
