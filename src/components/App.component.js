@@ -131,10 +131,6 @@ export default class Main extends React.Component {
 		let sql_obj = {
 			DayCare : 1,
 			NoDays: 1,
-			BookingID: this.state.id_object.booking_id,
-			AnimalName: animal[0].AnimalName,
-			FirstName: animal[0].FirstName,
-			LastName: animal[0].LastName,
 			AnimalID : animal[0].AnimalID,
 			KennelID: 1,
 			DateIn : new Date (Date.now()),
@@ -143,13 +139,23 @@ export default class Main extends React.Component {
 			Discount:animal[0].Discount,
 			Status: 'NCI'
 		}
+
 		let sqlArray = []
 		sqlArray.push(sql_obj)
 
-		this.state.booking_list.push(sqlArray[0])
-
 		booking_lib.create_booking(sqlArray)
 
+		let newobj = JSON.parse(JSON.stringify(sqlArray))
+		console.log(newobj)
+
+		newobj[0].BookingID = this.state.id_object.booking_id
+		newobj[0].AnimalName = animal[0].AnimalName
+		newobj[0].FirstName = animal[0].FirstName
+		newobj[0].LastName = animal[0].LastName
+
+		this.state.booking_list.push(newobj[0])
+
+		console.log(this.state.booking_list)
 		this.setState({
 			animal : animal,
 			screen : "home",

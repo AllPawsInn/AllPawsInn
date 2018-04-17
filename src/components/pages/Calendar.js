@@ -85,7 +85,7 @@ export default class Calendar extends React.Component {
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
-			calendar : false,
+			calendar : 'List',
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare: false,
@@ -122,7 +122,7 @@ export default class Calendar extends React.Component {
 		if (nextProps && nextProps.bookings){
 			this.setState({
 				bookings_list: nextProps.bookings,
-				current_week : this.props.bookings.filter(filter_date)
+				current_week : nextProps.bookings.filter(filter_date)
 			})
 		}
 	}
@@ -401,7 +401,7 @@ export default class Calendar extends React.Component {
 		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
 		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
-			if (this.state.calendar){
+			if (this.state.calendar == 'Grid'){
 				const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
 				return(
 					<div className="box cal">
@@ -413,9 +413,9 @@ export default class Calendar extends React.Component {
 						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 						<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-						<select className = "calendarSwitch" onChange = {this.switch_view} value = {true}>
-							<option value = {false}>List</option>
-							<option value = {true}>Grid</option>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
+							<option value = {"List"}>List</option>
+							<option value = {"Grid"}>Grid</option>
 						</select>
 						<br></br>
 					</div>
@@ -426,7 +426,7 @@ export default class Calendar extends React.Component {
 						)
 					}
 				{this.setRows()}
-				<div>
+				<div style={{marginTop: '20px'}} >
 					 <ReactDataGrid
 					 ref={ node => this.grid = node }
 	                columns={this._columns}
@@ -451,9 +451,9 @@ export default class Calendar extends React.Component {
 						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 						<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-						<select className = "calendarSwitch" onChange = {this.switch_view} value = {true}>
-							<option value = {true}>List</option>
-							<option value = {false}>Grid</option>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
+							<option value = {"List"}>List</option>
+							<option value = {"Grid"}>Grid</option>
 						</select>
 						<br></br>
 					</div>
