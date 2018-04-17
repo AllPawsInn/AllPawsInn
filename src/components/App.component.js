@@ -127,23 +127,25 @@ export default class Main extends React.Component {
 	}
 
 	get_daycare(animal){
-		console.log(animal)
+		this.state.id_object.booking_id++
 		let sql_obj = {
 			DayCare : 1,
 			NoDays: 1,
-			AnimalID :animal[0].AnimalID,
+			BookingID: this.state.id_object.booking_id,
+			AnimalName: animal[0].AnimalName,
+			FirstName: animal[0].FirstName,
+			LastName: animal[0].LastName,
+			AnimalID : animal[0].AnimalID,
 			KennelID: 1,
 			DateIn : new Date (Date.now()),
 			DateOut : new Date (Date.now()),
-			DayCareRate :20,
+			DayCareRate : 21.99,
 			Discount:animal[0].Discount,
 			Status: 'NCI'
 		}
-		console.log(sql_obj)
 		let sqlArray = []
 		sqlArray.push(sql_obj)
 
-		this.state.id_object.booking_id++
 		this.state.booking_list.push(sqlArray[0])
 
 		booking_lib.create_booking(sqlArray)
