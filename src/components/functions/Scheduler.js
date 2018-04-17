@@ -4,7 +4,7 @@ import React from 'react';
 function dogNames(dogs){
   let dog_list = [];
   for (let i =0; i<dogs.length;i++){
-    if (dogs[i].Status=="Complete")
+    if (dogs[i].Status=="CI")
       dog_list.push(<li key={i}>{dogs[i].AnimalName}</li>)
   }
   return dog_list;
@@ -12,7 +12,7 @@ function dogNames(dogs){
 function foodTypes(dogs){
   let food_types = [];
   for (let i =0; i<dogs.length;i++){
-    if (dogs[i].Status=="Complete")
+    if (dogs[i].Status=="CI")
       food_types.push(<li key={i}>{dogs[i].Food1TypeName}</li>)
   }
   return food_types;
@@ -20,7 +20,7 @@ function foodTypes(dogs){
 function foodQuantities(dogs){
   let food_quantity = [];
   for (let i =0; i<dogs.length;i++){
-    if (dogs[i].Status=="Complete")
+    if (dogs[i].Status=="CI")
       food_quantity.push(<li key={i}>{dogs[i].Food1Amount}</li>)
   }
   return food_quantity;
@@ -28,7 +28,7 @@ function foodQuantities(dogs){
 function foodFreqs(dogs){
   let food_freq = [];
   for (let i =0; i<dogs.length;i++){
-    if (dogs[i].Status=="Complete")
+    if (dogs[i].Status=="CI")
       food_freq.push(<li key={i}>{dogs[i].Food1Freq}</li>)
   }
   return food_freq;
@@ -45,6 +45,7 @@ export default class Report extends React.Component {
   render() {
     if (this.props.dogs){
       return  (
+        <div className="box cal">
   <table>
    <tbody>
        <tr>
@@ -61,6 +62,7 @@ export default class Report extends React.Component {
   </tr>
    </tbody>
 </table>
+</div>
       );
   }
     else
