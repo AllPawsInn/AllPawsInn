@@ -98,21 +98,6 @@ h6 {
   padding-bottom: 20px;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 3px solid royalblue;
-  text-align: left;
-  padding: 15px;
-}
-
-tr:nth-child(even) {
-  background-color: white;
-}
 .bookingbutton{
   float: right;
 }
@@ -214,4 +199,19 @@ tr:nth-child(even) {
 .calendarSwitch:hover {
   background-color: royalblue;
   color: #FAFAFA;
+}
+
+.listView {
+  margin-top: 20px;
+  border: none;
+  padding: 10px;
+}
+
+.listViewRow {
+  height: 30px;
+  width: 100%;
+}
+
+.listViewRow:hover {
+  background-color: #FAFAFA;
 }
