@@ -4,8 +4,13 @@
 
 import React from 'react';
 import GridLayout from 'react-grid-layout';
+import ReactDataGrid from 'react-data-grid';
+
 let week = 0;
+
 let dayCare = false;
+const rows = [];
+const rowGetter = rowNumber => rows[rowNumber];
 
 //move constants to a new js file
 const load_pages = 7
@@ -26,7 +31,7 @@ function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)
 	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon)
-	//booking.DayCare == (dayCare == 'true') && 
+	//booking.DayCare == (dayCare == 'true') &&
 }
 
 function filter_daycare(booking){
@@ -84,7 +89,20 @@ export default class Calendar extends React.Component {
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare: false,
+			rows,
+			selectedIndexes: [],
 		}
+    this._columns = [
+      { key: 'info', name: 'Client/Dog' },
+      { key: 'm', name: 'Monday'},
+      { key: 't', name: 'Tuesday' },
+      { key: 'w', name: 'Wednesday' },
+      { key: 'r', name: 'Thursday' },
+      { key: 'f', name: 'Friday' },
+      { key: 'total', name: 'Total'},
+      { key: 'co', name: 'Check-Out' } ];
+
+
 		this.changeState = this.changeState.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
 		this.prevWeek = this.prevWeek.bind(this)
@@ -92,6 +110,11 @@ export default class Calendar extends React.Component {
 		this.getNextAction = this.getNextAction.bind(this)
 		this.switch_booking = this.switch_booking.bind(this)
 		this.switch_view = this.switch_view.bind(this)
+		this.createRows = this.createRows.bind(this)
+		this.rowGetter = this.rowGetter.bind(this)
+		this.setRows = this.setRows.bind(this)
+		this.onCellSelected = this.onCellSelected.bind(this)
+		this.onCellDeSelected = this.onCellDeSelected.bind(this)
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -149,6 +172,7 @@ export default class Calendar extends React.Component {
 	}
 
 	switch_view(event){
+		this.setRows()
 		this.setState({
 			calendar : event.target.value
 		})
@@ -182,6 +206,181 @@ export default class Calendar extends React.Component {
 		else
 			return "Check-Out"
 	}
+    createRows(booking) {
+    	let day = (booking.DateIn.toString().substring(0,3))
+
+		let total = booking.NoDays * booking.DayCareRate
+
+    	let taxRate = 8
+
+		let tax = ((total*taxRate)/100)
+
+		total = total + tax
+
+        rows.push({
+            info: booking.FirstName + ' ' + booking.LastName + '/' + booking.AnimalName,
+            m: (day === 'Mon') ? 'X' : '',
+            t: (day === 'Tue') ? 'X' : '',
+            w: (day === 'Wed') ? 'X' : '',
+            r: (day === 'Thu') ? 'X' : '',
+            f: (day === 'Fri') ? 'X' : '',
+            total: total.toFixed(2),
+            co: 'button',
+            booking: booking
+        });
+    }
+
+    rowGetter(i) {
+        return this._rows[i];
+    }
+
+
+  onCellSelected ( rowIdx, idx )  {
+  	switch(rowIdx.idx) {
+	    case 1:
+		    if( this._rows[rowIdx.rowIdx].m !== 'X'){
+		        this._rows[rowIdx.rowIdx].m = 'X'
+		        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
+		    }
+		    else{
+		    	this._rows[rowIdx.rowIdx].m = ''
+		    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays -1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    break;
+	    case 2:
+		    if( this._rows[rowIdx.rowIdx].t !== 'X'){
+		        this._rows[rowIdx.rowIdx].t = 'X'
+		        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    else{
+		    	this._rows[rowIdx.rowIdx].t = ''
+		    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays -1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    break;
+	    case 3:
+		    if( this._rows[rowIdx.rowIdx].w !== 'X'){
+		        this._rows[rowIdx.rowIdx].w = 'X'
+		        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    else{
+		    	this._rows[rowIdx.rowIdx].w = ''
+		    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays -1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    break;
+	    case 4:
+		    if( this._rows[rowIdx.rowIdx].r !== 'X'){
+		        this._rows[rowIdx.rowIdx].r = 'X'
+		        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    else{
+		    	this._rows[rowIdx.rowIdx].r = ''
+		    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays -1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    break;
+	    case 5:
+		    if( this._rows[rowIdx.rowIdx].f !== 'X'){
+		        this._rows[rowIdx.rowIdx].f = 'X'
+		        this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    else{
+		    	this._rows[rowIdx.rowIdx].f = ''
+		    	this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays -1
+		        let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+		    	let taxRate = 8
+
+				let tax = ((total*taxRate)/100)
+
+				total = total + tax
+		        this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+		    }
+		    break;
+	}
+	this.setRows()
+  };
+
+  onCellDeSelected ( rowIdx, idx ) {
+    if (idx === 2) {
+      alert('the editor for cell (' + rowIdx + ',' + idx + ') should have just closed');
+    }
+  };
+
+
+  setRows(){
+	this._rows = rows;
+  };
 
 	render() {
 		var layout = [
@@ -201,8 +400,9 @@ export default class Calendar extends React.Component {
 		//this.getStatus(obj) == ('Not Checked-In') ?
 		if (bookings_list){
 			if (this.state.calendar){
+				const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
 				return(
-				<div className="box cal">
+					<div className="box cal">
 					<div>
 						<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
 							<option value = {true}>Daycare</option>
@@ -211,40 +411,33 @@ export default class Calendar extends React.Component {
 						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
 						<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
 						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
-							<option value = {true}>List</option>
-							<option value = {false}>Grid</option>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {true}>
+							<option value = {false}>List</option>
+							<option value = {true}>Grid</option>
 						</select>
 						<br></br>
-						<br></br>
 					</div>
-					<div className = "center"><h2>    Monday     Tuesday   Wednesday   Thursday     Friday      Saturday      Sunday</h2></div>
-					
-					<GridLayout className="layout" cols={12} rowHeight={10} width={1900} isResizable = {false}>
-		        <div className = "red" key="a" data-grid={{x: 0, y: 0, w: 1, h: 2, static: true}}><b>{bookings_list[1300].AnimalName}/{bookings_list[1300].FirstName} {bookings_list[1300].LastName}</b></div>
-		        <div className = "b" key="b" data-grid={{x: 1, y: 0, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
-		        <div className = "b" key="z" data-grid={{x: 2, y: 0, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
-		        <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-		        <div className = "green" key="e" data-grid={{x: 4, y: 0, w: 1, h: 2}}><b>{bookings_list[1201].AnimalName}/{bookings_list[1201].FirstName} {bookings_list[1201].LastName}</b></div>
-		        <div className = "c" key="f" data-grid={{x: 5, y: 0, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="g" data-grid={{x: 6, y: 0, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="j" data-grid={{x: 0, y: 1, w: 1, h: 2}} >c</div>
-		        <div className = "b" key="1" data-grid={{x: 1, y: 1, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
-		        <div className = "c" key="2" data-grid={{x: 2, y: 1, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="3" data-grid={{x: 3, y: 1, w: 1, h: 2}}>c</div>
-		        <div className = "yellow" key="4" data-grid={{x: 4, y: 1, w: 1, h: 2}}><b>{bookings_list[1204].AnimalName}/{bookings_list[1204].FirstName} {bookings_list[1204].LastName}</b></div>
-		        <div className = "c" key="5" data-grid={{x: 5, y: 1, w: 1, h: 2}}>c</div>
-		        <div className = "green" key="6" data-grid={{x: 6, y: 1, w: 1, h: 2}}><b>{bookings_list[1202].AnimalName}/{bookings_list[1202].FirstName} {bookings_list[1202].LastName}</b></div>
-		        <div className = "c" key="7" data-grid={{x: 0, y: 2, w: 1, h: 2}} >c</div>
-		        <div className = "b" key="8" data-grid={{x: 1, y: 2, w: 1, h: 2, minW: 2, maxW: 4}}>b</div>
-		        <div className = "c" key="9" data-grid={{x: 2, y: 2, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="10" data-grid={{x: 3, y: 2, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="11" data-grid={{x: 4, y: 2, w: 1, h: 2}}>c</div>
-		        <div className = "c" key="12" data-grid={{x: 5, y: 2, w: 1, h: 2}}>c</div>
-		        <div className = "green" key="13" data-grid={{x: 6, y: 2, w: 1, h: 2}}><b>{bookings_list[1207].AnimalName}/{bookings_list[1207].FirstName} {bookings_list[1207].LastName}</b></div>
-	        </GridLayout>
-      	 </div>
-      	 )
+				{current_week.filter(filter_daycare).map(obj => //arrow function instead
+						<div key = {obj.BookingID}>
+							{this.createRows(obj)}
+						</div>
+						)
+					}
+				{this.setRows()}
+				<div>
+					 <ReactDataGrid
+					 ref={ node => this.grid = node }
+	                columns={this._columns}
+	                rowGetter={this.rowGetter}
+	                rowsCount={this._rows.length}
+	                minHeight={500}
+					enableCellSelect={true}
+          			onCellSelected={this.onCellSelected}
+          			onCellDeSelected={this.onCellDeSelected}
+	                 />
+                </div>
+                </div>);
+
 			}
 			else{
 				return(
@@ -308,3 +501,4 @@ const left = {
 	display : "inline-block",
 	margin : "10px"
 }
+
