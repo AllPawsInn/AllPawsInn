@@ -115,12 +115,14 @@ export default class Calendar extends React.Component {
 		this.setRows = this.setRows.bind(this)
 		this.onCellSelected = this.onCellSelected.bind(this)
 		this.onCellDeSelected = this.onCellDeSelected.bind(this)
+
 	}
 
 	componentWillReceiveProps(nextProps){
 		if (nextProps && nextProps.bookings){
 			this.setState({
 				bookings_list: nextProps.bookings,
+				current_week : this.props.bookings.filter(filter_date)
 			})
 		}
 	}

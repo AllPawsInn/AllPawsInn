@@ -133,8 +133,8 @@ export default class Main extends React.Component {
 			NoDays: 1,
 			AnimalID :animal[0].AnimalID,
 			KennelID: 1,
-			DateIn :animal[0].DateIn,
-			DateOut :animal[0].DateOut,
+			DateIn : new Date (Date.now()),
+			DateOut : new Date (Date.now()),
 			DayCareRate :20,
 			Discount:animal[0].Discount,
 			Status: 'NCI'
@@ -144,13 +144,13 @@ export default class Main extends React.Component {
 		sqlArray.push(sql_obj)
 
 		this.state.id_object.booking_id++
-	    this.state.booking_list.push(sqlArray[0])
+		this.state.booking_list.push(sqlArray[0])
 
 		booking_lib.create_booking(sqlArray)
 
 		this.setState({
 			animal : animal,
-			screen : "home"
+			screen : "home",
 		})
 	}
 
