@@ -49,6 +49,7 @@ export default class Grid extends React.Component {
 			{ key: 'w', name: 'Wednesday' },
 			{ key: 'r', name: 'Thursday' },
 			{ key: 'f', name: 'Friday' },
+			{ key: 's', name: 'Saturday'},
 			{ key: 'total', name: 'Total'},
 			{ key: 'co', name: 'Check-Out' }
 		];
@@ -78,6 +79,7 @@ export default class Grid extends React.Component {
 			w: (day.includes("w")) ? 'X' : '',
 			r: (day.includes("r")) ? 'X' : '',
 			f: (day.includes("f")) ? 'X' : '',
+			s: (day.includes("s")) ? 'X' : '',
 			total: total.toFixed(2),
 			co: 'Check-Out',
 			booking: booking
@@ -117,7 +119,7 @@ export default class Grid extends React.Component {
 				dayNo = 7
 				break;
 		}
-		if(rowIdx.idx >= 1 && rowIdx.idx <= 5){
+		if(rowIdx.idx >= 1 && rowIdx.idx <= 6){
 			switch(rowIdx.idx){
 				case 1:
 					if(dayNo <= 1){
@@ -270,6 +272,39 @@ export default class Grid extends React.Component {
 								this._rows[rowIdx.rowIdx].f = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
+
+								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+								let taxRate = 8
+
+								let tax = ((total*taxRate)/100)
+
+								total = total + tax
+								this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+							}
+						}
+					}
+					break;
+				case 6:
+					if(dayNo <= 6){
+						if(this._rows[rowIdx.rowIdx].s !== 'X'){
+							this._rows[rowIdx.rowIdx].s = 'X'
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 's'
+							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+
+							let taxRate = 8
+
+							let tax = ((total*taxRate)/100)
+
+							total = total + tax
+							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
+						else{
+							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+								this._rows[rowIdx.rowIdx].s = ''
+								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('s','');
 
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 

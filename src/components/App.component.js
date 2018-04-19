@@ -146,6 +146,9 @@ export default class Main extends React.Component {
 			case 'Fri':
 				day = 'f'
 				break;
+			case 'Sat':
+				day = 's'
+				break;
 		}
 
 		this.state.id_object.booking_id++
