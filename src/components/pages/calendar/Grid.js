@@ -92,151 +92,165 @@ export default class Grid extends React.Component {
 
 	onCellSelected ( rowIdx, idx )  {
 		if(rowIdx.idx >= 1 && rowIdx.idx <= 5){
-			switch(rowIdx.idx) {
+			switch(rowIdx.idx){
 				case 1:
-					if( this._rows[rowIdx.rowIdx].m !== 'X'){
-							this._rows[rowIdx.rowIdx].m = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
+					if(this._rows[rowIdx.rowIdx].m !== 'X'){
+						this._rows[rowIdx.rowIdx].m = 'X'
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
 
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+						let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 						let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+						let tax = ((total*taxRate)/100)
 
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
+						total = total + tax
+						this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].m = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].m = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
+ 							
+ 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 2:
-					if( this._rows[rowIdx.rowIdx].t !== 'X'){
-							this._rows[rowIdx.rowIdx].t = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+					if(this._rows[rowIdx.rowIdx].t !== 'X'){
+						this._rows[rowIdx.rowIdx].t = 'X'
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
+						let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
 						let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+						let tax = ((total*taxRate)/100)
 
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						total = total + tax
+						this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].t = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].t = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 3:
-					if( this._rows[rowIdx.rowIdx].w !== 'X'){
-							this._rows[rowIdx.rowIdx].w = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+					if(this._rows[rowIdx.rowIdx].w !== 'X'){
+						this._rows[rowIdx.rowIdx].w = 'X'
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
+						let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
 						let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+						let tax = ((total*taxRate)/100)
 
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						total = total + tax
+						this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].w = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].w = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
+	 							
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 4:
-					if( this._rows[rowIdx.rowIdx].r !== 'X'){
-							this._rows[rowIdx.rowIdx].r = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+					if(this._rows[rowIdx.rowIdx].r !== 'X'){
+						this._rows[rowIdx.rowIdx].r = 'X'
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
+						let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
 						let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+						let tax = ((total*taxRate)/100)
 
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						total = total + tax
+						this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].r = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].r = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
+ 							
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
 				case 5:
-					if( this._rows[rowIdx.rowIdx].f !== 'X'){
-							this._rows[rowIdx.rowIdx].f = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'f'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
+					if(this._rows[rowIdx.rowIdx].f !== 'X'){
+						this._rows[rowIdx.rowIdx].f = 'X'
+						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'f'
+						let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
 						let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+						let tax = ((total*taxRate)/100)
 
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						total = total + tax
+						this._rows[rowIdx.rowIdx].total = total.toFixed(2)
 					}
 					else{
-						this._rows[rowIdx.rowIdx].f = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
+						if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
+							this._rows[rowIdx.rowIdx].f = ''
+							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
+	 							
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
-						let taxRate = 8
+							let taxRate = 8
 
-					let tax = ((total*taxRate)/100)
+							let tax = ((total*taxRate)/100)
 
-					total = total + tax
+							total = total + tax
 							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
+						}
 					}
 					break;
+			}
 		}
 		updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
 		this.setRows()
-	}
 	};
 
 	setRows(){
