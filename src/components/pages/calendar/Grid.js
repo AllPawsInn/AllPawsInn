@@ -284,9 +284,10 @@ export default class Grid extends React.Component {
 					}
 					break;
 			}
+			updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
+			this.setRows()
 		}
-		updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
-		this.setRows()
+
 	};
 
 	setRows(){
@@ -310,7 +311,7 @@ export default class Grid extends React.Component {
 					)
 				}
 				{this.setRows()}
-				<div style={{marginTop: '20px'}} >
+				<div  id="dataGrid" style={{marginTop: '20px'}} >
 					<ReactDataGrid
 						ref={ node => this.grid = node }
 						columns={this._columns}
