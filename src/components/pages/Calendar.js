@@ -3,12 +3,13 @@
 'use babel';
 
 import React from 'react';
-import GridLayout from 'react-grid-layout';
 import Grid from './calendar/Grid'
+import List from './calendar/List'
+import Layout from './calendar/Layout'
+
 let week = 0;
 
 let dayCare = false;
-
 
 //move constants to a new js file
 const load_pages = 7
@@ -19,10 +20,6 @@ const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 function printDate(date){
 	return `${date.getDate()} ${dayNames[date.getDay()]} ${monthNames[date.getMonth()]}`
-}
-
-function parseDate(date){
-	return date.toString().split('GMT')[0]
 }
 
 function colorScheme(status){ //color table
@@ -78,23 +75,6 @@ function getDateRange(week){
 // 	return <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
 // }
 
-async function updateStatusQuery(bookingObject){
-
-	const sqlConfig = require('../../js/sqlconfig')
-	const sql = require('mssql')
-	let pool = await sql.connect(sqlConfig)
-
-	let stat = bookingObject.Status
-	let bookingId = parseInt(bookingObject.BookingID)
-
-	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
-
-	let result = await pool.request()
-		 .query(queryString)
-
-	sql.close()
-}
-
 export default class Calendar extends React.Component {
 	constructor(props){
 		super(props)
@@ -107,14 +87,10 @@ export default class Calendar extends React.Component {
 			daycare: false,
 		}
 
-		this.changeState = this.changeState.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
 		this.prevWeek = this.prevWeek.bind(this)
-		this.getStatus = this.getStatus.bind(this)
-		this.getNextAction = this.getNextAction.bind(this)
 		this.switch_booking = this.switch_booking.bind(this)
 		this.switch_view = this.switch_view.bind(this)
-
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -142,36 +118,6 @@ export default class Calendar extends React.Component {
 		})
 	}
 
-	changeState(obj){
-
-		// NCO - Not Checked Out
-		// NCI - Not Checked In
-		// CO - Checked Out
-		// CI - Checked In
-		let status = '';
-
-		if(obj.Status == "NCI")
-			status = "CI"
-		else{
-			if(obj.Status == "CI")
-				status = "CO"
-			else if(obj.Status == "NCO")
-				status = "CO"
-			else
-				status = "CO"
-
-			this.props.payment(obj)
-		}
-
-		obj.Status = status
-
-		updateStatusQuery(obj)
-
-		this.setState({
-			week : this.state.week
-		})
-	}
-
 	switch_view(event){
 		this.setState({
 			calendar : event.target.value
@@ -185,163 +131,54 @@ export default class Calendar extends React.Component {
 		})
 	}
 
-	getStatus(booking){
-		if(booking.Status == "NCI")
-			return "Not Checked-In"
-		else if(booking.Status == "CI")
-			return "Checked-In"
-		else if(booking.Status == "NCO")
-			return "Not Checked-Out"
-		else
-			return "Checked-Out"
-	}
-
-	getNextAction(booking){
-		if(booking.Status == "NCI")
-			return "Check-In"
-		else if(booking.Status == "CI")
-			return "Check-Out"
-		else if(booking.Status == "NCO")
-			return "Check-Out"
-		else
-			return "Check-Out"
-	}
-
 	render() {
 		week = this.state.week;
-		//to do // have current week's bookings in a new array as another state property
-						// avoid iterating over all the bookings on a daycare/boarding switch
+		//to do 
+		// have current week's bookings in a new array as another state property
+		// avoid iterating over all the bookings on a daycare/boarding switch
 		let range = getDateRange(week)
 		// encountered an issue on calculation in first week of march due to daylight saving time calculations
 		// getDateRarnge.sun will also be a monday due to that excess 1 hour
 		// fix if possible
 		let {bookings_list, current_week} = this.state;
-		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
-		//this.getStatus(obj) == ('Not Checked-In') ?
-
 		let current = current_week.filter(filter_daycare)
+		let panel
+		if (this.state.calendar == 'Grid'){
+			if (this.state.daycare){
+				panel = <Grid current = {current} />
+			}
+			else
+				panel = <Layout bookings_list = {bookings_list} current = {current} />
+		}
+		else{
+			panel = <List current = {current} payment = {this.props.payment} />
+		}
+
 
 		if (bookings_list){
-			if (this.state.calendar == 'Grid'){
-				if (this.state.daycare){
-					return(
-						<div className="box cal">
-							<div>
-								<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
-									<option value = {true}>Daycare</option>
-									<option value = {false}>Boarding</option>
-								</select>
-								<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-								<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
-								<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-								<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
-									<option value = {"List"}>List</option>
-									<option value = {"Grid"}>Grid</option>
-								</select>
-								<br></br>
-							</div>
-							<Grid current = {current} />
-						</div>
-					);
-				}
-				else{ //calendar
-					return(
-						<div className="box cal">
-							<div>
-								<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
-									<option value = {true}>Daycare</option>
-									<option value = {false}>Boarding</option>
-								</select>
-								<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-								<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
-								<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-								<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
-									<option value = {"List"}>List</option>
-									<option value = {"Grid"}>Grid</option>
-								</select>
-								<br></br>
-							</div>
-							<div className = "center"><h2>    Monday     Tuesday   Wednesday   Thursday     Friday      Saturday      Sunday</h2></div>
-							<GridLayout className="layout" cols={7} rowHeight={12} width={1000} isResizable = {false} verticalCompact = {false}>
-								{
-								current.map(obj => 
-									<div className = {"yellow"} key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-								)
-								}
-								<div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-								<div className = "green" key="e" data-grid={{x: 4, y: 0, w: 1, h: 2}}><b>{bookings_list[1201].AnimalName}/{bookings_list[1201].FirstName} {bookings_list[1201].LastName}</b></div>
-								<div className = "yellow" key="4" data-grid={{x: 4, y: 1, w: 1, h: 2}}><b>{bookings_list[1204].AnimalName}/{bookings_list[1204].FirstName} {bookings_list[1204].LastName}</b></div>
-								<div className = "green" key="6" data-grid={{x: 6, y: 1, w: 1, h: 2}}><b>{bookings_list[1202].AnimalName}/{bookings_list[1202].FirstName} {bookings_list[1202].LastName}</b></div>
-								<div className = "green" key="13" data-grid={{x: 6, y: 2, w: 1, h: 2}}><b>{bookings_list[1207].AnimalName}/{bookings_list[1207].FirstName} {bookings_list[1207].LastName}</b></div>
-							</GridLayout>
-						</div>	
-					)
-				}
-			}
-			else{
-				return(
-					<div className="box cal">
-						<div>
-							<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
-								<option value = {true}>Daycare</option>
-								<option value = {false}>Boarding</option>
-							</select>
-							<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-							<h6>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
-							<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
-							<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
-								<option value = {"List"}>List</option>
-								<option value = {"Grid"}>Grid</option>
-							</select>
-							<br></br>
-						</div>
-						<table className = "table table-hover" style={{marginTop: '20px'}}>
-							<thead>
-								<tr>
-									<th style={{width: '10%'}}>Dog Name</th>
-									<th style={{width: '20%'}}>Client Name</th>
-									<th style={{width: '23%'}}>Date In</th>
-									<th style={{width: '23%'}}>Date Out</th>
-									<th style={{width: '24%'}}>Status</th>
-								</tr>
-							</thead>
-							<tbody>
-						{
-						current.map(obj => //arrow function instead
-							<tr style={{height: '50px'}} key = {obj.BookingID}>
-									<td>{obj.AnimalName}</td>
-									<td>{obj.FirstName} {obj.LastName}</td>
-									<td>{parseDate(obj.DateIn)}</td>
-									<td>{parseDate(obj.DateOut)}</td>
-									<td><span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
-									{this.getStatus(obj) == ('Checked-Out') ? '' : <button style={{right:'0px'}} className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button> }</td>
-							</tr>
-							)
-						}
-						</tbody>
-						</table>
+			return(
+				<div className="box cal">
+					<div>
+						<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
+							<option value = {true}>Daycare</option>
+							<option value = {false}>Boarding</option>
+						</select>
+						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
+						<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
+						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
+						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
+							<option value = {"List"}>List</option>
+							<option value = {"Grid"}>Grid</option>
+						</select>
+						<br></br>
 					</div>
-				);
-			}
+					{panel}
+				</div>
+			);
 		}
 		else
-			 return (<div className="box cal"><h1>This is calendar</h1><br></br></div>);
+			 return (<div className="box cal"><br></br></div>);
 	}
-}
-
-const coStyle = {
-	color : "green",
-	paddingRight : 10
-}
-
-const notStyle = {
-	color : "red",
-	paddingRight : 10
-}
-
-const ciStyle = {
-	color : "#CCCC00",
-	paddingRight : 10
 }
 
 const left = {
