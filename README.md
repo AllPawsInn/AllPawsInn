@@ -6,11 +6,11 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
 
 1. Navigate to a folder you want the app to be in and then clone the repo:  
     ```sh
-    git clone https://github.com/Shemnei/electron-react-bootstrap-template yourAppName
+    git clone https://github.com/AllPawsInn/AllPawsInn.git
     ```
 2. Navigate into your newly created folder (either 'yourAppName' or electron-react-bootstrap-template):  
     ```sh
-    cd yourAppName
+    cd AllPawsInn
     ```
 3. Install all requirements:  
     ```sh
