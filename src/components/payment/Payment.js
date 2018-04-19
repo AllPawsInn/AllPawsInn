@@ -67,7 +67,6 @@ export default class Payment extends React.Component {
 
 	render(){
 		let booking = this.state.booking;
-		console.log(booking);
 
 		return (
 			<div className = "box cal">
@@ -103,17 +102,10 @@ export default class Payment extends React.Component {
 			<br></br>
 			<h3>Total Charges</h3>
 			<div className = "box">
-				<form onSubmit = {this.handleSubmit}>
-					<b>Net Booking Charges   $</b>
-					<input disabled name = "booking_charges" type = "text" value = {`${this.getTotal(booking).toFixed(2)}`}/><br></br>
-					<b>NY State Tax   $</b>
-					<input disabled name = "tax_charges" type = "text" value = {`${this.getTax(booking).toFixed(2)}`}/><br></br>
-					<hr></hr>
-					<b>Total To Pay   $</b>
-					<input disabled name = "tax_charges" type = "text" value = {`${this.getTotalToPay(booking).toFixed(2)}`}/><br></br>
-					<hr></hr>
-					<span style={left}><input type = "Submit" value = "Take Payment"/></span>
-				</form>
+					<b>Net Booking Charges   $</b>{this.getTotal(booking).toFixed(2)}<br></br>
+					<b>NY State Tax   $</b>{this.getTax(booking).toFixed(2)}<hr></hr>
+					<b>Total To Pay   $</b>{this.getTotalToPay(booking).toFixed(2)}<hr></hr>
+					<span style={left}><button onClick = {this.handleSubmit}> Take Payment </button></span>
 			</div>
 			</div>
 			)

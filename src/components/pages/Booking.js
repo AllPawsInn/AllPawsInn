@@ -107,13 +107,13 @@ export default class Booking extends React.Component {
 			Status: 'NCI'
 		}
 		sqlArray.push(sql_obj)
-		
+
 		book[dropdown_pick].BookingID = this.props.id_object.booking_id++
 		this.props.bookings.push(book[dropdown_pick])
 
 		booking_lib.create_booking(sqlArray)
 		this.props.updateScreen("home")
-		
+
 	}
 
 	submitAll(){
@@ -191,12 +191,12 @@ export default class Booking extends React.Component {
 		//default kennel unit?
 		//calendar no hour input atm
 		//value wont change when a new reservation is prompted while already on the booking pag
-		let dropdown = [];         
-		for (let i = 0; i < book.length; i++) {             
-		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);   
+		let dropdown = [];
+		for (let i = 0; i < book.length; i++) {
+		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);
 		}
 
-		//get rid of retarded date picker
+		//get rid of retarded date picker :)
 		// <b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateinChange}/><br></br>
 		// <b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateoutChange}/><br></br>
 

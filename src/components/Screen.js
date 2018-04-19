@@ -28,7 +28,7 @@ export default class Screen extends React.Component {
 	render() {
 		const addDog = this.state.addDog;
 
-		//can use spread operator on some of them in order to pass properties	
+		//can use spread operator on some of them in order to pass properties
 		if(this.state.screen === "about")
 			return <About/>
 		else if(this.state.screen === "full_profile")
@@ -36,7 +36,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "client")
 			return(<ClientProfile animal = {this.props.animal}/>)
 		else if(this.state.screen === "payment")
-			return(<Payment booking = {this.props.booking}/>)
+			return(<Payment updateScreen = {this.props.updateScreen} booking = {this.props.booking}/>)
 		else if(this.state.screen === "report")
 			return(<Report bookings = {this.props.bookings}/>)
 		else if(this.state.screen === "scheduler")
