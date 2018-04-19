@@ -22,20 +22,6 @@ function printDate(date){
 	return `${date.getDate()} ${dayNames[date.getDay()]} ${monthNames[date.getMonth()]}`
 }
 
-function colorScheme(status){ //color table
-	switch(status){
-	case "CI":
-		return "#D3D3D3";
-		break;
-	case "CO":
-		return "#C41F3B";
-		break;
-	case "NCI":
-		return "#A330C9";
-		break;		
-	}
-}
-
 function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)

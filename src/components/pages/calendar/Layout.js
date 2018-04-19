@@ -5,6 +5,23 @@
 import React from 'react';
 import GridLayout from 'react-grid-layout';
 
+function colorScheme(status){ //color table
+	switch(status){
+		case "CI":
+			return "yellow";
+			break;
+		case "CO":
+			return "green";
+			break;
+		case "NCI":
+			return "red";
+			break;		
+		case "NCO":
+			return "red";
+			break;		
+	}
+}
+
 export default class Layout extends React.Component {
 	render(){
 		let {bookings_list, current} = this.props;
@@ -14,14 +31,9 @@ export default class Layout extends React.Component {
 			<GridLayout className="layout" cols={7} rowHeight={12} width={1000} isResizable = {false} verticalCompact = {false}>
 				{
 				current.map(obj => 
-					<div className = {"yellow"} key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
+					<div className = {colorScheme(obj.Status)} key={obj.BookingID} data-grid={{x: obj.DateIn.getDay() - 1, y: obj.KennelID*1, w: obj.Days*1, h: 2}}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
 				)
 				}
-				<div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-				<div className = "green" key="e" data-grid={{x: 4, y: 0, w: 1, h: 2}}><b>{bookings_list[1201].AnimalName}/{bookings_list[1201].FirstName} {bookings_list[1201].LastName}</b></div>
-				<div className = "yellow" key="4" data-grid={{x: 4, y: 1, w: 1, h: 2}}><b>{bookings_list[1204].AnimalName}/{bookings_list[1204].FirstName} {bookings_list[1204].LastName}</b></div>
-				<div className = "green" key="6" data-grid={{x: 6, y: 1, w: 1, h: 2}}><b>{bookings_list[1202].AnimalName}/{bookings_list[1202].FirstName} {bookings_list[1202].LastName}</b></div>
-				<div className = "green" key="13" data-grid={{x: 6, y: 2, w: 1, h: 2}}><b>{bookings_list[1207].AnimalName}/{bookings_list[1207].FirstName} {bookings_list[1207].LastName}</b></div>
 			</GridLayout>
 		</div>
 		)
