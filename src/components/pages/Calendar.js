@@ -4,13 +4,11 @@
 
 import React from 'react';
 import GridLayout from 'react-grid-layout';
-import ReactDataGrid from 'react-data-grid';
-
+import Grid from './calendar/Grid'
 let week = 0;
 
 let dayCare = false;
-let rows = [];
-const rowGetter = rowNumber => rows[rowNumber];
+
 
 //move constants to a new js file
 const load_pages = 7
@@ -25,6 +23,20 @@ function printDate(date){
 
 function parseDate(date){
 	return date.toString().split('GMT')[0]
+}
+
+function colorScheme(status){ //color table
+	switch(status){
+	case "CI":
+		return "#D3D3D3";
+		break;
+	case "CO":
+		return "#C41F3B";
+		break;
+	case "NCI":
+		return "#A330C9";
+		break;		
+	}
 }
 
 function filter_date(booking){
@@ -62,9 +74,9 @@ function getDateRange(week){
 	}
 }
 
-function populateGrid(content){
-	return <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-}
+// function populateGrid(content){
+// 	return <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
+// }
 
 async function updateStatusQuery(bookingObject){
 
@@ -83,30 +95,6 @@ async function updateStatusQuery(bookingObject){
 	sql.close()
 }
 
-async function updateDaysQuery(bookingObject){
-
-	const sqlConfig = require('../../js/sqlconfig')
-	const sql = require('mssql')
-	let pool = await sql.connect(sqlConfig)
-
-	let days = bookingObject.Days
-	let bookingId = parseInt(bookingObject.BookingID)
-
-	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Days = '" + days + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
-
-	let result = await pool.request()
-		 .query(queryString)
-
-	let noDays = bookingObject.NoDays
-
-	queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.NoDays = " + noDays + " WHERE dbo.BookingObjects.BookingID = " + bookingId
-
-	result = await pool.request()
-		 .query(queryString)
-
-	sql.close()
-}
-
 export default class Calendar extends React.Component {
 	constructor(props){
 		super(props)
@@ -117,19 +105,7 @@ export default class Calendar extends React.Component {
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare: false,
-			rows,
-			selectedIndexes: [],
 		}
-		this._columns = [
-			{ key: 'info', name: 'Client/Dog' },
-			{ key: 'm', name: 'Monday'},
-			{ key: 't', name: 'Tuesday' },
-			{ key: 'w', name: 'Wednesday' },
-			{ key: 'r', name: 'Thursday' },
-			{ key: 'f', name: 'Friday' },
-			{ key: 'total', name: 'Total'},
-			{ key: 'co', name: 'Check-Out' } ];
-
 
 		this.changeState = this.changeState.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
@@ -138,11 +114,7 @@ export default class Calendar extends React.Component {
 		this.getNextAction = this.getNextAction.bind(this)
 		this.switch_booking = this.switch_booking.bind(this)
 		this.switch_view = this.switch_view.bind(this)
-		this.createRows = this.createRows.bind(this)
-		this.rowGetter = this.rowGetter.bind(this)
-		this.setRows = this.setRows.bind(this)
-		this.emptyRows = this.emptyRows.bind(this)
-		this.onCellSelected = this.onCellSelected.bind(this)
+
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -155,7 +127,6 @@ export default class Calendar extends React.Component {
 	}
 
 	nextWeek(){
-		this.emptyRows()
 		week = this.state.week + 1
 		this.setState({
 			week : week,
@@ -164,7 +135,6 @@ export default class Calendar extends React.Component {
 	}
 
 	prevWeek(){
-		this.emptyRows()
 		week = this.state.week - 1
 		this.setState({
 			week : week,
@@ -236,194 +206,6 @@ export default class Calendar extends React.Component {
 		else
 			return "Check-Out"
 	}
-	
-	createRows(booking) {
-		let day = (booking.Days)
-
-		let total = booking.NoDays * booking.DayCareRate
-
-		let taxRate = 8
-
-		let tax = ((total*taxRate)/100)
-
-		total = total + tax
-
-		rows.push({
-			info: booking.FirstName + ' ' + booking.LastName + '/' + booking.AnimalName,
-			m: (day.includes("m")) ? 'X' : '',
-			t: (day.includes("t")) ? 'X' : '',
-			w: (day.includes("w")) ? 'X' : '',
-			r: (day.includes("r")) ? 'X' : '',
-			f: (day.includes("f")) ? 'X' : '',
-			total: total.toFixed(2),
-			co: 'button',
-			booking: booking
-			}
-		);
-	}
-
-	rowGetter(i) {
-			return this._rows[i];
-	}
-
-
-	onCellSelected ( rowIdx, idx )  {
-		if(rowIdx.idx >= 1 && rowIdx.idx <= 5){
-			switch(rowIdx.idx) {
-				case 1:
-					if( this._rows[rowIdx.rowIdx].m !== 'X'){
-							this._rows[rowIdx.rowIdx].m = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
-
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = this._rows[rowIdx.rowIdx].total + total
-					}
-					else{
-						this._rows[rowIdx.rowIdx].m = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					break;
-				case 2:
-					if( this._rows[rowIdx.rowIdx].t !== 'X'){
-							this._rows[rowIdx.rowIdx].t = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					else{
-						this._rows[rowIdx.rowIdx].t = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					break;
-				case 3:
-					if( this._rows[rowIdx.rowIdx].w !== 'X'){
-							this._rows[rowIdx.rowIdx].w = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					else{
-						this._rows[rowIdx.rowIdx].w = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					break;
-				case 4:
-					if( this._rows[rowIdx.rowIdx].r !== 'X'){
-							this._rows[rowIdx.rowIdx].r = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					else{
-						this._rows[rowIdx.rowIdx].r = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					break;
-				case 5:
-					if( this._rows[rowIdx.rowIdx].f !== 'X'){
-							this._rows[rowIdx.rowIdx].f = 'X'
-							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
-					this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'f'
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					else{
-						this._rows[rowIdx.rowIdx].f = ''
-						this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
-						this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
-							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
-
-						let taxRate = 8
-
-					let tax = ((total*taxRate)/100)
-
-					total = total + tax
-							this._rows[rowIdx.rowIdx].total = total.toFixed(2)
-					}
-					break;
-		}
-		updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
-		this.setRows()
-	}
-	};
-
-	setRows(){
-	this._rows = rows;
-	};
-
-	emptyRows(){
-		rows = []
-		this._rows = []
-	}
 
 	render() {
 		week = this.state.week;
@@ -437,11 +219,11 @@ export default class Calendar extends React.Component {
 		//<button onClick ={() => {this.getCheckOutScreen(obj)}}> {this.getNextAction(obj)} </button>
 		//this.getStatus(obj) == ('Not Checked-In') ?
 
+		let current = current_week.filter(filter_daycare)
 
 		if (bookings_list){
 			if (this.state.calendar == 'Grid'){
 				if (this.state.daycare){
-					const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
 					return(
 						<div className="box cal">
 							<div>
@@ -458,24 +240,7 @@ export default class Calendar extends React.Component {
 								</select>
 								<br></br>
 							</div>
-							{current_week.filter(filter_daycare).map(obj => //arrow function instead
-								<div key = {obj.BookingID}>
-									{this.createRows(obj)}
-								</div>
-								)
-							}
-							{this.setRows()}
-							<div style={{marginTop: '20px'}} >
-								<ReactDataGrid
-									ref={ node => this.grid = node }
-									columns={this._columns}
-									rowGetter={this.rowGetter}
-									rowsCount={this._rows.length}
-									minHeight={500}
-									enableCellSelect={true}
-									onCellSelected={this.onCellSelected}
-								/>
-							</div>
+							<Grid current = {current} />
 						</div>
 					);
 				}
@@ -497,8 +262,12 @@ export default class Calendar extends React.Component {
 								<br></br>
 							</div>
 							<div className = "center"><h2>    Monday     Tuesday   Wednesday   Thursday     Friday      Saturday      Sunday</h2></div>
-							<GridLayout className="layout" cols={7} rowHeight={10} width={1000} isResizable = {false} verticalCompact = {false}>
-								{populateGrid(current_week)}
+							<GridLayout className="layout" cols={7} rowHeight={12} width={1000} isResizable = {false} verticalCompact = {false}>
+								{
+								current.map(obj => 
+									<div className = {"yellow"} key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
+								)
+								}
 								<div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
 								<div className = "green" key="e" data-grid={{x: 4, y: 0, w: 1, h: 2}}><b>{bookings_list[1201].AnimalName}/{bookings_list[1201].FirstName} {bookings_list[1201].LastName}</b></div>
 								<div className = "yellow" key="4" data-grid={{x: 4, y: 1, w: 1, h: 2}}><b>{bookings_list[1204].AnimalName}/{bookings_list[1204].FirstName} {bookings_list[1204].LastName}</b></div>
@@ -538,7 +307,7 @@ export default class Calendar extends React.Component {
 							</thead>
 							<tbody>
 						{
-						current_week.filter(filter_daycare).map(obj => //arrow function instead
+						current.map(obj => //arrow function instead
 							<tr style={{height: '50px'}} key = {obj.BookingID}>
 									<td>{obj.AnimalName}</td>
 									<td>{obj.FirstName} {obj.LastName}</td>
