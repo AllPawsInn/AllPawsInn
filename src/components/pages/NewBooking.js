@@ -18,11 +18,11 @@ function create_date(datestr,clientID){
 	return buffer;
 
 }
-async function selectClient(client){
+async function selectClient(client,VetId){
 	let pool = await sql.connect(sqlConfig)
+	let vetId=VetId;
 	let id='';
-
-	let qr = `select * from ClientDetails where Email = '${client.Email}' and LastName = '${client.LastName}' and Address1 = '${client.Adress}'`
+	let qr = `select * from ClientDetails where Email = '${client.Email}' and LastName = '${client.LastName}' and Address1 = '${client.Adress}' and VetSurgeryID='${vetId}'`
 	//if err s
 	await pool.request().query(qr)
 .then(result => {
@@ -67,20 +67,25 @@ async function selectAnimal(animal,clientID){
 	return id;
 }
 
-async function newClient(client){
+async function newClient(client,vetId){
+	let vetID = vetId;
 	let pool = await sql.connect(sqlConfig)
-	let qr = `INSERT INTO ClientDetails (FirstName,LastName,Address1,Email,PostcodeZIP,PartnerName,Referred,TelHome,TelWork,VetSurgeryId)
-	VALUES ('${client.FirstName}','${client.LastName}','${client.Adress}','${client.Email}','${client.Zip}','${client.PartnerName}','${client.PracticeName}','${client.Contact_home}','${client.Contact_work}','1')`
+	let qr = `INSERT INTO ClientDetails (FirstName,LastName,Address1,Email,PostcodeZIP,TelHome,TelWork,VetSurgeryId)
+	VALUES ('${client.FirstName}','${client.LastName}','${client.Adress}','${client.Email}','${client.Zip}','${client.Contact_home}','${client.Contact_work}','${vetId}')`
 	//if err s
 	await pool.request().query(qr)
 	sql.close()
 	console.log("client created...")
+	return vetID;
 }
+
+
 async function newAnimal(animal,clientID){
 	let clientid=clientID
+	console.dir(clientid)
 	let pool = await sql.connect(sqlConfig)
-	let qr = `INSERT INTO Animals (ClientID,TypeID,AnimalName,Breed,Sex)
-	VALUES ('${clientID}','2','${animal.AnimalName}','${animal.AnimalBreed}','${animal.AnimalSex}')`
+	let qr = `INSERT INTO Animals (ClientID,TypeID,AnimalName,Breed,Sex,Food1TypeName,Food1Freq,Food1Amount,MedicalConditions)
+	VALUES ('${clientID}','2','${animal.AnimalName}','${animal.AnimalBreed}','${animal.AnimalSex}','${animal.FoodType}','${animal.FoodFreq}','${animal.FoodAmount}','${animal.Vaccine}')`
 	//if err s
 	await pool.request().query(qr)
 	sql.close()
@@ -91,7 +96,7 @@ async function newBooking(animal,animalID){
 
 	let pool = await sql.connect(sqlConfig)
 	let qr = `INSERT INTO BookingObjects (AnimalID,KennelID,DateIn,DateOut,Status)
-	VALUES ('${animalID}','1345484','2019-02-21T18:10:00', '2019-01-01T00:00:00','CI')`
+	VALUES ('${animalID}','1345484','2019-01-01T00:00:00', '2019-01-01T00:00:00','CI')`
 	//if err s
 	await pool.request().query(qr).then(result => {
 
@@ -106,7 +111,7 @@ async function newBooking(animal,animalID){
 async function getBooking(animal,id){
 
 	let pool = await sql.connect(sqlConfig)
-	let qr = `select * from VetDetails`
+	let qr = `select * from BookingObjects where AnimalID='${id}'`
 	//if err s
 	await pool.request().query(qr).then(result => {
 		console.dir(result)
@@ -115,6 +120,36 @@ async function getBooking(animal,id){
 		console.log(err)
 	})
 	sql.close()
+}
+
+async function newVet(vet){
+
+	let pool = await sql.connect(sqlConfig)
+	let qr = `INSERT INTO VetDetails (PracticeName,VetName,ContactNo,Address1,Town,Email)
+	VALUES ('${vet.Practice_name}','${vet.Vet_name}','${vet.Contact}', '${vet.Address}','${vet.Town}', '${vet.Email}')`
+	//if err s
+	await pool.request().query(qr).then(result => {
+
+
+	}).catch(err => {
+		console.dir(err)
+	})
+	sql.close()
+	console.log("vet created...")
+}
+async function getVet(vet){
+	let VetId;
+	let pool = await sql.connect(sqlConfig)
+	let qr = `select * from VetDetails where PracticeName='${vet.Practice_name}' and VetName='${vet.Vet_name}' and ContactNo = '${vet.Contact}' and Email='${vet.Email}'`
+	//if err s
+	await pool.request().query(qr).then(result => {
+		console.dir(result)
+		VetId=result.recordset[0].ID;
+	}).catch(err => {
+		console.log(err)
+	})
+	sql.close()
+	return VetId;
 }
 
 export default class NewBooking extends React.Component {
@@ -136,67 +171,59 @@ export default class NewBooking extends React.Component {
 			Adress : event.target[2].value,
 			Email : event.target[3].value,
 			Zip : event.target[4].value,
-			PartnerName : event.target[5].value,
-			PracticeName :event.target[6].value,
-			Contact_home :event.target[7].value,
-			Contact_work :event.target[8].value,
-			Allow_mail:event.target[9].value
+			Contact_home :event.target[5].value,
+			Contact_work :event.target[6].value,
+			Allow_mail:event.target[7].value
 		}
-
-		// newClient(client_details);
-
 
 		let animal = {
-			AnimalName : event.target[10].value,
-			AnimalBreed : event.target[11].value,
-			AnimalSex : event.target[12].value,
-			KennelUnit : event.target[13].value,
-			DateIn : create_date(event.target[14].value),
-			DateOut : create_date(event.target[15].value),
+			AnimalName : event.target[8].value,
+			AnimalBreed : event.target[9].value,
+			AnimalSex : event.target[10].value,
+			KennelUnit : event.target[11].value,
+			FoodType: event.target[12].value,
+			FoodFreq: event.target[13].value,
+			FoodAmount: event.target[14].value,
+			Vaccine: event.target[15].value,
+			DateIn : create_date(`${event.target[16].value}`),
+			DateOut : create_date(`${event.target[17].value}`),
 		}
-// 		selectClient(client_details).then(clientID => {
-// 		console.log(clientID)
-// 		newAnimal(animal,clientID).then(result =>{
-// 			console.log(result)
-// 		});
-// });
 
-
-newClient(client_details).then(result => {
-	selectClient(client_details).then(id => {
-		newAnimal(animal,id).then(clientID =>{
-			selectAnimal(animal,clientID).then(id =>{
-					newBooking(animal,id).then(id=>{
-						getBooking(animal,id)
+		let vet_details = {
+			Practice_name : event.target[18].value,
+			Vet_name : event.target[19].value,
+			Contact : event.target[20].value,
+			Address : event.target[21].value,
+			Town : event.target[22].value,
+			Email : event.target[23].value,
+		}
+newVet(vet_details).then(result=>{
+	getVet(vet_details).then(VetId =>{
+		newClient(client_details,VetId).then(VetID => {
+			selectClient(client_details,VetID).then(id => {
+				newAnimal(animal,id).then(clientID =>{
+					selectAnimal(animal,clientID).then(id =>{
+						newBooking(animal,id).then(id=>{
+							getBooking(animal,id)
+							})
 					})
+				})
 			})
 		})
 	})
 })
 
-
-		// let obj = {
-		// 	FirstName : event.target[0].value,
-		// 	LastName : event.target[1].value,
-		// 	animal : event.target[2].value,
-		// 	type : event.target[3].value,
-		// 	kennel : event.target[4].value,
-		// 	DateIn : create_date(event.target[5].value),
-		// 	DateOut : create_date(event.target[6].value)
-		// }
-
-
-
-		//	let num = await pool.request()
-			 // .query("SELECT top 1 * from dbo.BookingObjects order by BookingID desc") //client
-		//if err sql.close
-
-		//make new client and animal database entry
-		//clean this pack up
-		// let tmp = booking_lib.create_booking(this.props.animal, obj)
-		// tmp.BookingID = this.props.id_object.current_id++
-		// this.props.bookings.push(tmp)
-		// buffer array until a neat way to put array push /w set state
+// newClient(client_details).then(result => {
+// 	selectClient(client_details).then(id => {
+// 		newAnimal(animal,id).then(clientID =>{
+// 			selectAnimal(animal,clientID).then(id =>{
+// 					newBooking(animal,id).then(id=>{
+// 						getBooking(animal,id)
+// 					})
+// 			})
+// 		})
+// 	})
+// })
 		this.props.updateScreen("home")
 
 	}
@@ -208,42 +235,77 @@ newClient(client_details).then(result => {
 		//calendar no hour input atm
 		return (
 			<div className = "box cal">
-				<h1>New Booking</h1>
+				<h1>New Booking</h1><br></br>
 				<form onSubmit = {this.handleSubmit}>
-					<br></br>
 					<b><h2>Client</h2></b>
 					<div className = "box">
-						<b>First Name</b><input name = "FirstName" type = "text"/><br></br>
-						<b>Last Name</b><input name = "LastName" type = "text"/><br></br>
-						<b>Address</b><input name = "Address1"type = "text"/><br></br>
-						<b>Email</b><input name = "LastName" type = "text"/><br></br>
-						<b>Postcode ZIP</b><input name = "PostcodeZIP" type = "text"/><br></br>
-						<b>Partner Name</b><input name = "PartnerName" type = "text"/><br></br>
-						<b>Practice Name</b><input name = "PracticeName" type = "text"/><br></br>
-						<b>Contact(Home)</b><input name = "TelHome" type = "text"/><br></br>
-						<b>Contact(Work)</b><input name = "TelWork" type = "text"/><br></br>
-						<b>Allow Mailings</b>
-						<select name = "Mailings">
-						  <option value = "Yes">Yes</option>
-						  <option value = "No">No</option>
-					  </select>
-					</div>
-					<br></br>
+					<div className="row">
+				<div className="col-sm-6"><b>First Name *</b><input name = "FirstName" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Last Name *</b><input name = "LastName" type = "text"/><br></br></div>
+				</div>
+				<div className="row">
+			<div className="col-sm-6"><b>Address *</b><input name = "Address1" type = "text" /><br></br></div>
+		<div className="col-sm-6"><b>Email *</b><input name = "Email" type = "text"/><br></br></div>
+			</div>
+			<div className="row">
+		<div className="col-sm-6"><b>Postcode ZIP</b><input name = "PostcodeZIP" type = "text"/><br></br></div>
+		<div className="col-sm-6"><b>Contact(Home)</b><input name = "TelHome" type = "text"/><br></br></div>
+		</div>
+
+	<div className="row">
+<div className="col-sm-6"><b>Contact(Work)</b><input name = "TelWork" type = "text"/><br></br></div>
+<div className="col-sm-6"><b>Allow Mailings</b>
+<select name = "Mailings">
+	<option value = "Yes">Yes</option>
+	<option value = "No">No</option>
+</select></div>
+</div>
+</div>
 					<b><h2>Animal</h2></b>
 					<div className = "box">
-						<b>Animal Name</b><input name = "animal_name" type = "text"/><br></br>
-						<b>Animal Breed</b><input name = "type" type = "text"/><br></br>
-						<b>Animal Sex</b><input name = "sex" type = "text"/><br></br>
-						<b>Kennel Unit</b> <input name = "kennel_unit" type = "number" value = {1}/><br></br>
-						<b>Date In</b><Calendar format='MM/DD/YYYY' date = '3-20-2018'/><br></br>
-						<b>Date Out</b><Calendar format='MM/DD/YYYY' date = '3-25-2018'/><br></br>
-					</div>
-					<br></br>
-					<b><h2>Veterinary</h2></b>
-					<div className = "box">
+					<div className="row">
+  			<div className="col-sm-6"><b>Animal Name *</b><input name = "animal_name" type = "text"/><br></br></div>
+  		<div className="col-sm-6"><b>Animal Breed *</b><input name = "type" type = "text"/><br></br></div>
+				</div>
+				<div className="row">
+			<div className="col-sm-6"><b>Animal Sex</b><input name = "sex" type = "text"/><br></br></div>
+		<div className="col-sm-6"><b>Kennel Unit</b> <input name = "kennel_unit" type = "text"/><br></br></div>
+			</div>
 
-					<input type = "Submit" value = "Submit"/>
+			<div className="row">
+		<div className="col-sm-6"><b>Food Type</b><input name = "food_type" type = "text"/><br></br></div>
+	<div className="col-sm-6"><b>Food Frequency</b> <input name = "food_freq" type = "text"/><br></br></div>
+		</div>
+
+		<div className="row">
+	<div className="col-sm-6"><b>Food Amount</b><input name = "food_amount" type = "text"/><br></br></div>
+<div className="col-sm-6"><b>Vaccine</b> <input name = "vaccine" type = "text"/><br></br></div>
+	</div>
+
+			<div className="row">
+		<div className="col-sm-6"><b>Date In *</b><Calendar format='MM/DD/YYYY' date = '3-20-2018'/></div>
+	<div className="col-sm-6"><b>Date Out *</b><Calendar format='MM/DD/YYYY' date = '3-25-2018'/><br></br></div>
+		</div>
+
 					</div>
+					<b><h2>Vet Details</h2></b>
+					<div className = "box">
+					<div className="row">
+  			<div className="col-sm-6"><b>Practice Name *</b><input name = "practice_name" type = "text"/><br></br></div>
+  		<div className="col-sm-6"><b>Vet Name *</b><input name = "vet_name" type = "text"/><br></br></div>
+				</div>
+				<div className="row">
+			<div className="col-sm-6"><b>Contact No</b><input name = "contact" type = "text"/><br></br></div>
+		<div className="col-sm-6"><b>Address</b> <input name = "contact" type = "text"/><br></br></div>
+			</div>
+			<div className="row">
+		<div className="col-sm-6"><b>Town</b><input name = "town" type = "text"/></div>
+	<div className="col-sm-6"><b>Email</b><input name = "email" type = "text"/><br></br></div>
+		</div>
+
+					</div>
+					<br></br><input type = "Submit" value = "Submit"/>
+
 
 
 				</form>
