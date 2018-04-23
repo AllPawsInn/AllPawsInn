@@ -43,7 +43,8 @@ export default class Grid extends React.Component {
 		}
 
 		this._columns = [
-			{ key: 'info', name: 'Client/Dog' },
+			{ key: 'client', name: 'Client' },
+			{ key: 'dog', name: 'Dog'},
 			{ key: 'm', name: 'Monday'},
 			{ key: 't', name: 'Tuesday' },
 			{ key: 'w', name: 'Wednesday' },
@@ -73,7 +74,8 @@ export default class Grid extends React.Component {
 		total = total + tax
 
 		rows.push({
-			info: booking.FirstName + ' ' + booking.LastName + '/' + booking.AnimalName,
+			client: booking.FirstName + ' ' + booking.LastName,
+			dog: booking.AnimalName,
 			m: (day.includes("m")) ? 'X' : '',
 			t: (day.includes("t")) ? 'X' : '',
 			w: (day.includes("w")) ? 'X' : '',
@@ -337,9 +339,11 @@ export default class Grid extends React.Component {
 	render(){
 		this.emptyRows()
 		const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
+		let curList = this.props.current.sort(function(a,b){return a.DateIn < b.DateIn})
+		// TODO: Add first-to-last & last-to-first switch
 		return(
 			<div>
-				{this.props.current.map(obj => //arrow function instead
+				{curList.map(obj => //arrow function instead
 					<div key = {obj.BookingID}>
 						{this.createRows(obj)}
 					</div>

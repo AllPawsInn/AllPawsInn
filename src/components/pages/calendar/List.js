@@ -87,6 +87,8 @@ export default class List extends React.Component {
 	}
 
 	render(){
+		let curList = this.props.current.sort(function(a,b){return a.DateIn < b.DateIn})
+		// TODO: Add first-to-last & last-to-first switch
 		return(
 			<div>
 				<table className = "table table-hover" style={{marginTop: '20px'}}>
@@ -101,7 +103,7 @@ export default class List extends React.Component {
 					</thead>
 					<tbody>
 					{
-					this.props.current.map(obj => //arrow function instead
+					curList.map(obj => //arrow function instead
 						<tr style={{height: '50px'}} key = {obj.BookingID}>
 								<td>{obj.AnimalName}</td>
 								<td>{obj.FirstName} {obj.LastName}</td>
