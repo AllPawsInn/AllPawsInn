@@ -149,9 +149,9 @@ export default class Calendar extends React.Component {
 							<option value = {true}>Daycare</option>
 							<option value = {false}>Boarding</option>
 						</select>
-						<button className = "profileButton" onClick = {this.nextWeek}> Prev </button>
-						<h6 style = {{width:'550px', alignText:'center'}}>  {printDate(range.mon)} / {printDate(range.sun)}  </h6>
-						<button className = "profileButton" onClick = {this.prevWeek}> Next </button>
+						<button className = "dateButton" onClick = {this.nextWeek}> Prev </button>
+						<p className = "datePicker">  {printDate(range.mon)} / {printDate(range.sun)}  </p>
+						<button className = "dateButton" onClick = {this.prevWeek}> Next </button>
 						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
 							<option value = {"List"}>List</option>
 							<option value = {"Grid"}>Grid</option>

@@ -235,9 +235,9 @@ newVet(vet_details).then(result=>{
 		//calendar no hour input atm
 		return (
 			<div className = "box cal">
-				<h1>New Booking</h1><br></br>
+				<h3>New Booking</h3><br></br>
 				<form onSubmit = {this.handleSubmit}>
-					<b><h2>Client</h2></b>
+					<b><h4>Client</h4></b>
 					<div className = "box">
 					<div className="row">
 				<div className="col-sm-6"><b>First Name *</b><input name = "FirstName" type = "text"/><br></br></div>
@@ -261,7 +261,7 @@ newVet(vet_details).then(result=>{
 </select></div>
 </div>
 </div>
-					<b><h2>Animal</h2></b>
+					<b><h4>Animal</h4></b>
 					<div className = "box">
 					<div className="row">
   			<div className="col-sm-6"><b>Animal Name *</b><input name = "animal_name" type = "text"/><br></br></div>
@@ -288,7 +288,7 @@ newVet(vet_details).then(result=>{
 		</div>
 
 					</div>
-					<b><h2>Vet Details</h2></b>
+					<b><h4>Vet Details</h4></b>
 					<div className = "box">
 					<div className="row">
   			<div className="col-sm-6"><b>Practice Name *</b><input name = "practice_name" type = "text"/><br></br></div>
@@ -304,7 +304,7 @@ newVet(vet_details).then(result=>{
 		</div>
 
 					</div>
-					<br></br><input type = "Submit" value = "Submit"/>
+					<br></br><input className = "profileButton" type = "Submit" value = "Submit"/>
 
 
 

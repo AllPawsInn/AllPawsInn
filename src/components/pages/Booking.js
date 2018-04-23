@@ -202,7 +202,7 @@ export default class Booking extends React.Component {
 
 		return(
 			<div className = "box cal">
-				<h1>Booking</h1>
+				<h3>Booking</h3>
 				<select onChange = {this.dropdownSelected} label="Multiple Select" multiple>
 					{dropdown}
 				</select><br></br>
@@ -219,9 +219,9 @@ export default class Booking extends React.Component {
 					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
 					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
-					<span style={left}><button onClick = {this.handleSubmit}> Submit </button></span>
+					<span style={left}><button className = "profileButton" onClick = {this.handleSubmit}> Submit </button></span>
 				</div>
-				<button onClick = {this.submitAll}>Submit All</button>
+				<button className = "profileButton" onClick = {this.submitAll}>Submit All</button>
 			</div>
 		)
 	}

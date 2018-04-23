@@ -69,8 +69,8 @@ export default class Payment extends React.Component {
 		let booking = this.state.booking;
 		return (
 			<div className = "box cal">
-			<h1>Payment</h1>
-			<h3>Booking</h3>
+			<h3>Payment</h3>
+			<h4>Booking</h4>
 			<div className = "box" style = {left}>
 				<b>Animal Name:</b> {this.props.booking.AnimalName !=  null ? this.props.booking.AnimalName : ''}<br></br>
 				<b>Client Name:</b> {this.props.booking.FirstName} {this.props.booking.LastName}<br></br>
@@ -99,12 +99,12 @@ export default class Payment extends React.Component {
 				<b>TOTAL: $ </b>{this.getTotal(booking).toFixed(2)}<br></br>
 			</div>
 			<br></br>
-			<h3>Total Charges</h3>
+			<h4>Total Charges</h4>
 			<div className = "box">
 					<b>Net Booking Charges   $</b>{this.getTotal(booking).toFixed(2)}<br></br>
 					<b>NY State Tax   $</b>{this.getTax(booking).toFixed(2)}<hr></hr>
 					<b>Total To Pay   $</b>{this.getTotalToPay(booking).toFixed(2)}<hr></hr>
-					<span style={left}><button onClick = {this.handleSubmit}> Take Payment </button></span>
+					<span style={left}><button className = "profileButton" onClick = {this.handleSubmit}> Take Payment </button></span>
 			</div>
 			</div>
 			)
