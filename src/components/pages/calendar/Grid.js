@@ -134,7 +134,7 @@ export default class Grid extends React.Component {
 				dayNo = 7
 				break;
 		}
-		if(rowIdx.idx >= 1 && rowIdx.idx <= 6){
+		if(rowIdx.idx >= 2 && rowIdx.idx <= 7){
 			switch(rowIdx.idx){
 				case 2:
 					if(dayNo <= 1){
@@ -385,7 +385,7 @@ export default class Grid extends React.Component {
 						columns={this._columns}
 						rowGetter={this.rowGetter}
 						rowsCount={this._rows.length}
-						minHeight={500}
+						minHeight={600}
 						enableCellSelect={true}
 						onCellSelected={this.onCellSelected}
 						getCellActions={this.getCellActions}
