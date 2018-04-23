@@ -62,7 +62,7 @@ export default class Payment extends React.Component {
 	}
 
 	handleSubmit(event){
-		this.props.updateScreen("home")
+		this.props.updateScreen("calendar")
 	}
 
 	render(){

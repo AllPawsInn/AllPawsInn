@@ -1,5 +1,3 @@
-// ---------------------------------------- TO DO ----------------------------------------
-
 'use babel';
 
 import React from 'react';
@@ -138,7 +136,7 @@ export default class Grid extends React.Component {
 		}
 		if(rowIdx.idx >= 1 && rowIdx.idx <= 6){
 			switch(rowIdx.idx){
-				case 1:
+				case 2:
 					if(dayNo <= 1){
 						if(this._rows[rowIdx.rowIdx].m !== 'X'){
 							this._rows[rowIdx.rowIdx].m = 'X'
@@ -171,7 +169,7 @@ export default class Grid extends React.Component {
 						}
 					}
 					break;
-				case 2:
+				case 3:
 					if(dayNo <= 2){
 						if(this._rows[rowIdx.rowIdx].t !== 'X'){
 							this._rows[rowIdx.rowIdx].t = 'X'
@@ -203,7 +201,7 @@ export default class Grid extends React.Component {
 						}
 					}
 					break;
-				case 3:
+				case 4:
 					if(dayNo <= 3){
 						if(this._rows[rowIdx.rowIdx].w !== 'X'){
 							this._rows[rowIdx.rowIdx].w = 'X'
@@ -236,7 +234,7 @@ export default class Grid extends React.Component {
 						}
 					}
 					break;
-				case 4:
+				case 5:
 					if(dayNo <= 4){
 						if(this._rows[rowIdx.rowIdx].r !== 'X'){
 							this._rows[rowIdx.rowIdx].r = 'X'
@@ -269,7 +267,7 @@ export default class Grid extends React.Component {
 						}
 					}
 					break;
-				case 5:
+				case 6:
 					if(dayNo <= 5){
 						if(this._rows[rowIdx.rowIdx].f !== 'X'){
 							this._rows[rowIdx.rowIdx].f = 'X'
@@ -302,7 +300,7 @@ export default class Grid extends React.Component {
 						}
 					}
 					break;
-				case 6:
+				case 7:
 					if(dayNo <= 6){
 						if(this._rows[rowIdx.rowIdx].s !== 'X'){
 							this._rows[rowIdx.rowIdx].s = 'X'
@@ -336,14 +334,13 @@ export default class Grid extends React.Component {
 					}
 					break;
 			}
-			updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
 			this.setRows()
+			updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
 		}
-
 	};
 
 	setRows(){
-	this._rows = rows;
+		this._rows = rows;
 	};
 
 	emptyRows(){
