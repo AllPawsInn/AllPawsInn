@@ -119,7 +119,7 @@ export default class Calendar extends React.Component {
 
 	render() {
 		week = this.state.week;
-		//to do 
+		//to do
 		// have current week's bookings in a new array as another state property
 		// avoid iterating over all the bookings on a daycare/boarding switch
 		let range = getDateRange(week)
@@ -131,7 +131,7 @@ export default class Calendar extends React.Component {
 		let panel
 		if (this.state.calendar == 'Grid'){
 			if (this.state.daycare){
-				panel = <Grid current = {current} />
+				panel = <Grid current = {current} payment = {this.props.payment} />
 			}
 			else
 				panel = <Layout bookings_list = {bookings_list} current = {current} />

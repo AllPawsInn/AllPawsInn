@@ -67,7 +67,6 @@ export default class Payment extends React.Component {
 
 	render(){
 		let booking = this.state.booking;
-
 		return (
 			<div className = "box cal">
 			<h1>Payment</h1>

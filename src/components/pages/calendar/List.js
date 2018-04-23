@@ -5,7 +5,6 @@
 import React from 'react';
 
 async function updateStatusQuery(bookingObject){
-
 	const sqlConfig = require('../../../js/sqlconfig')
 	const sql = require('mssql')
 	let pool = await sql.connect(sqlConfig)
@@ -19,7 +18,6 @@ async function updateStatusQuery(bookingObject){
 		 .query(queryString)
 
 	sql.close()
-
 }
 
 function parseDate(date){

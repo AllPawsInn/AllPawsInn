@@ -11,7 +11,6 @@ const rowGetter = rowNumber => rows[rowNumber];
 
 
 async function updateDaysQuery(bookingObject){
-
 	const sqlConfig = require('../../../js/sqlconfig')
 	const sql = require('mssql')
 	let pool = await sql.connect(sqlConfig)
@@ -34,6 +33,22 @@ async function updateDaysQuery(bookingObject){
 	sql.close()
 }
 
+async function updateStatusQuery(bookingObject){
+	const sqlConfig = require('../../../js/sqlconfig')
+	const sql = require('mssql')
+	let pool = await sql.connect(sqlConfig)
+
+	let stat = bookingObject.Status
+	let bookingId = parseInt(bookingObject.BookingID)
+
+	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+
+	let result = await pool.request()
+		 .query(queryString)
+
+	sql.close()
+}
+
 export default class Grid extends React.Component {
 	constructor(props){
 		super(props)
@@ -51,8 +66,7 @@ export default class Grid extends React.Component {
 			{ key: 'r', name: 'Thursday' },
 			{ key: 'f', name: 'Friday' },
 			{ key: 's', name: 'Saturday'},
-			{ key: 'total', name: 'Total'},
-			{ key: 'co', name: 'Check-Out' }
+			{ key: 'total', name: 'Check-Out'}
 		];
 
 		this.createRows = this.createRows.bind(this)
@@ -60,6 +74,8 @@ export default class Grid extends React.Component {
 		this.setRows = this.setRows.bind(this)
 		this.emptyRows = this.emptyRows.bind(this)
 		this.onCellSelected = this.onCellSelected.bind(this)
+		this.getCellActions = this.getCellActions.bind(this)
+		this.getPayment = this.getPayment.bind(this)
 	}
 
 	createRows(booking) {
@@ -83,7 +99,6 @@ export default class Grid extends React.Component {
 			f: (day.includes("f")) ? 'X' : '',
 			s: (day.includes("s")) ? 'X' : '',
 			total: total.toFixed(2),
-			co: 'Check-Out',
 			booking: booking
 			}
 		);
@@ -336,6 +351,23 @@ export default class Grid extends React.Component {
 		this._rows = []
 	}
 
+	getCellActions(column, row) {
+	    if (column.key === 'total') {
+	      return [
+	        {
+	          icon: 'glyphicon glyphicon-usd',
+	          callback: () => { this.getPayment(row.booking)}
+	        }
+	      ];
+    	}
+  	}
+
+  	getPayment(obj){
+  		obj.Status = 'CO'
+  		this.props.payment(obj)
+  		updateStatusQuery(obj)
+  	}
+
 	render(){
 		this.emptyRows()
 		const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
@@ -359,6 +391,7 @@ export default class Grid extends React.Component {
 						minHeight={500}
 						enableCellSelect={true}
 						onCellSelected={this.onCellSelected}
+						getCellActions={this.getCellActions}
 					/>
 				</div>
 			</div>
