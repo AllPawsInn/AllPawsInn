@@ -220,7 +220,70 @@ h6 {
   background-color: #FAFAFA;
 }
 
-
 #dataGrid div.react-grid-Row--even .react-grid-Cell {
  background-color: #CCC;
+}
+
+.datePicker {
+  background: #FFFFFF;
+  border: 1px solid #EBEBEB;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.29);
+  border-radius: 100px;
+  color: #4A4A4A;
+  padding: 5px 10px;
+  letter-spacing: -0.4px;
+  display: inline-block;
+  width: 300px;
+  text-align: center;
+}
+
+.dateButton {
+  background: #D7E8F7;
+  color: #299CF5;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+  border: none;
+  border-radius: 100px;
+  transition-duration: 0.4s;
+  padding: 11px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 15px;
+}
+
+.dateButton:hover {
+  background-color: royalblue;
+  color: #FAFAFA;
+}
+
+.searchClose {
+  position: absolute;
+  margin-top: -31px;
+  right: 50px;
+}
+
+.checkButton {
+  background: #D7E8F7;
+  color: #299CF5;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+  border: none;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  padding: 8px 17px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 5px;
+  display: inline-block;
+  width: 100px;
+}
+
+.checkButton:hover {
+  background-color: royalblue;
+  color: #FAFAFA;
+}
+
+#paymentInput input {
+    left: 120px;
+    position: absolute;
 }

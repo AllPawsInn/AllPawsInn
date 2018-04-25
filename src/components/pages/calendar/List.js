@@ -5,7 +5,6 @@
 import React from 'react';
 
 async function updateStatusQuery(bookingObject){
-
 	const sqlConfig = require('../../../js/sqlconfig')
 	const sql = require('mssql')
 	let pool = await sql.connect(sqlConfig)
@@ -19,7 +18,6 @@ async function updateStatusQuery(bookingObject){
 		 .query(queryString)
 
 	sql.close()
-
 }
 
 function parseDate(date){
@@ -87,13 +85,15 @@ export default class List extends React.Component {
 	}
 
 	render(){
+		let curList = this.props.current.sort(function(a,b){return a.DateIn < b.DateIn})
+		// TODO: Add first-to-last & last-to-first switch
 		return(
 			<div>
 				<table className = "table table-hover" style={{marginTop: '20px'}}>
 					<thead>
 						<tr>
-							<th style={{width: '10%'}}>Dog Name</th>
-							<th style={{width: '20%'}}>Client Name</th>
+							<th style={{width: '18%'}}>Client Name</th>
+							<th style={{width: '12%'}}>Dog Name</th>
 							<th style={{width: '23%'}}>Date In</th>
 							<th style={{width: '23%'}}>Date Out</th>
 							<th style={{width: '24%'}}>Status</th>
@@ -101,14 +101,14 @@ export default class List extends React.Component {
 					</thead>
 					<tbody>
 					{
-					this.props.current.map(obj => //arrow function instead
+					curList.map(obj => //arrow function instead
 						<tr style={{height: '50px'}} key = {obj.BookingID}>
-								<td>{obj.AnimalName}</td>
 								<td>{obj.FirstName} {obj.LastName}</td>
+								<td>{obj.AnimalName}</td>
 								<td>{parseDate(obj.DateIn)}</td>
 								<td>{parseDate(obj.DateOut)}</td>
-								<td><span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
-								{this.getStatus(obj) == ('Checked-Out') ? '' : <button style={{right:'0px'}} className = "profileButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button> }</td>
+								<td style={{textAlign:"right"}}><span style = {this.getStatus(obj) == ('Checked-Out') ? coStyle : this.getStatus(obj) == ('Checked-In') ? ciStyle : notStyle}><b>{this.getStatus(obj)}</b></span>
+								{this.getStatus(obj) == ('Checked-Out') ? '' : <button className = "checkButton" onClick ={() => {this.changeState(obj)}}> {this.getNextAction(obj)} </button> }</td>
 						</tr>
 						)
 					}
@@ -121,15 +121,18 @@ export default class List extends React.Component {
 
 const coStyle = {
 	color : "green",
-	paddingRight : 10
+	paddingRight : 10,
+	float : "left"
 }
 
 const notStyle = {
 	color : "red",
-	paddingRight : 10
+	paddingRight : 10,
+	float : "left"
 }
 
 const ciStyle = {
 	color : "#CCCC00",
-	paddingRight : 10
+	paddingRight : 10,
+	float : "left"
 }

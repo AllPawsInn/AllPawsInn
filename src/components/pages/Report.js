@@ -131,7 +131,7 @@ export default class Report extends React.Component {
           </div>
           <br></br>
           <div className="box">
-            <h4>BOOKING</h4><br></br>
+            <h4>Booking</h4><br></br>
             Number of Bookings Started over previous year:  {filterBookingsLessYear(this.state.bookings)}<br></br>
             Total Number of Future Bookings:  {filterFutureBookings(this.state.bookings)}<br></br>
             Bookings Expected to Start This Week:  {filterFutureWeekBookings(this.state.bookings)}<br></br>
@@ -143,7 +143,7 @@ export default class Report extends React.Component {
           </div>
           <br></br>
           <div className="box">
-            <h4>DATABASE</h4><br></br>
+            <h4>Database</h4><br></br>
             Number of Clients in database: 1398<br></br>
             Number of Animals in database: 1976<br></br>
           </div>

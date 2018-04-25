@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import Calendar from 'react-input-calendar'
 const booking_lib = require('../../js/bookinglib')
 
-function create_date(datestr,clientID){
+function create_date(datestr){
 	let dt_in = datestr.split('/')
 	let buffer = new Date(Date.now())
 	buffer.setMonth(dt_in[0] - 1)
@@ -85,7 +85,7 @@ async function newAnimal(animal,clientID){
 	console.dir(clientid)
 	let pool = await sql.connect(sqlConfig)
 	let qr = `INSERT INTO Animals (ClientID,TypeID,AnimalName,Breed,Sex,Food1TypeName,Food1Freq,Food1Amount,MedicalConditions)
-	VALUES ('${clientID}','2','${animal.AnimalName}','${animal.AnimalBreed}','${animal.AnimalSex}','${animal.FoodType}','${animal.FoodFreq}','${animal.FoodAmount}','${animal.Vaccine}')`
+	VALUES ('${clientID}','2','${animal.AnimalName}','${animal.AnimalBreed}','${animal.AnimalSex}','${animal.FoodType}','${animal.FoodFreq}','${animal.FoodAmount}','${animal.MedicalDetails}')`
 	//if err s
 	await pool.request().query(qr)
 	sql.close()
@@ -95,8 +95,8 @@ async function newAnimal(animal,clientID){
 async function newBooking(animal,animalID){
 
 	let pool = await sql.connect(sqlConfig)
-	let qr = `INSERT INTO BookingObjects (AnimalID,KennelID,DateIn,DateOut,Status)
-	VALUES ('${animalID}','1345484','2019-01-01T00:00:00', '2019-01-01T00:00:00','CI')`
+	let qr = `INSERT INTO BookingObjects (AnimalID,KennelID,DateIn,DateOut,Status,Discount)
+	VALUES ('${animalID}','1345484','${animal.DateIn}', '${animal.DateOut}','CI','${animal.Discount}')`
 	//if err s
 	await pool.request().query(qr).then(result => {
 
@@ -175,8 +175,7 @@ export default class NewBooking extends React.Component {
 			Contact_work :event.target[6].value,
 			Allow_mail:event.target[7].value
 		}
-
-		let animal = {
+	let animal = {
 			AnimalName : event.target[8].value,
 			AnimalBreed : event.target[9].value,
 			AnimalSex : event.target[10].value,
@@ -184,18 +183,19 @@ export default class NewBooking extends React.Component {
 			FoodType: event.target[12].value,
 			FoodFreq: event.target[13].value,
 			FoodAmount: event.target[14].value,
-			Vaccine: event.target[15].value,
-			DateIn : create_date(`${event.target[16].value}`),
-			DateOut : create_date(`${event.target[17].value}`),
+			MedicalDetails: event.target[15].value,
+			Discount:event.target[16].value,
+			DateIn : new Date(`${event.target[17].value}`).toISOString().slice(0, 19).replace('T', ' '),
+			DateOut : new Date(`${event.target[18].value}`).toISOString().slice(0, 19).replace('T', ' '),
 		}
 
 		let vet_details = {
-			Practice_name : event.target[18].value,
-			Vet_name : event.target[19].value,
-			Contact : event.target[20].value,
-			Address : event.target[21].value,
-			Town : event.target[22].value,
-			Email : event.target[23].value,
+			Practice_name : event.target[19].value,
+			Vet_name : event.target[20].value,
+			Contact : event.target[21].value,
+			Address : event.target[22].value,
+			Town : event.target[23].value,
+			Email : event.target[24].value,
 		}
 newVet(vet_details).then(result=>{
 	getVet(vet_details).then(VetId =>{
@@ -213,17 +213,7 @@ newVet(vet_details).then(result=>{
 	})
 })
 
-// newClient(client_details).then(result => {
-// 	selectClient(client_details).then(id => {
-// 		newAnimal(animal,id).then(clientID =>{
-// 			selectAnimal(animal,clientID).then(id =>{
-// 					newBooking(animal,id).then(id=>{
-// 						getBooking(animal,id)
-// 					})
-// 			})
-// 		})
-// 	})
-// })
+
 		this.props.updateScreen("home")
 
 	}
@@ -235,9 +225,9 @@ newVet(vet_details).then(result=>{
 		//calendar no hour input atm
 		return (
 			<div className = "box cal">
-				<h1>New Booking</h1><br></br>
+				<h3>New Booking</h3><br></br>
 				<form onSubmit = {this.handleSubmit}>
-					<b><h2>Client</h2></b>
+					<b><h4>Client</h4></b>
 					<div className = "box">
 					<div className="row">
 				<div className="col-sm-6"><b>First Name *</b><input name = "FirstName" type = "text"/><br></br></div>
@@ -261,7 +251,7 @@ newVet(vet_details).then(result=>{
 </select></div>
 </div>
 </div>
-					<b><h2>Animal</h2></b>
+					<b><h4>Animal</h4></b>
 					<div className = "box">
 					<div className="row">
   			<div className="col-sm-6"><b>Animal Name *</b><input name = "animal_name" type = "text"/><br></br></div>
@@ -279,16 +269,21 @@ newVet(vet_details).then(result=>{
 
 		<div className="row">
 	<div className="col-sm-6"><b>Food Amount</b><input name = "food_amount" type = "text"/><br></br></div>
-<div className="col-sm-6"><b>Vaccine</b> <input name = "vaccine" type = "text"/><br></br></div>
+<div className="col-sm-6"><b>MedicalDetails</b> <input name = "medical_details" type = "text"/><br></br></div>
 	</div>
+	<div className="row">
+<div className="col-sm-6"><b>Discount</b><input name = "discount" type = "text" value = "0"/><br></br></div>
+
+</div>
 
 			<div className="row">
 		<div className="col-sm-6"><b>Date In *</b><Calendar format='MM/DD/YYYY' date = '3-20-2018'/></div>
 	<div className="col-sm-6"><b>Date Out *</b><Calendar format='MM/DD/YYYY' date = '3-25-2018'/><br></br></div>
 		</div>
 
+
 					</div>
-					<b><h2>Vet Details</h2></b>
+					<b><h4>Vet Details</h4></b>
 					<div className = "box">
 					<div className="row">
   			<div className="col-sm-6"><b>Practice Name *</b><input name = "practice_name" type = "text"/><br></br></div>
@@ -304,7 +299,7 @@ newVet(vet_details).then(result=>{
 		</div>
 
 					</div>
-					<br></br><input type = "Submit" value = "Submit"/>
+					<br></br><input className = "profileButton" type = "Submit" value = "Submit"/>
 
 
 

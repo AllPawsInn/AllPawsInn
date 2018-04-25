@@ -8,7 +8,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
     ```sh
     git clone https://github.com/AllPawsInn/AllPawsInn.git
     ```
-2. Navigate into your newly created folder (either 'yourAppName' or electron-react-bootstrap-template):  
+2. Navigate into your newly created folder 'AllPawsInn':  
     ```sh
     cd AllPawsInn
     ```
