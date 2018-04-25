@@ -282,3 +282,12 @@ h6 {
   background-color: royalblue;
   color: #FAFAFA;
 }
+
+#paymentInput input {
+    left: 120px;
+    position: absolute;
+}
+
+#paymentButton input {
+    position: initial;
+}

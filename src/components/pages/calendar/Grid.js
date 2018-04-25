@@ -35,7 +35,6 @@ async function updateBookingQuery(bookingObject){
 	result = await pool.request()
 	 .query(queryString)
 
-
 	sql.close()
 }
 
@@ -52,10 +51,8 @@ async function updateStatusQuery(bookingObject){
 	let result = await pool.request()
 		 .query(queryString)
 
-
 	sql.close()
 }
-
 
 export default class Grid extends React.Component {
 	constructor(props){
