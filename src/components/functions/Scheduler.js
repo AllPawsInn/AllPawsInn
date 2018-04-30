@@ -48,7 +48,11 @@ export default class Report extends React.Component {
     this.state = {
       dogs : this.props.dogs
     }
+    this.handlePrintSubmit = this.handlePrintSubmit.bind(this)
+  }
 
+  handlePrintSubmit(event){
+    window.print()
   }
 
   render() {
@@ -73,6 +77,7 @@ export default class Report extends React.Component {
   </tr>
    </tbody>
 </table>
+<span className="print"><button className = "profileButton" onClick = {this.handlePrintSubmit}> Print </button></span>
 </div>
       );
   }

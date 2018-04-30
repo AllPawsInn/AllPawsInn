@@ -17,6 +17,7 @@ export default class Payment extends React.Component {
 		this.getTotal = this.getTotal.bind(this)
 		this.getTax = this.getTax.bind(this)
 		this.getTotalToPay = this.getTotalToPay.bind(this)
+		this.handlePrintSubmit = this.handlePrintSubmit.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 	}
@@ -70,6 +71,10 @@ export default class Payment extends React.Component {
 	handleSubmit(event){
 		event.preventDefault();
 		this.props.updateScreen("calendar")
+	}
+
+	handlePrintSubmit(event){
+		window.print()
 	}
 
 	handleChange(event){
@@ -151,6 +156,7 @@ export default class Payment extends React.Component {
 						</div>
 						<br></br>
 						<button className = "profileButton" onClick = {this.handleSubmit}> Take Payment </button>
+						<span className="print"><button className = "profileButton" onClick = {this.handlePrintSubmit}> Print </button></span>
 					</form>
 				</div>
 			)
