@@ -13,7 +13,7 @@ function medicalConditions(dogs){
   let medical_list = [];
   for (let i =0; i<dogs.length;i++){
     if (dogs[i].Status=="CI")
-      medical_list.push(<li key={i}>{dogs[i].MedicalConditions}</li>)
+      medical_list.push(<li key={i} style={{color:"red"}}>{dogs[i].MedicalConditions}</li>)
   }
   return medical_list;
 }
@@ -63,7 +63,7 @@ export default class Report extends React.Component {
    <tbody>
        <tr>
        <th><h2>Dog Name</h2></th>
-       <th><h2>Medical</h2></th>
+       <th><h2 style={{color:"red"}}>Medical</h2></th>
        <th><h2>Food Type</h2></th>
        <th><h2>Food Quantity</h2></th>
        <th><h2>Food Frequency</h2></th>

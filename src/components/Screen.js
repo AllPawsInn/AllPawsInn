@@ -34,7 +34,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "full_profile")
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen === "client")
-			return(<ClientProfile animal = {this.props.animal}/>)
+			return(<ClientProfile animal = {this.props.animal} updateScreen = {this.props.updateScreen}/>)
 		else if(this.state.screen === "payment")
 			return(<Payment updateScreen = {this.props.updateScreen} booking = {this.props.booking}/>)
 		else if(this.state.screen === "report")
