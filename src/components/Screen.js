@@ -30,7 +30,7 @@ export default class Screen extends React.Component {
 
 		//can use spread operator on some of them in order to pass properties
 		if(this.state.screen === "about")
-			return <About/ current = {this.props.current}>
+			return <About current = {this.props.current} />
 		else if(this.state.screen === "full_profile")
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen === "client")
