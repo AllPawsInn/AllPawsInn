@@ -7,9 +7,9 @@ import Grid from './calendar/Grid'
 import List from './calendar/List'
 import Layout from './calendar/Layout'
 
-let week = 0;
+let week = 0
 
-let dayCare = true;
+let dayCare = true
 
 //move constants to a new js file
 const load_pages = 7
@@ -26,8 +26,9 @@ function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)
 	//optimize this guy
-	let midpoint = new Date((booking.DateIn.getTime() + booking.DateOut.getTime()) / 2)
-	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon) || (midpoint < range.sun && midpoint > range.mon)
+	// let midpoint = new Date((booking.DateIn.getTime() + booking.DateOut.getTime()) / 2)
+	//|| (booking.DateOut < range.sun && booking.DateOut > range.mon) || (midpoint < range.sun && midpoint > range.mon)
+	return (booking.DateIn < range.sun && booking.DateOut > range.mon) 
 	// ya da ortalamasi aradaysa
 
 	//booking.DayCare == (dayCare == 'true') &&
@@ -67,7 +68,7 @@ export default class Calendar extends React.Component {
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
-			calendar : true,
+			calendar : 'Grid',
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare : dayCare,

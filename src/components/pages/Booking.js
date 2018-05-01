@@ -20,6 +20,11 @@ function form_date(datestr){
 	return `${datestr.getDate()}-${datestr.getMonth() + 1}-${datestr.getFullYear()}`
 }
 
+async function get_available(){
+	let result = await pool.request()
+		.query("SELECT * FROM dbo.KennelOccupancy WHERE Occupancy = 0ORDER BY ID ASC|DESC;")
+}
+
 export default class Booking extends React.Component {
 	constructor(props) {
 		super(props)
