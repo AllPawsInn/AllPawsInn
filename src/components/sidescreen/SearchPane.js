@@ -87,8 +87,8 @@ export default class SearchPane extends React.Component {
 					<SelectableGroup onSelection={this.handleSelection} >
 						{
 							list.filter(filter_function(query)).map(obj => //arrow function instead
-								 <div className = "searchItem" tabIndex = {1} key = {obj.AnimalID} onClick = {(e) => this.handleClick(list.indexOf(obj), e)}>
-								 <SelectableItem
+							 	<div className = "searchItem" tabIndex = {1} key = {obj.AnimalID} onClick = {(e) => this.handleClick(list.indexOf(obj), e)}>
+							 	<SelectableItem
 									key = {obj.AnimalID}
 									selectableKey = {list.indexOf(obj)}
 									selected = {this.state.selectedKeys.includes(list.indexOf(obj))}

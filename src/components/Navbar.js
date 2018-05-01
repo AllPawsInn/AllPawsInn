@@ -29,17 +29,7 @@ export default class Navbar extends React.Component {
 					<div className ="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul className ="nav navbar-nav">
 							<li><a onClick = {this.props.updateScreen.bind(this, "home")}><span className ="glyphicon glyphicon-th" aria-hidden="true"></span> Dashboard</a></li>
-							<li className ="dropdown">
-								
-								<a href="#" className ="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New Booking <span className ="caret"></span></a>
-								<ul className ="dropdown-menu">
-									<li><a onClick = {this.props.updateScreen.bind(this, "new_booking")}><span className ="glyphicon glyphicon-th-list" aria-hidden="true"></span> New Booking</a></li>
-									<li><a href="#"><span className ="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> New Client</a></li>
-									<li role="separator" className ="divider"></li>
-									<li><a href="#">Categories</a></li>
-								</ul>
-							</li>
-							<li><a onClick = {this.props.updateScreen.bind(this, "about")}>Print</a></li>
+							<li><a onClick = {this.props.updateScreen.bind(this, "new_booking")}><span className ="glyphicon glyphicon-th-list" aria-hidden="true"></span> New Booking</a></li>
 							<li><a onClick = {this.props.updateScreen.bind(this, "report")}>Basic Stats</a></li>
 						</ul>
 						<ul className ="nav navbar-nav navbar-right">
@@ -51,9 +41,9 @@ export default class Navbar extends React.Component {
 								</ul>
 							</li>
 							<li>
-								<form className ='form-inline' style = {{marginTop:"9px"}}>
+								<div className ='form-inline' style = {{marginTop:"9px"}}>
 									<input className="form-control mr-sm-2" type = "text" onChange = {this.handleChange} onFocus = {this.handleChange}/>
-								</form>
+								</div>
 						</li>
 						</ul>
 					</div>

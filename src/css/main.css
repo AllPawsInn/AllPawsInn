@@ -1,223 +1,235 @@
 *{
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 body{
-  font-size: 13px !important;
+	font-size: 13px !important;
 }
 
 h1 {
-  font-size: 24px;
+	font-size: 24px;
 }
 
 h6 {
-  display: inline;
+	display: inline;
 }
 
 .wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 80% auto;
-  grid-template-rows: 50% 50%;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 15px;
-  /* border: 3px solid black; */
-  margin-top: -20px;
-  height:94vh;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: 80% auto;
+	grid-template-rows: 50% 50%;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	/* border: 3px solid black; */
+	margin-top: -20px;
+	height:94vh;
+}
+
+.weekdays {
+	margin: 0;
+	padding: 13px 0;
+}
+
+.weekdays li {
+	display: inline-block;
+	width: 14%;
+	color: #666;
+	text-align: center;
 }
 
 .sideWrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-rows: 50% 50%;
-  height:92vh;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-rows: 50% 50%;
+	height:92vh;
 }
 
 .a{
-  background: grey;
+	background: grey;
 }
 
 .c{
-  background: grey;
+	background: grey;
 }
 
 .yellow{
-  background: yellow;
+	background: yellow;
 }
 .red{
-  background: red;
+	background: red;
 }
 .green{
-  background: green;
+	background: green;
 }
 .grey{
-  background: grey;
+	background: grey;
 }
 
 .b{
-  background: grey;
+	background: grey;
 }
 
 .leftWrapper {
-  display: grid;
-  height:93vh;
-  max-height: 93vh;
+	display: grid;
+	height:93vh;
+	max-height: 93vh;
 }
 
 .box {
-  color: black;
-  background: #FAFAFA;
-  border: 1px solid #ADADAD;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-  padding: 20px;
+	color: black;
+	background: #FAFAFA;
+	border: 1px solid #ADADAD;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+	padding: 20px;
 }
 
 .box input{
-  left: 200px;
-  position: absolute;
+	left: 200px;
+	position: absolute;
 }
 
 .animalDet {
-  grid-row: 2/1 span;
+	grid-row: 2/1 span;
 }
 
 .cal {
-  align-content: stretch;
-  grid-row: 1/2 span;
-  height: 93vh;
-  overflow-y: scroll;
+	align-content: stretch;
+	grid-row: 1/2 span;
+	height: 93vh;
+	overflow-y: scroll;
 }
 
 .item3 {
-  grid-row: 1/1 span;
+	grid-row: 1/1 span;
 }
 
 .search {
-  grid-row: 1/1 span;
-  height: 46vh;
-  overflow-y: scroll;
-  padding-bottom: 20px;
+	grid-row: 1/1 span;
+	height: 46vh;
+	overflow-y: scroll;
+	padding-bottom: 20px;
 }
 
 .bookingbutton{
-  float: right;
+	float: right;
 }
 .selected{
-  background-color: royalblue;
-  color: #FAFAFA;
-  outline:none;
-  border-radius: 8px;
-  padding-left: 10px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  transition-duration: 0.3s;
+	background-color: royalblue;
+	color: #FAFAFA;
+	outline:none;
+	border-radius: 8px;
+	padding-left: 10px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	transition-duration: 0.3s;
 }
 
 .center{
-  text-align: justify;
-  white-space: pre-wrap;
+	text-align: justify;
+	white-space: pre-wrap;
 }
 
 .searchItem {
-  border-radius: 8px;
-  padding-left: 10px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  transition-duration: 0.3s;
+	border-radius: 8px;
+	padding-left: 10px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	transition-duration: 0.3s;
 }
 
 .searchItem:hover {
-  background-color: #D7E8F7;
-  color: #299CF5;
+	background-color: #D7E8F7;
+	color: #299CF5;
 }
 
 .calendarSwitch {
-  background: #EFF7FE;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
-  border: none;
-  border-radius: 8px;
-  color: #299CF5;
-  letter-spacing: -0.4px;
-  transition-duration: 0.4s;
-  width: 80px;
-  height: 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0px 35px;
+	background: #EFF7FE;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border: none;
+	border-radius: 8px;
+	color: #299CF5;
+	letter-spacing: -0.4px;
+	transition-duration: 0.4s;
+	width: 80px;
+	height: 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0px 35px;
 }
 
 .calendarSwitch:hover {
-  background-color: royalblue;
-  color: #FAFAFA;
+	background-color: royalblue;
+	color: #FAFAFA;
 }
 
 .item4 {
-  grid-row: 2/1 span;
+	grid-row: 2/1 span;
 }
 
 .profileButton {
-  background: #D7E8F7;
-  color: #299CF5;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
-  border: none;
-  border-radius: 8px;
-  transition-duration: 0.4s;
-  padding: 8px 17px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0px 5px;
+	background: #D7E8F7;
+	color: #299CF5;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border: none;
+	border-radius: 8px;
+	transition-duration: 0.4s;
+	padding: 8px 17px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0px 5px;
 }
 
 .profileButton:hover {
-  background-color: royalblue;
-  color: #FAFAFA;
+	background-color: royalblue;
+	color: #FAFAFA;
 }
 
 .profileButtonPanel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .calendarSwitch {
-  background: #EFF7FE;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
-  border: none;
-  border-radius: 8px;
-  color: #299CF5;
-  letter-spacing: -0.4px;
-  transition-duration: 0.4s;
-  width: 80px;
-  height: 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0px 35px;
+	background: #EFF7FE;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border: none;
+	border-radius: 8px;
+	color: #299CF5;
+	letter-spacing: -0.4px;
+	transition-duration: 0.4s;
+	width: 80px;
+	height: 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0px 35px;
 }
 
 .calendarSwitch:hover {
-  background-color: royalblue;
-  color: #FAFAFA;
+	background-color: royalblue;
+	color: #FAFAFA;
 }
 
 .listView {
-  margin-top: 20px;
-  border: none;
-  padding: 10px;
+	margin-top: 20px;
+	border: none;
+	padding: 10px;
 }
 
 .listViewRow {
-  height: 30px;
-  width: 100%;
+	height: 30px;
+	width: 100%;
 }
 
 .listViewRow:hover {
-  background-color: #FAFAFA;
+	background-color: #FAFAFA;
 }
 
 #dataGrid div.react-grid-Row--even .react-grid-Cell {
@@ -225,60 +237,60 @@ h6 {
 }
 
 .datePicker {
-  background: #FFFFFF;
-  border: 1px solid #EBEBEB;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.29);
-  border-radius: 100px;
-  color: #4A4A4A;
-  padding: 5px 10px;
-  letter-spacing: -0.4px;
-  display: inline-block;
-  width: 300px;
-  text-align: center;
+	background: #FFFFFF;
+	border: 1px solid #EBEBEB;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.29);
+	border-radius: 100px;
+	color: #4A4A4A;
+	padding: 5px 10px;
+	letter-spacing: -0.4px;
+	display: inline-block;
+	width: 300px;
+	text-align: center;
 }
 
 .dateButton {
-  background: #D7E8F7;
-  color: #299CF5;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
-  border: none;
-  border-radius: 100px;
-  transition-duration: 0.4s;
-  padding: 11px 7px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0px 15px;
+	background: #D7E8F7;
+	color: #299CF5;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border: none;
+	border-radius: 100px;
+	transition-duration: 0.4s;
+	padding: 11px 7px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0px 15px;
 }
 
 .dateButton:hover {
-  background-color: royalblue;
-  color: #FAFAFA;
+	background-color: royalblue;
+	color: #FAFAFA;
 }
 
 .searchClose {
-  position: absolute;
-  margin-top: -31px;
-  right: 50px;
+	position: absolute;
+	margin-top: -31px;
+	right: 50px;
 }
 
 .checkButton {
-  background: #D7E8F7;
-  color: #299CF5;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
-  border: none;
-  border-radius: 8px;
-  transition-duration: 0.4s;
-  padding: 8px 17px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0px 5px;
-  display: inline-block;
-  width: 100px;
+	background: #D7E8F7;
+	color: #299CF5;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border: none;
+	border-radius: 8px;
+	transition-duration: 0.4s;
+	padding: 8px 17px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0px 5px;
+	display: inline-block;
+	width: 100px;
 }
 
 .checkButton:hover {
-  background-color: royalblue;
-  color: #FAFAFA;
+	background-color: royalblue;
+	color: #FAFAFA;
 }

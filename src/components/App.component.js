@@ -1,6 +1,8 @@
 // ---------------------------------------- TO DO ----------------------------------------
 // -- Calendar shouldnt re-render on search
 // -- Prevent default for input fields including and especially search box
+// -- week = current week button
+// -- kenneltable
 'use babel';
 
 import React from 'react'
@@ -19,6 +21,8 @@ export default class Main extends React.Component {
 		this.state = {
 			dog_list : [],
 			booking_list : [],
+			alerts : [],
+			notifications : []
 		}
 		this.grabDogs()
 	}
@@ -29,6 +33,7 @@ export default class Main extends React.Component {
 			sidescreen : false,
 			query : ""
 		})
+
 		this.updateScreen = this.updateScreen.bind(this)
 		this.toggle_side = this.toggle_side.bind(this)
 		this.toggle_side_off = this.toggle_side_off.bind(this)
@@ -38,6 +43,9 @@ export default class Main extends React.Component {
 		this.get_client = this.get_client.bind(this)
 		this.get_payment = this.get_payment.bind(this)
 		this.get_daycare = this.get_daycare.bind(this)
+		this.push_alert = this.push_alert.bind(this)
+		this.push_notif = this.push_notif.bind(this)
+
 	}
 
 	async grabDogs(){
@@ -76,6 +84,22 @@ export default class Main extends React.Component {
 				animal_id : animal.recordset[0].AnimalID
 			},
 			booking_list : bookings.recordset
+		})
+	}
+
+	push_alert(alert){
+		let tmp = this.state.alerts
+		tmp.push(alert)
+		this.setState({
+			alerts : tmp
+		})
+	}
+
+	push_notif(notification){
+		let tmp = this.state.notifications
+		tmp.push(notification)
+		this.setState({
+			notifications : tmp
 		})
 	}
 
@@ -195,9 +219,9 @@ export default class Main extends React.Component {
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
 					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
-					<Sidescreen daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
+					<Sidescreen alerts = {this.state.alerts} notifications = {this.state.notifications} push_notif = {this.push_notif} push_alert = {this.push_alert} daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
 		);
 	}
-	}
+}

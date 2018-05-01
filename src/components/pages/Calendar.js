@@ -9,7 +9,7 @@ import Layout from './calendar/Layout'
 
 let week = 0;
 
-let dayCare = false;
+let dayCare = true;
 
 //move constants to a new js file
 const load_pages = 7
@@ -25,7 +25,11 @@ function printDate(date){
 function filter_date(booking){
 	//keep week on an array iterate within that
 	let range = getDateRange(week)
-	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon)
+	//optimize this guy
+	let midpoint = new Date((booking.DateIn.getTime() + booking.DateOut.getTime()) / 2)
+	return (booking.DateIn < range.sun && booking.DateIn > range.mon) || (booking.DateOut < range.sun && booking.DateOut > range.mon) || (midpoint < range.sun && midpoint > range.mon)
+	// ya da ortalamasi aradaysa
+
 	//booking.DayCare == (dayCare == 'true') &&
 }
 
@@ -57,22 +61,19 @@ function getDateRange(week){
 	}
 }
 
-// function populateGrid(content){
-// 	return <div className = "yellow" key="d" data-grid={{x: 3, y: 0, w: 1, h: 2}}><b>{bookings_list[1200].AnimalName}/{bookings_list[1200].FirstName} {bookings_list[1200].LastName}</b></div>
-// }
-
 export default class Calendar extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
-			calendar : 'List',
+			calendar : 'Grid',
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
-			daycare: false,
+			daycare: dayCare,
 		}
 
+		this.currentWeek = this.currentWeek.bind(this)
 		this.nextWeek = this.nextWeek.bind(this)
 		this.prevWeek = this.prevWeek.bind(this)
 		this.switch_booking = this.switch_booking.bind(this)
@@ -86,6 +87,14 @@ export default class Calendar extends React.Component {
 				current_week : nextProps.bookings.filter(filter_date)
 			})
 		}
+	}
+
+	currentWeek(){
+		week = 0
+		this.setState({
+			week: 0,
+			current_week : this.props.bookings.filter(filter_date)
+		})
 	}
 
 	nextWeek(){
@@ -129,12 +138,13 @@ export default class Calendar extends React.Component {
 		let {bookings_list, current_week} = this.state;
 		let current = current_week.filter(filter_daycare)
 		let panel
+		
 		if (this.state.calendar == 'Grid'){
 			if (this.state.daycare){
 				panel = <Grid current = {current} payment = {this.props.payment} />
 			}
 			else
-				panel = <Layout bookings_list = {bookings_list} current = {current} />
+				panel = <Layout current = {current} range = {range} />
 		}
 		else{
 			panel = <List current = {current} payment = {this.props.payment} />
@@ -156,6 +166,8 @@ export default class Calendar extends React.Component {
 							<option value = {"List"}>List</option>
 							<option value = {"Grid"}>Grid</option>
 						</select>
+
+						<button className = "dateButton" onClick = {this.currentWeek}> This Week</button>
 						<br></br>
 					</div>
 					{panel}
@@ -165,9 +177,4 @@ export default class Calendar extends React.Component {
 		else
 			 return (<div className="box cal"><br></br></div>);
 	}
-}
-
-const left = {
-	display : "inline-block",
-	margin : "10px"
 }

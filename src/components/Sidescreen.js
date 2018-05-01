@@ -54,8 +54,8 @@ export default class Sidescreen extends React.Component {
 		else{
 			return(
 				<div className= 'sideWrapper'>
-					<Alerts dogs = {this.props.dogs}/>
-					<Notifications dogs = {this.props.dogs} screen = {this.switch_screen}/>
+					<Alerts alerts = {this.props.alerts} push_alert = {this.props.push_alert} dogs = {this.props.dogs}/>
+					<Notifications notifications = {this.props.notifications} push_notif = {this.props.push_notif} dogs = {this.props.dogs} screen = {this.switch_screen}/>
 				</div>
 			);
 		}
