@@ -80,11 +80,9 @@ export default class Layout extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		let test = nextProps.current
-		test.push(test[0])
 		this.setState({
 			range : nextProps.range,
-			current : test
+			current : nextProps.current
 		})
 	}
 
@@ -110,7 +108,7 @@ export default class Layout extends React.Component {
 			<GridLayout className="layout" onDragStop = {this.onDragStop.bind(this)} preventCollision={true} cols={7} rowHeight={22} width={1140} isResizable = {false} compactType = {null}>
 				{
 				current.map(obj => 
-					<div className = {colorScheme(obj.Status)} key={obj.BookingID + Math.floor(Math.random()*100)} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
+					<div className = {colorScheme(obj.Status)} key = {obj.BookingID + Math.floor(Math.random()*100000)} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
 				)
 				}
 			</GridLayout>
