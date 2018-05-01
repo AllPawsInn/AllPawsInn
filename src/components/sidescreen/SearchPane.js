@@ -30,12 +30,12 @@ function query_match(obj, query){
 export default class SearchPane extends React.Component {
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			list : this.props.dogs,
 			query : this.props.query,
 			test : this.props.test,
-			selectedKeys : []
+			selectedKeys : [],
+			fix_css : []
 		}
 
 		this.searchHandler = this.searchHandler.bind(this)
@@ -43,9 +43,13 @@ export default class SearchPane extends React.Component {
 	}
 
 	handleSelection (selectedKeys) {
+		if(this.state.fix_css.length > 0) {
+			this.state.fix_css[0].className = "item"
+			this.state.fix_css = []
+		}
 		this.state.selectedKeys = selectedKeys
 		this.props.show(this.state.selectedKeys.map(key => this.state.list[key]))
-  }
+	}
 
 	searchHandler(event){
 		this.setState({
@@ -56,8 +60,14 @@ export default class SearchPane extends React.Component {
 	//use property initializer syntax instead!
 	handleClick(index, e) {
 		//use event.currentTarget.className to manually edit css
-	  this.state.selectedKeys = []
-	  this.state.selectedKeys.push(this.state.list[index])
+		if(this.state.fix_css.length > 0) {
+			this.state.fix_css[0].className = "item"
+			this.state.fix_css = []
+		}
+		e.currentTarget.childNodes[0].className += " selected"
+		this.state.fix_css.push(e.currentTarget.childNodes[0])
+		this.state.selectedKeys = []
+		this.state.selectedKeys.push(this.state.list[index])
 		this.props.show(this.state.selectedKeys)
 	}
 
