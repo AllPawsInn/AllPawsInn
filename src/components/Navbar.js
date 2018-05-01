@@ -28,6 +28,7 @@ export default class Navbar extends React.Component {
 					</div>
 					<div className ="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul className ="nav navbar-nav">
+							<li><a onClick = {this.props.updateScreen.bind(this, "home")}><span className ="glyphicon glyphicon-th" aria-hidden="true"></span> Dashboard</a></li>
 							<li><a onClick = {this.props.updateScreen.bind(this, "new_booking")}>New Booking</a></li>
 							<li><a onClick = {this.props.updateScreen.bind(this, "scheduler")}>Scheduler</a></li>
 						</ul>
