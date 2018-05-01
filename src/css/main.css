@@ -37,28 +37,42 @@ h6 {
 }
 
 .a{
-  background: grey;
+  text-align: center;
+  background: #EAD2AC;
+  border-radius: 15px;
 }
 
 .c{
-  background: grey;
+  text-align: center;
+  background: #EAD2AC;
+  border-radius: 15px;
 }
 
 .yellow{
-  background: yellow;
+  text-align: center;
+  background: rgba(205,192,23,0.59);
+  border-radius: 15px;
 }
 .red{
-  background: red;
+  text-align: center;
+  background: rgba(208,2,27,0.85);
+  border-radius: 15px;
 }
 .green{
-  background: green;
+  text-align: center;
+  background: rgba(74,141,0,0.60);
+  border-radius: 15px;
 }
 .grey{
-  background: grey;
+  text-align: center;
+  background: #EAD2AC;
+  border-radius: 15px;
 }
 
 .b{
-  background: grey;
+  text-align: center;
+  background: #EAD2AC;
+  border-radius: 15px;
 }
 
 .leftWrapper {
