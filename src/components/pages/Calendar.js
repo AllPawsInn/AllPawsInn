@@ -68,7 +68,7 @@ export default class Calendar extends React.Component {
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
-			calendar : 'Grid',
+			calendar : true,
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
 			daycare : dayCare,
@@ -116,7 +116,7 @@ export default class Calendar extends React.Component {
 
 	switch_view(event){
 		this.setState({
-			calendar : event.target.value
+			calendar : event.target.value == "true"
 		})
 	}
 
@@ -141,7 +141,7 @@ export default class Calendar extends React.Component {
 		this.props.boz.arr = current
 		let panel
 
-		if (this.state.calendar == "Grid"){
+		if (this.state.calendar){
 			if (this.state.daycare){
 				panel = <Grid print = {this.props.print} current = {current} payment = {this.props.payment} />
 			}
@@ -165,8 +165,8 @@ export default class Calendar extends React.Component {
 						<p className = "datePicker">  {printDate(range.mon)} / {printDate(range.sun)}  </p>
 						<button className = "dateButton" onClick = {this.prevWeek}> Next </button>
 						<select className = "calendarSwitch" onChange = {this.switch_view} value = {this.state.calendar}>
-							<option value = {"List"}>List</option>
-							<option value = {"Grid"}>Grid</option>
+							<option value = {false}>List</option>
+							<option value = {true}>Grid</option>
 						</select>
 
 						<button className = "dateButton" onClick = {this.currentWeek}> This Week</button>

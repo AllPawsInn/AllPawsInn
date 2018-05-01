@@ -97,7 +97,7 @@ export default class Layout extends React.Component {
 	onDragStop(e, element, newItem){
 		for (let i = this.props.bookings.length-1; i>=0; i--){
 			if (this.props.bookings[i].BookingID == newItem.i*1){
-				this.props.bookings[i].KennelID = newItem.y + 1
+				this.props.bookings[i].KennelID = newItem.y
 				break
 			}
 		}
