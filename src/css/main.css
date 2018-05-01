@@ -95,6 +95,18 @@ h6 {
   grid-row: 1/1 span;
 }
 
+.weekdays{
+  margin: 0;
+  padding: 13px 0;
+}
+
+.weekdays li{
+  display: inline-block;
+  width: 14%;
+  color: #666;
+  text-align: center;
+}
+
 .search {
   grid-row: 1/1 span;
   height: 46vh;
