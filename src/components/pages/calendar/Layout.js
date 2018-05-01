@@ -1,11 +1,13 @@
 // ---------------------------------------- TO DO ----------------------------------------
 
 'use babel';
-
+let x = 3;
 import React from 'react';
 import GridLayout from 'react-grid-layout';
 
 const oneDay = 24*60*60*1000;
+// const sqlConfig = require('../../js/sqlconfig')
+// const sql = require('mssql')
 
 function colorScheme(status){ //color table
 	switch(status){
@@ -69,32 +71,45 @@ function valueSundays(val){
 		return val
 
 }
+async function updateBooking(booking, new_kennel){
+
+	
+}
 
 export default class Layout extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
 			range : this.props.range,
-			current : this.props.current
+			current : this.props.current,
+			bookings: this.props.bookings
 		}
 	}
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
 			range : nextProps.range,
-			current : nextProps.current
+			current : nextProps.current,
+			bookings: nextProps.bookings
 		})
 	}
 
-	onDragStop(e, element){
-		console.log(e)
+	onDragStop(e, element, newItem){
+		for (let i = this.props.bookings.length-1; i>=0; i--){
+			if (this.props.bookings[i].BookingID == newItem.i*1){
+				this.props.bookings[i].KennelID = newItem.y + 1
+				break
+			}
+		}
+		// this.props.bookings[newItem.i*1].KennelID = newItem.y + 1
+		// updateBooking(bookings[newItem.i])
 	}
 
 	render(){
 		//margin = {[20, 20]}
 		//if date > current date map static grid items instead
 		let {current, range} = this.state;
-
+		x++
 		return(
 		<div>
 			<ul className = "weekdays"><li>Monday</li>
@@ -105,10 +120,10 @@ export default class Layout extends React.Component {
 			<li>Saturday</li>
 			<li>Sunday</li>
 			</ul>
-			<GridLayout className="layout" onDragStop = {this.onDragStop.bind(this)} preventCollision={true} cols={7} rowHeight={22} width={1140} isResizable = {false} compactType = {null}>
+			<GridLayout layout = {x} className="layout" onDragStop = {this.onDragStop.bind(this)} preventCollision={true} cols={7} rowHeight={22} width={1140} isResizable = {false} compactType = {null}>
 				{
 				current.map(obj => 
-					<div className = {colorScheme(obj.Status)} key = {obj.BookingID + Math.floor(Math.random()*100000)} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
+					<div className = {colorScheme(obj.Status)} key = {obj.BookingID} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
 				)
 				}
 			</GridLayout>

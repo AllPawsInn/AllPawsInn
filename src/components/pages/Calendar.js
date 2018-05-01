@@ -146,7 +146,7 @@ export default class Calendar extends React.Component {
 				panel = <Grid print = {this.props.print} current = {current} payment = {this.props.payment} />
 			}
 			else
-				panel = <Layout current = {current} range = {range} />
+				panel = <Layout bookings = {bookings_list} current = {current} range = {range} />
 		}
 		else{
 			panel = <List current = {current} payment = {this.props.payment} />

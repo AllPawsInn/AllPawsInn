@@ -90,10 +90,11 @@ export default class SearchPane extends React.Component {
 			list = []
 
 		//can use array index for as unique div key as well
+		//<button className = "searchClose" onClick = {this.props.side}> x </button>
 		return (
 			<div>
 				<div className = "box search"><h3>Search</h3>
-					<button className = "searchClose" onClick = {this.props.side}> x </button>
+					
 					<SelectableGroup onSelection={this.handleSelection} >
 						{
 							list.filter(filter_function(query)).map(obj => //arrow function instead
