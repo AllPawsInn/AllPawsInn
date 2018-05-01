@@ -137,6 +137,7 @@ export default class Calendar extends React.Component {
 		// fix if possible
 		let {bookings_list, current_week} = this.state;
 		let current = current_week.filter(filter_daycare)
+		this.props.boz.arr = current
 		let panel
 		
 		if (this.state.calendar == 'Grid'){

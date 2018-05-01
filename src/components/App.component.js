@@ -22,7 +22,8 @@ export default class Main extends React.Component {
 			dog_list : [],
 			booking_list : [],
 			alerts : [],
-			notifications : []
+			notifications : [],
+			bozun_objesi : {}
 		}
 		this.grabDogs()
 	}
@@ -214,11 +215,12 @@ export default class Main extends React.Component {
 	render(){
 		//order props neatly
 		//pay booking && booking is passed as undefined
+		console.log(this.state.bozun_objesi)
 		return(
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Screen current = {this.state.bozun_objesi.arr} boz = {this.state.bozun_objesi} updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					<Sidescreen alerts = {this.state.alerts} notifications = {this.state.notifications} push_notif = {this.push_notif} push_alert = {this.push_alert} daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
