@@ -215,7 +215,6 @@ export default class Main extends React.Component {
 	render(){
 		//order props neatly
 		//pay booking && booking is passed as undefined
-		console.log(this.state.bozun_objesi)
 		return(
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>

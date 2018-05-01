@@ -9,7 +9,7 @@ import Layout from './calendar/Layout'
 
 let week = 0;
 
-let dayCare = 'true';
+let dayCare = true;
 
 //move constants to a new js file
 const load_pages = 7
@@ -34,7 +34,7 @@ function filter_date(booking){
 }
 
 function filter_daycare(booking){
-	return booking.DayCare == (dayCare == 'true')
+	return booking.DayCare == (dayCare == true)
 }
 
 //can just use moment.js and avoid the fuss beleow
@@ -67,10 +67,10 @@ export default class Calendar extends React.Component {
 		this.state = {
 			current_week : this.props.bookings.filter(filter_date),
 			week : 0,
-			calendar : 'Grid',
+			calendar : true,
 			cur_id : this.props.currentId,
 			bookings_list : this.props.bookings, //isnt really necessary
-			daycare: dayCare,
+			daycare : dayCare,
 		}
 
 		this.currentWeek = this.currentWeek.bind(this)
@@ -120,7 +120,7 @@ export default class Calendar extends React.Component {
 	}
 
 	switch_booking(event){
-		dayCare = event.target.value
+		dayCare = event.target.value == "true"
 		this.setState({
 			daycare: event.target.value == "true" //dummy
 		})
