@@ -287,3 +287,14 @@ h6 {
     left: 120px;
     position: absolute;
 }
+
+.right {
+  position: absolute;
+  left: 350px;
+}
+
+.key {
+  width: 150px;
+  display: inline-block;
+  text-align: left;
+}

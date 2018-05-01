@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Calendar from "./pages/Calendar"
-import About from "./pages/About"
+import Print from "./print/Print"
 import FullProfile from "./animal/FullProfile"
 import ClientProfile from "./client/ClientProfile"
 import Booking from "./pages/Booking"
@@ -29,8 +29,8 @@ export default class Screen extends React.Component {
 		const addDog = this.state.addDog;
 
 		//can use spread operator on some of them in order to pass properties
-		if(this.state.screen === "about")
-			return <About/ current = {this.props.current}>
+		if(this.state.screen === "print")
+			return <Print current = {this.props.current}/>
 		else if(this.state.screen === "full_profile")
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen === "client")
