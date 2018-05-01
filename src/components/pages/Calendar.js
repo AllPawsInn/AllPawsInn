@@ -139,10 +139,10 @@ export default class Calendar extends React.Component {
 		let current = current_week.filter(filter_daycare)
 		this.props.boz.arr = current
 		let panel
-		
-		if (this.state.calendar == 'Grid'){
+
+		if (this.state.calendar == "Grid"){
 			if (this.state.daycare){
-				panel = <Grid current = {current} payment = {this.props.payment} />
+				panel = <Grid print = {this.props.print} current = {current} payment = {this.props.payment} />
 			}
 			else
 				panel = <Layout current = {current} range = {range} />

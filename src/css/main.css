@@ -290,11 +290,25 @@ h6 {
 
 .right {
   position: absolute;
-  left: 350px;
+  left: 580px;
 }
 
 .key {
   width: 150px;
   display: inline-block;
   text-align: left;
+}
+
+.printButton {
+  background: #D7E8F7;
+  color: #299CF5;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+  border: none;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  padding: 8px 17px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 5px 0px;
 }

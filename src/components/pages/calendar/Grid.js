@@ -71,7 +71,8 @@ export default class Grid extends React.Component {
 			{ key: 'r', name: 'Thursday' },
 			{ key: 'f', name: 'Friday' },
 			{ key: 's', name: 'Saturday'},
-			{ key: 'total', name: 'Check-Out'}
+			{ key: 'total', name: 'Check-Out'},
+			{key: 'print', name: 'Print'}
 		];
 
 		this.createRows = this.createRows.bind(this)
@@ -81,6 +82,7 @@ export default class Grid extends React.Component {
 		this.onCellSelected = this.onCellSelected.bind(this)
 		this.getCellActions = this.getCellActions.bind(this)
 		this.getPayment = this.getPayment.bind(this)
+		this.getPrint = this.getPrint.bind(this)
 	}
 
 	createRows(booking) {
@@ -436,6 +438,14 @@ export default class Grid extends React.Component {
 	        }
 	      ];
     	}
+    	if (column.key === 'print') {
+	      return [
+	        {
+	          icon: 'glyphicon glyphicon-print',
+	          callback: () => { this.getPrint(row.booking)}
+	        }
+	      ];
+    	}
   	}
 
   	getPayment(obj){
@@ -443,6 +453,10 @@ export default class Grid extends React.Component {
   		this.props.payment(obj)
   		updateStatusQuery(obj)
   	}
+
+  	getPrint(obj){
+  		this.props.print(obj)
+	}
 
 	render(){
 		this.emptyRows()

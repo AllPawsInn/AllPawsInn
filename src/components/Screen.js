@@ -29,7 +29,7 @@ export default class Screen extends React.Component {
 		const addDog = this.state.addDog;
 
 		if(this.state.screen === "print")
-			return <Print current = {this.props.current}/>
+			return <Print booking = {this.props.currentId}/>
 		else if(this.state.screen === "full_profile")
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen === "client")
@@ -45,7 +45,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "new_booking")
 			return(<NewBooking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else
-			return (<Calendar boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
+			return (<Calendar print = {this.props.print} boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
 
 	}
 }
