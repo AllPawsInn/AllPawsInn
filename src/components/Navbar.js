@@ -30,12 +30,11 @@ export default class Navbar extends React.Component {
 						<ul className ="nav navbar-nav">
 							<li><a onClick = {this.props.updateScreen.bind(this, "new_booking")}>New Booking</a></li>
 							<li><a onClick = {this.props.updateScreen.bind(this, "scheduler")}>Scheduler</a></li>
-							<li><a onClick = {this.props.updateScreen.bind(this, "about")}>Print</a></li>
 						</ul>
 						<ul className ="nav navbar-nav navbar-right">
 							<li>
 								<div className ='form-inline' style = {{marginTop:"9px"}}>
-									<input className="form-control mr-sm-2" type = "text" onChange = {this.handleChange} onFocus = {this.handleChange}/>
+									<input className="form-control mr-sm-2" type = "text" placeholder = "Search" onChange = {this.handleChange} onFocus = {this.handleChange}/>
 								</div>
 						</li>
 						</ul>

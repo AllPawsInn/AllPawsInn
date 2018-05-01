@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Calendar from "./pages/Calendar"
-import About from "./pages/About"
+import Print from "./print/Print"
 import FullProfile from "./animal/FullProfile"
 import ClientProfile from "./client/ClientProfile"
 import Booking from "./pages/Booking"
@@ -28,9 +28,8 @@ export default class Screen extends React.Component {
 	render() {
 		const addDog = this.state.addDog;
 
-		//can use spread operator on some of them in order to pass properties
-		if(this.state.screen === "about")
-			return <About current = {this.props.current} />
+		if(this.state.screen === "print")
+			return <Print booking = {this.props.currentId}/>
 		else if(this.state.screen === "full_profile")
 			return <FullProfile animal = {this.props.animal}/>
 		else if(this.state.screen === "client")
@@ -46,7 +45,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "new_booking")
 			return(<NewBooking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else
-			return (<Calendar boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
+			return (<Calendar print = {this.props.print} boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
 
 	}
 }
