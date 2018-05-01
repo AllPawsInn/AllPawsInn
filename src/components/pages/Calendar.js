@@ -9,7 +9,7 @@ import Layout from './calendar/Layout'
 
 let week = 0;
 
-let dayCare = true;
+let dayCare = 'true';
 
 //move constants to a new js file
 const load_pages = 7
