@@ -8,7 +8,7 @@ let rows = [];
 const rowGetter = rowNumber => rows[rowNumber];
 
 
-async function updateDaysQuery(bookingObject){
+async function updateBookingQuery(bookingObject){
 	const sqlConfig = require('../../../js/sqlconfig')
 	const sql = require('mssql')
 	let pool = await sql.connect(sqlConfig)
@@ -16,17 +16,24 @@ async function updateDaysQuery(bookingObject){
 	let days = bookingObject.Days
 	let bookingId = parseInt(bookingObject.BookingID)
 
-	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Days = '" + days + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+	let noDays = bookingObject.NoDays
+
+    let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.NoDays = " + noDays + " WHERE dbo.BookingObjects.BookingID = " + bookingId
 
 	let result = await pool.request()
 		 .query(queryString)
 
-	let noDays = bookingObject.NoDays
 
-	queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.NoDays = " + noDays + " WHERE dbo.BookingObjects.BookingID = " + bookingId
+	queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Days = '" + days + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
 
 	result = await pool.request()
 		 .query(queryString)
+
+
+	queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.DayCareRate = " + bookingObject.DayCareRate + " WHERE dbo.BookingObjects.BookingID = " + bookingId
+
+	result = await pool.request()
+	 .query(queryString)
 
 	sql.close()
 }
@@ -141,6 +148,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].m !== 'X'){
 							this._rows[rowIdx.rowIdx].m = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'm'
 
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -155,6 +168,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].m = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('m','');
 
 	 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -174,6 +193,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].t !== 'X'){
 							this._rows[rowIdx.rowIdx].t = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 't'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -188,6 +213,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].t = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('t','');
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -206,6 +237,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].w !== 'X'){
 							this._rows[rowIdx.rowIdx].w = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'w'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -220,6 +257,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].w = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('w','');
 
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -239,6 +282,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].r !== 'X'){
 							this._rows[rowIdx.rowIdx].r = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'r'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -253,6 +302,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].r = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('r','');
 
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -272,6 +327,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].f !== 'X'){
 							this._rows[rowIdx.rowIdx].f = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 'f'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -286,6 +347,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].f = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('f','');
 
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -305,6 +372,12 @@ export default class Grid extends React.Component {
 						if(this._rows[rowIdx.rowIdx].s !== 'X'){
 							this._rows[rowIdx.rowIdx].s = 'X'
 							this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays + 1
+							if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+							}
+							else{
+								this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+							}
 							this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days + 's'
 							let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
 
@@ -319,6 +392,12 @@ export default class Grid extends React.Component {
 							if(this._rows[rowIdx.rowIdx].booking.NoDays !== 1){
 								this._rows[rowIdx.rowIdx].s = ''
 								this._rows[rowIdx.rowIdx].booking.NoDays = this._rows[rowIdx.rowIdx].booking.NoDays - 1
+								if(this._rows[rowIdx.rowIdx].booking.NoDays <= 2){
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 21.99
+								}
+								else{
+									this._rows[rowIdx.rowIdx].booking.DayCareRate = 17.99
+								}
 								this._rows[rowIdx.rowIdx].booking.Days = this._rows[rowIdx.rowIdx].booking.Days.replace('s','');
 
 								let total = this._rows[rowIdx.rowIdx].booking.NoDays * this._rows[rowIdx.rowIdx].booking.DayCareRate
@@ -335,7 +414,7 @@ export default class Grid extends React.Component {
 					break;
 			}
 			this.setRows()
-			updateDaysQuery(this._rows[rowIdx.rowIdx].booking)
+			updateBookingQuery(this._rows[rowIdx.rowIdx].booking)
 		}
 	};
 

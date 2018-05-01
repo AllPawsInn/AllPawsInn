@@ -2,6 +2,11 @@
 
 import React from 'react';
 
+let bookingChargesToPay = 0
+let taxToPay = 0
+let totalToPay = 0
+let subToPay = 0
+
 export default class Payment extends React.Component {
 	constructor(props) {
 		super(props)
@@ -12,7 +17,9 @@ export default class Payment extends React.Component {
 		this.getTotal = this.getTotal.bind(this)
 		this.getTax = this.getTax.bind(this)
 		this.getTotalToPay = this.getTotalToPay.bind(this)
+		this.handlePrintSubmit = this.handlePrintSubmit.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleChange = this.handleChange.bind(this)
 	}
 
 	getSubTotal(booking){
@@ -62,51 +69,96 @@ export default class Payment extends React.Component {
 	}
 
 	handleSubmit(event){
+		event.preventDefault();
 		this.props.updateScreen("calendar")
+	}
+
+	handlePrintSubmit(event){
+		window.print()
+	}
+
+	handleChange(event){
+		if(event.target.value !== ''){
+			let extra = parseFloat(event.target.value)
+			let total = bookingChargesToPay + extra
+
+			let taxRate = 8
+
+			let tax = ((total*taxRate)/100)
+
+			event.currentTarget.form[1].value = (tax).toFixed(2)
+
+			event.currentTarget.form[2].value = (tax + total).toFixed(2)
+		}else{
+			let extra = parseFloat(0)
+			let total = bookingChargesToPay + extra
+
+			let taxRate = 8
+
+			let tax = ((total*taxRate)/100)
+
+			event.currentTarget.form[1].value = (tax).toFixed(2)
+
+			event.currentTarget.form[2].value = (tax + total).toFixed(2)
+		}
 	}
 
 	render(){
 		let booking = this.state.booking;
+		bookingChargesToPay = parseFloat(this.getTotal(booking).toFixed(2))
+		taxToPay = parseFloat(this.getTax(booking).toFixed(2))
+		totalToPay = parseFloat(this.getTotalToPay(booking).toFixed(2))
+		subToPay = parseFloat(this.getSubTotal(booking).toFixed(2))
 		return (
-			<div className = "box cal">
-			<h3>Payment</h3>
-			<h4>Booking</h4>
-			<div className = "box" style = {left}>
-				<b>Animal Name:</b> {this.props.booking.AnimalName !=  null ? this.props.booking.AnimalName : ''}<br></br>
-				<b>Client Name:</b> {this.props.booking.FirstName} {this.props.booking.LastName}<br></br>
-				<b>Booking Ref:</b> {this.props.booking.BookingID}<br></br>
-				<b>Kennel ID:</b> {this.props.booking.KennelID}<br></br>
-				<b>Animal Breed:</b> {this.props.booking.Breed}<br></br>
-				<b>Animal Size:</b> {this.props.booking.Size}<br></br>
-				<b>Date In:</b> {this.props.booking.DateIn.toString()}<br></br>
-				<b>Date Out:</b> {this.props.booking.DateOut.toString()}<br></br>
-				<b>Days:</b> {this.props.booking.NoDays}<br></br>
-			</div>
-			<div className = "box" style = {left}>
-				<b>Boarding Rate: $ </b>{this.props.booking.BoardingRate !=  null ? this.props.booking.BoardingRate : ''}<br></br>
-				<b>Collection Day Discount: % </b>{this.props.booking.CollectionDayDiscount}<br></br>
-				<b>12hr Discount: % </b>{this.props.booking.HalfDayDiscount}<br></br>
-				<b>DayCare Rate: $ </b>{this.props.booking.DayCareRate}<br></br>
-				<b>Unit Type Surcharge Rate: $ </b>{this.props.booking.UnitTypeSurcharge}<br></br>
-				<b>Peak Period Surcharge: $ </b>{this.props.booking.PeakPeriodSurcharge}<br></br>
-				<b>Extended Stay Period: </b>{this.props.booking.ExtendedStayPeriod} Days<br></br>
-				<b>Extended Stay Discount: % </b>{this.props.booking.ExtendedStayDiscount}<br></br>
-				<b>Linked Booking Discount: % </b>{this.props.booking.LinkedBookingDiscount}<br></br>
-			</div>
-			<div className = "box" style = {left}>
-				<b>Sub Total: $ </b>{this.getSubTotal(booking).toFixed(2)}<br></br>
-				<b>Discount: % </b>{!Array.isArray(this.props.booking.Discount) ? '0' : this.props.booking.Discount[0]}<br></br>
-				<b>TOTAL: $ </b>{this.getTotal(booking).toFixed(2)}<br></br>
-			</div>
-			<br></br>
-			<h4>Total Charges</h4>
-			<div className = "box">
-					<b>Net Booking Charges   $</b>{this.getTotal(booking).toFixed(2)}<br></br>
-					<b>NY State Tax   $</b>{this.getTax(booking).toFixed(2)}<hr></hr>
-					<b>Total To Pay   $</b>{this.getTotalToPay(booking).toFixed(2)}<hr></hr>
-					<span style={left}><button className = "profileButton" onClick = {this.handleSubmit}> Take Payment </button></span>
-			</div>
-			</div>
+				<div className = "box cal" id="paymentInput" style = {left}>
+					<form>
+						<h3>Payment</h3>
+						<h4>Booking</h4>
+						<div className = "box">
+							<div className = "row">
+								<div className="col-sm-6"><b>Animal Name:</b> {this.props.booking.AnimalName !=  null ? this.props.booking.AnimalName : ''}<br></br></div>
+								<div className="col-sm-6"><b>Client Name:</b> {this.props.booking.FirstName} {this.props.booking.LastName}<br></br></div>
+							</div>
+							<div className = "row">
+							<div className="col-sm-6"><b>Kennel ID:</b> {this.props.booking.KennelID}<br></br></div>
+							<div className="col-sm-6"><b>Animal Breed:</b> {this.props.booking.Breed}<br></br></div>
+							</div>
+							<div className = "row">
+							<div className="col-sm-6"><b>Animal Size:</b> {this.props.booking.Size}<br></br></div>
+							<div className="col-sm-6"><b>Days:</b> {this.props.booking.NoDays}<br></br></div>
+							</div>
+							<div className = "row">
+							<div className="col-sm-6"><b>Date In:</b> {this.props.booking.DateIn.toString()}<br></br></div>
+							<div className="col-sm-6"><b>Date Out:</b> {this.props.booking.DateOut.toString()}<br></br></div>
+							</div>
+						</div>
+						<br></br>
+						<div className = "box">
+							<div className = "row">
+								<div className="col-sm-6"><b>Boarding Rate: $ </b>{this.props.booking.BoardingRate !=  null ? this.props.booking.BoardingRate : ''}<br></br></div>
+								<div className="col-sm-6"><b>DayCare Rate: $ </b>{this.props.booking.DayCareRate}<br></br></div>
+							</div>
+							<hr></hr>
+							<div className = "row">
+								<div className="col-sm-6"><b>Sub Total: $ </b>{subToPay}<br></br></div>
+								<div className="col-sm-6"><b>Net Booking Charges   $</b>{bookingChargesToPay}<br></br></div>
+							</div>
+							<hr></hr>
+							<div className = "row">
+								<div className="col-sm-6"><b>Discount: % </b>{!Array.isArray(this.props.booking.Discount) ? '0' : this.props.booking.Discount[0]}<br></br></div>
+								<div className="col-sm-6"><b>Other Goods: $ </b><input name = "others" type = "text"  onChange = {this.handleChange}/><br></br></div>
+							</div>
+							<hr></hr>
+							<div className = "row">
+								<div className="col-sm-6"><b>NY State Tax   $</b><input  disabled name = "tax" type = "text" value = {taxToPay}/><br></br></div>
+								<div className="col-sm-6"><b>Total To Pay   $</b><input  disabled name = "total" type = "text" value = {totalToPay}/><br></br></div>
+							</div>
+						</div>
+						<br></br>
+						<button className = "profileButton" onClick = {this.handleSubmit}> Take Payment </button>
+						<span className="print"><button className = "profileButton" onClick = {this.handlePrintSubmit}> Print </button></span>
+					</form>
+				</div>
 			)
 		}
 
@@ -116,3 +168,4 @@ export default class Payment extends React.Component {
 		display : "inline-block",
 		margin : "10px"
 	}
+

@@ -9,6 +9,15 @@ function dogNames(dogs){
   }
   return dog_list;
 }
+function medicalConditions(dogs){
+  let medical_list = [];
+  for (let i =0; i<dogs.length;i++){
+    if (dogs[i].Status=="CI")
+      medical_list.push(<li key={i} style={{color:"red"}}>{dogs[i].MedicalConditions}</li>)
+  }
+  return medical_list;
+}
+
 function foodTypes(dogs){
   let food_types = [];
   for (let i =0; i<dogs.length;i++){
@@ -39,7 +48,11 @@ export default class Report extends React.Component {
     this.state = {
       dogs : this.props.dogs
     }
+    this.handlePrintSubmit = this.handlePrintSubmit.bind(this)
+  }
 
+  handlePrintSubmit(event){
+    window.print()
   }
 
   render() {
@@ -50,18 +63,21 @@ export default class Report extends React.Component {
    <tbody>
        <tr>
        <th><h2>Dog Name</h2></th>
+       <th><h2 style={{color:"red"}}>Medical</h2></th>
        <th><h2>Food Type</h2></th>
        <th><h2>Food Quantity</h2></th>
        <th><h2>Food Frequency</h2></th>
       </tr>
         <tr>
     <td>{dogNames(this.props.dogs)}</td>
+    <td>{medicalConditions(this.props.dogs)}</td>
     <td>{foodTypes(this.props.dogs)}</td>
     <td>{foodQuantities(this.props.dogs)}</td>
     <td>{foodFreqs(this.props.dogs)}</td>
   </tr>
    </tbody>
 </table>
+<span className="print"><button className = "profileButton" onClick = {this.handlePrintSubmit}> Print </button></span>
 </div>
       );
   }
