@@ -300,6 +300,21 @@ h6 {
     position: absolute;
 }
 
+#submitInput input {
+    position: inherit;
+    margin: 10px 0px;
+}
+
+#editInput input {
+    position: initial;
+    margin: 10px 0px;
+}
+
+#submitInput button {
+    position: inherit;
+    margin: 10px 0px;
+}
+
 .right {
   position: absolute;
   left: 580px;

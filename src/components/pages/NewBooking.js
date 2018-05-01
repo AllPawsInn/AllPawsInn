@@ -299,8 +299,9 @@ newVet(vet_details).then(result=>{
 		</div>
 
 					</div>
-					<br></br><input className = "profileButton" type = "Submit" value = "Submit"/>
-
+					<div id="submitInput">
+						<input className = "profileButton" type = "Submit" value = "Submit"/>
+					</div>
 
 
 				</form>

@@ -134,16 +134,13 @@ export default class ClientProfile extends React.Component {
 							<div className="col-sm-8"><input name = "Notes" type = "text" placeholder = "Edit Notes" defaultValue = {this.props.animal[0].ClientNotes}/></div>
 						</div><br></br>
 						<div className="row">
+						<div id="editInput">
 							<div className="col-sm-4"><input className = "profileButton" type = "Submit" value = "Submit"/> </div>
-
+						</div>
 						</div><br></br>
 
 					</div>
 					</form>
-					<br></br>
-					<div className = "box">
-						<h4>Animals</h4>
-					</div>
 					<br></br>
 					<div className = "box">
 						<h4>Veterinary</h4>

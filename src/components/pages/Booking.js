@@ -224,9 +224,14 @@ export default class Booking extends React.Component {
 					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
 					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
-					<span style={left}><button className = "profileButton" onClick = {this.handleSubmit}> Submit </button></span>
+					<div id="submitInput">
+						<button className = "profileButton" onClick = {this.handleSubmit}> Submit </button>
+					</div>
 				</div>
-				<button className = "profileButton" onClick = {this.submitAll}>Submit All</button>
+				<div id="submitInput">
+						<button className = "profileButton" onClick = {this.submitAll}>Submit All</button>
+				</div>
+
 			</div>
 		)
 	}
