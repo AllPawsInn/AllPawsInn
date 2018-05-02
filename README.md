@@ -22,15 +22,17 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
 5. In order to restore database from a backup [this guide](https://www.howtogeek.com/50354/restoring-a-sql-database-backup-using-sql-server-management-studio)  can be followed.
 
 5. Run the following queries after setting up the database:
-    - ALTER TABLE dbo.BookingObjects
-      ADD Days VARCHAR (255)
+   ```sh
+   ALTER TABLE dbo.BookingObjects ADD Days VARCHAR (255)
+   ```
 
-    - UPDATE dbo.BookingObjects
-      SET Days = 'm'
-
-    - UPDATE dbo.BookingObjects
-      SET Status= 'CO'
-
+   ```sh
+   UPDATE dbo.BookingObjects SET Days = 'm'
+   ```
+   
+   ```sh
+   UPDATE dbo.BookingObjects SET Status= 'CO'
+   ```
 5. Modify the sqlConfig.js file on the path "src/js/sqlConfig.js" with YOUR sql server configuration.
 
 6. To launch your app in development mode
@@ -54,18 +56,19 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
     npm run package-linux
     ```
 ## Task List   
-     - [ ] Adding a date picker to the booking screens
-    
-     - [ ]  Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should be open a dropdown which
-      lets the user to select an action like check-in/out, edit")
+List of things to be fixed, or impelemented in the application:
+   * Adding a date picker to the booking screens
+     
+   * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should be open a dropdown which
+     lets the user to select an action like check-in/out, edit")
       
-     - [ ]  Adding a dropdown to the payment page which lets the user to select extra items to add to the cost (e.g. "nails, grooming, etc.")
+   * Adding a dropdown to the payment page which lets the user to select extra items to add to the cost (e.g. "nails, grooming,              etc.")
     
-     - [ ] Adding a basic stats page (an example could be found in the screenshots folder)
+   * Adding a basic stats page (an example could be found in the screenshots folder)
     
-     - [ ] Adding Alert/Notification boxes to the main screen (an example could be found in the screenshots folder)
+   * Adding Alert/Notification boxes to the main screen (an example could be found in the screenshots folder)
     
-     - [ ] Making a better design for pages like booking, new booking, and payment
+   * Making a better design for pages like booking, new booking, and payment
     
-     - [ ] Adding an admin panel where user can change default values like DaycareRate, BoardingRate, Discount, etc.
+   * Adding an admin panel where user can change default values like DaycareRate, BoardingRate, Discount, etc.
     
