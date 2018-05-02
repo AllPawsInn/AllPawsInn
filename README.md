@@ -59,8 +59,8 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
 List of things to be fixed, or impelemented in the application:
    * Adding a date picker to the booking screens
      
-   * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should be open a dropdown which
-     lets the user to select an action like check-in/out, edit")
+   * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should open a dropdown which
+     lets the user to select an action like check-in/out, or edit")
       
    * Adding a dropdown to the payment page which lets the user to select extra items to add to the cost (e.g. "nails, grooming,              etc.")
     
@@ -71,4 +71,23 @@ List of things to be fixed, or impelemented in the application:
    * Making a better design for pages like booking, new booking, and payment
     
    * Adding an admin panel where user can change default values like DaycareRate, BoardingRate, Discount, etc.
-    
+   
+   * Adding a component for printing multiple pages of scheduling info (kennel id, food, medical cond., kennel size, etc.) with one click (the user shouldn't have to select each dog seperately)
+   
+   * Data cleansing (detecting and correcting corrupt or inaccurate records in the database)
+  
+   * Solving the click glitch that occurs on the grid view of the daycare screen (the user has to click twice to make a reservation for a new day)
+   
+   * Adding multiple daycare bookings functionality to search results (the user should be able to select more than one record in the search results, and make daycare booking for them - right know this functionality is only available for new reservation (boarding))
+   
+   * Adding finance management pages (this topic should be discussed with All Paws Inn and requirements should be clarified)
+   
+   * Migrating the data recorded by All Paws Inn between November 2017 - May 2018, to the database (their system was down between those months, so they recorded everything on paper, or Excel files)
+   
+   * Adding 'mail to' component which they've asked for notifying customers
+   
+   * Talking about the signature pad issue (whether they still want it)
+   
+   * Changing the design of the printed pages (should be talked with All Paws Inn)
+   
+   * Adding the ability to make recurring bookings (e.g. "make a booking for Max Deus which occurs every Wednesday")
