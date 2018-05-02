@@ -56,7 +56,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
     npm run package-linux
     ```
 ## Task List   
-List of things to be fixed, or impelemented in the application:
+List of things to be fixed, or implemented on the application:
    * Adding a date picker to the booking screens
      
    * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should open a dropdown which
@@ -91,3 +91,9 @@ List of things to be fixed, or impelemented in the application:
    * Changing the design of the printed pages (should be talked with All Paws Inn)
    
    * Adding the ability to make recurring bookings (e.g. "make a booking for Max Deus which occurs every Wednesday")
+   
+   * Adding new features to the payment page like take no tax, or take down payment (should be talked with All Paws Inn)
+   
+   * Input fields should be validated, and sanitized in order to prevent attacks like SQL Injection, and XSS (Cross-Site Scripting)
+   
+   * Boarding and Daycare bookings should be managed in different database tables. Seperate the dbo.BookingObjects table, and create a table for each of them.
