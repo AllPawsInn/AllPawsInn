@@ -60,13 +60,13 @@ List of things to be fixed, or implemented on the application:
    * Adding a date picker to the booking screens
      
    * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should open a dropdown which
-     lets the user to select an action like check-in/out, or edit")
+     lets the user to select an action like check-in/out, or edit") (an example can be found in the screenshots/Prototypes folder)
       
    * Adding a dropdown to the payment page which lets the user to select extra items to add to the cost (e.g. "nails, grooming,              etc.")
     
-   * Adding a basic stats page (an example could be found in the screenshots folder)
+   * Adding a basic stats page (an example can be found in the screenshots/Old Software folder)
     
-   * Adding Alert/Notification boxes to the main screen (an example could be found in the screenshots folder)
+   * Adding Alert/Notification boxes to the main screen (an example can be found in the screenshots/Prototypes folder)
     
    * Making a better design for pages like booking, new booking, and payment
     
