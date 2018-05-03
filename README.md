@@ -21,7 +21,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
 
 5. In order to restore database from a backup [this guide](https://www.howtogeek.com/50354/restoring-a-sql-database-backup-using-sql-server-management-studio)  can be followed.
 
-5. Run the following queries after setting up the database:
+5. Run the following queries on SQL Server Mgmt Studio, after setting up the database:
    ```sh
    ALTER TABLE dbo.BookingObjects ADD Days VARCHAR (255)
    ```
@@ -34,6 +34,14 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
    UPDATE dbo.BookingObjects SET Status= 'CO'
    ```
 5. Modify the sqlConfig.js file on the path "src/js/sqlConfig.js" with YOUR sql server configuration.
+    ```sh
+   let sqlConfig = {
+        user: 'sa', // your mssql account
+        password: 'xxxxx',
+        server: 'DESKTOP-9BJOBVM\\SQLEXPRESS', // your server name
+        database: 'KMDB'
+    }
+    ```
 
 6. To launch your app in development mode
     ```sh
