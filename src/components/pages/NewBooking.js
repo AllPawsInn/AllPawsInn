@@ -221,7 +221,7 @@ newVet(vet_details).then(result=>{
 		//calendar no hour input atm
 		return (
 			<div className = "box cal">
-				<h3>New Booking</h3><br></br>
+				<h3>New Client</h3><br></br>
 				<form onSubmit = {this.handleSubmit}>
 					<b><h4>Client</h4></b>
 					<div className = "box">
