@@ -4,7 +4,9 @@
 'use babel';
 
 import React, { Component } from 'react';
-import Calendar from 'react-input-calendar'
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import Calendar from 'react-input-calendar';
 const booking_lib = require('../../js/bookinglib')
 
 function create_date(datestr){
@@ -34,7 +36,9 @@ export default class Booking extends React.Component {
 			check : false,
 			dropdown_pick : 0,
 			animal: this.props.animal,
-			book : []
+			book : [],
+			startDate: moment(),
+			endDate: moment()
 		}
 
 		for(let i = 0; i < this.props.animal.length; i++){
@@ -63,8 +67,24 @@ export default class Booking extends React.Component {
 		this.check = this.check.bind(this)
 		this.popBooking = this.popBooking.bind(this)
 		this.dropdownSelected = this.dropdownSelected.bind(this)
+		this.handleStartDateChange = this.handleStartDateChange.bind(this)
+		this.handleEndDateChange = this.handleEndDateChange.bind(this)
 
 	}
+
+	handleStartDateChange(date) {
+		this.state.book[this.state.dropdown_pick].DateIn = date._d
+        this.setState({
+            startDate: date
+        });
+    }
+
+    handleEndDateChange(date) {
+    	this.state.book[this.state.dropdown_pick].DateOut = date._d
+        this.setState({
+            endDate: date
+        });
+    }
 
 	dateinChange(event){
 		this.state.book[this.state.dropdown_pick].DateIn = create_date(event)
@@ -219,8 +239,21 @@ export default class Booking extends React.Component {
 					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
 					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
 					<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
-					<b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = '4-17-2018' onChange = {this.dateinChange}/><br></br>
-					<b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = '4-17-2018' onChange = {this.dateoutChange}/><br></br>
+					<b>Date In</b><br></br>
+					<div id="datePicker">
+					<DatePicker
+			            selected={this.state.startDate}
+			            onChange={this.handleStartDateChange}
+			        />
+			        </div>
+			        <br></br>
+					<b>Date Out</b><br></br>
+					<div id="datePicker">
+					<DatePicker
+			            selected={this.state.endDate}
+			            onChange={this.handleEndDateChange}
+			        />
+			        </div>
 					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
 					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>

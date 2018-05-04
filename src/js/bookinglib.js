@@ -17,8 +17,9 @@ module.exports = {
 			for(let i = 0; i < booking.length; i++){
 				let new_booking = JSON.parse(JSON.stringify(booking[i]))
 				forceDate(new_booking)
+
 				new_booking.DateIn = new_booking.DateIn.toString()
-				new_booking.DateOut = new_booking.DateIn.toString()
+				new_booking.DateOut = new_booking.DateOut.toString()
 
 				let keys = ''
 				let values = ''

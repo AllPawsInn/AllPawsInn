@@ -7,6 +7,8 @@ const sql = require('mssql')
 
 import React, { Component } from 'react';
 import Calendar from 'react-input-calendar'
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 const booking_lib = require('../../js/bookinglib')
 
 function create_date(datestr){
@@ -25,10 +27,10 @@ async function selectClient(client,VetId){
 	let qr = `select * from ClientDetails where Email = '${client.Email}' and LastName = '${client.LastName}' and Address1 = '${client.Adress}' and VetSurgeryID='${vetId}'`
 	//if err s
 	await pool.request().query(qr)
-.then(result => {
-	console.dir(result.recordset[0])
-	id=result.recordset[0].ClientID;
-}).catch(err => {
+	.then(result => {
+		console.dir(result.recordset[0])
+		id=result.recordset[0].ClientID;
+	}).catch(err => {
 	// ... error checks
 })
 	sql.close()
@@ -42,10 +44,10 @@ async function selectAnimalType(animal){
 	let qr = `select * from AnimalTypes where AnimalTypeID = '2'`
 	//if err s
 	await pool.request().query(qr)
-.then(result => {
-	console.dir(result.recordset[0])
+	.then(result => {
+		console.dir(result.recordset[0])
 
-}).catch(err => {
+	}).catch(err => {
 	// ... error checks
 })
 	sql.close()
@@ -57,10 +59,10 @@ async function selectAnimal(animal,clientID){
 	let qr = `select * from Animals where AnimalName = '${animal.AnimalName}' and ClientID = clientID`
 	//if err s
 	await pool.request().query(qr)
-.then(result => {
-	console.dir(result.recordset[0])
-	id=result.recordset[0].AnimalID
-}).catch(err => {
+	.then(result => {
+		console.dir(result.recordset[0])
+		id=result.recordset[0].AnimalID
+	}).catch(err => {
 	// ... error checks
 })
 	sql.close()
@@ -156,9 +158,27 @@ export default class NewBooking extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			id : this.props.id_object
+			id : this.props.id_object,
+			startDate: moment(),
+			endDate: moment()
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleStartDateChange = this.handleStartDateChange.bind(this)
+		this.handleEndDateChange = this.handleEndDateChange.bind(this)
+	}
+
+	handleStartDateChange(date) {
+		//this.state.book[this.state.dropdown_pick].DateIn = date._d
+		this.setState({
+			startDate: date
+		});
+	}
+
+	handleEndDateChange(date) {
+		//this.state.book[this.state.dropdown_pick].DateOut = date._d
+		this.setState({
+			endDate: date
+		});
 	}
 
 
@@ -175,7 +195,7 @@ export default class NewBooking extends React.Component {
 			Contact_work :event.target[6].value,
 			Allow_mail:event.target[7].value
 		}
-	let animal = {
+		let animal = {
 			AnimalName : event.target[8].value,
 			AnimalBreed : event.target[9].value,
 			AnimalSex : event.target[10].value,
@@ -185,8 +205,8 @@ export default class NewBooking extends React.Component {
 			FoodAmount: event.target[14].value,
 			MedicalDetails: event.target[15].value,
 			Discount:event.target[16].value,
-			DateIn : new Date(`${event.target[17].value}`).toISOString().slice(0, 19).replace('T', ' '),
-			DateOut : new Date(`${event.target[18].value}`).toISOString().slice(0, 19).replace('T', ' '),
+			DateIn : this.state.startDate,
+			DateOut : this.state.endDate
 		}
 
 		let vet_details = {
@@ -197,21 +217,21 @@ export default class NewBooking extends React.Component {
 			Town : event.target[23].value,
 			Email : event.target[24].value,
 		}
-newVet(vet_details).then(result=>{
-	getVet(vet_details).then(VetId =>{
-		newClient(client_details,VetId).then(VetID => {
-			selectClient(client_details,VetID).then(id => {
-				newAnimal(animal,id).then(clientID =>{
-					selectAnimal(animal,clientID).then(id =>{
-						newBooking(animal,id).then(id=>{
-							getBooking(animal,id)
+		newVet(vet_details).then(result=>{
+			getVet(vet_details).then(VetId =>{
+				newClient(client_details,VetId).then(VetID => {
+					selectClient(client_details,VetID).then(id => {
+						newAnimal(animal,id).then(clientID =>{
+							selectAnimal(animal,clientID).then(id =>{
+								newBooking(animal,id).then(id=>{
+									getBooking(animal,id)
+								})
 							})
+						})
 					})
 				})
 			})
 		})
-	})
-})
 
 
 		this.props.updateScreen("home")
@@ -225,87 +245,100 @@ newVet(vet_details).then(result=>{
 		//calendar no hour input atm
 		return (
 			<div className = "box cal">
-				<h3>New Booking</h3><br></br>
-				<form onSubmit = {this.handleSubmit}>
-					<b><h4>Client</h4></b>
-					<div className = "box">
-					<div className="row">
-				<div className="col-sm-6"><b>First Name *</b><input name = "FirstName" type = "text"/><br></br></div>
+			<h3>New Booking</h3><br></br>
+			<form onSubmit = {this.handleSubmit}>
+			<b><h4>Client</h4></b>
+			<div className = "box">
+			<div className="row">
+			<div className="col-sm-6"><b>First Name *</b><input name = "FirstName" type = "text"/><br></br></div>
 			<div className="col-sm-6"><b>Last Name *</b><input name = "LastName" type = "text"/><br></br></div>
-				</div>
-				<div className="row">
+			</div>
+			<div className="row">
 			<div className="col-sm-6"><b>Address *</b><input name = "Address1" type = "text" /><br></br></div>
-		<div className="col-sm-6"><b>Email *</b><input name = "Email" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Email *</b><input name = "Email" type = "text"/><br></br></div>
 			</div>
 			<div className="row">
-		<div className="col-sm-6"><b>Postcode ZIP</b><input name = "PostcodeZIP" type = "text"/><br></br></div>
-		<div className="col-sm-6"><b>Contact(Home)</b><input name = "TelHome" type = "text"/><br></br></div>
-		</div>
+			<div className="col-sm-6"><b>Postcode ZIP</b><input name = "PostcodeZIP" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Contact(Home)</b><input name = "TelHome" type = "text"/><br></br></div>
+			</div>
 
-	<div className="row">
-<div className="col-sm-6"><b>Contact(Work)</b><input name = "TelWork" type = "text"/><br></br></div>
-<div className="col-sm-6"><b>Allow Mailings</b>
-<select name = "Mailings">
-	<option value = "Yes">Yes</option>
-	<option value = "No">No</option>
-</select></div>
-</div>
-</div>
-					<b><h4>Animal</h4></b>
-					<div className = "box">
-					<div className="row">
-  			<div className="col-sm-6"><b>Animal Name *</b><input name = "animal_name" type = "text"/><br></br></div>
-  		<div className="col-sm-6"><b>Animal Breed *</b><input name = "type" type = "text"/><br></br></div>
-				</div>
-				<div className="row">
+			<div className="row">
+			<div className="col-sm-6"><b>Contact(Work)</b><input name = "TelWork" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Allow Mailings</b>
+			<select name = "Mailings">
+			<option value = "Yes">Yes</option>
+			<option value = "No">No</option>
+			</select></div>
+			</div>
+			</div>
+			<b><h4>Animal</h4></b>
+			<div className = "box">
+			<div className="row">
+			<div className="col-sm-6"><b>Animal Name *</b><input name = "animal_name" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Animal Breed *</b><input name = "type" type = "text"/><br></br></div>
+			</div>
+			<div className="row">
 			<div className="col-sm-6"><b>Animal Sex</b><input name = "sex" type = "text"/><br></br></div>
-		<div className="col-sm-6"><b>Kennel Unit</b> <input name = "kennel_unit" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Kennel Unit</b> <input name = "kennel_unit" type = "text"/><br></br></div>
 			</div>
 
 			<div className="row">
-		<div className="col-sm-6"><b>Food Type</b><input name = "food_type" type = "text"/><br></br></div>
-	<div className="col-sm-6"><b>Food Frequency</b> <input name = "food_freq" type = "text"/><br></br></div>
-		</div>
-
-		<div className="row">
-	<div className="col-sm-6"><b>Food Amount</b><input name = "food_amount" type = "text"/><br></br></div>
-<div className="col-sm-6"><b>MedicalDetails</b> <input name = "medical_details" type = "text"/><br></br></div>
-	</div>
-	<div className="row">
-<div className="col-sm-6"><b>Discount</b><input name = "discount" type = "text" value = "0"/><br></br></div>
-
-</div>
+			<div className="col-sm-6"><b>Food Type</b><input name = "food_type" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Food Frequency</b> <input name = "food_freq" type = "text"/><br></br></div>
+			</div>
 
 			<div className="row">
-		<div className="col-sm-6"><b>Date In *</b><Calendar format='MM/DD/YYYY' date = '3-20-2018'/></div>
-	<div className="col-sm-6"><b>Date Out *</b><Calendar format='MM/DD/YYYY' date = '3-25-2018'/><br></br></div>
-		</div>
+			<div className="col-sm-6"><b>Food Amount</b><input name = "food_amount" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>MedicalDetails</b> <input name = "medical_details" type = "text"/><br></br></div>
+			</div>
+			<div className="row">
+			<div className="col-sm-6"><b>Discount</b><input name = "discount" type = "text" value = "0"/><br></br></div>
 
+			</div>
+			</div>
 
-					</div>
-					<b><h4>Vet Details</h4></b>
-					<div className = "box">
-					<div className="row">
-  			<div className="col-sm-6"><b>Practice Name *</b><input name = "practice_name" type = "text"/><br></br></div>
-  		<div className="col-sm-6"><b>Vet Name *</b><input name = "vet_name" type = "text"/><br></br></div>
+			<b><h4>Date</h4></b>
+			<div className = "box">
+				<b>Date In</b><br></br>
+				<div id="datePicker">
+					<DatePicker
+						selected={this.state.startDate}
+						onChange={this.handleStartDateChange}
+					/>
 				</div>
-				<div className="row">
-			<div className="col-sm-6"><b>Contact No</b><input name = "contact" type = "text"/><br></br></div>
-		<div className="col-sm-6"><b>Address</b> <input name = "contact" type = "text"/><br></br></div>
+				<br></br>
+				<b>Date Out</b><br></br>
+				<div id="datePicker">
+					<DatePicker
+						selected={this.state.endDate}
+						onChange={this.handleEndDateChange}
+					/>
+				</div>
+			</div>
+
+			<b><h4>Vet Details</h4></b>
+			<div className = "box">
+			<div className="row">
+			<div className="col-sm-6"><b>Practice Name *</b><input name = "practice_name" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Vet Name *</b><input name = "vet_name" type = "text"/><br></br></div>
 			</div>
 			<div className="row">
-		<div className="col-sm-6"><b>Town</b><input name = "town" type = "text"/></div>
-	<div className="col-sm-6"><b>Email</b><input name = "email" type = "text"/><br></br></div>
-		</div>
-
-					</div>
-					<div id="submitInput">
-						<input className = "profileButton" type = "Submit" value = "Submit"/>
-					</div>
-
-
-				</form>
+			<div className="col-sm-6"><b>Contact No</b><input name = "contact" type = "text"/><br></br></div>
+			<div className="col-sm-6"><b>Address</b> <input name = "contact" type = "text"/><br></br></div>
 			</div>
-		)
+			<div className="row">
+			<div className="col-sm-6"><b>Town</b><input name = "town" type = "text"/></div>
+			<div className="col-sm-6"><b>Email</b><input name = "email" type = "text"/><br></br></div>
+			</div>
+
+			</div>
+			<div id="submitInput">
+			<input className = "profileButton" type = "Submit" value = "Submit"/>
+			</div>
+
+
+			</form>
+			</div>
+			)
+		}
 	}
-}

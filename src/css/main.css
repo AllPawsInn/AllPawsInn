@@ -20,6 +20,10 @@ h6 {
   display: inline;
 }
 
+:global {
+  @import 'react-datepicker/dist/react-datepicker.css' /* external style without prefixing */
+}
+
 .wrapper {
   display: grid;
   grid-gap: 10px;
@@ -334,6 +338,12 @@ h6 {
 }
 
 #submitInput button {
+    position: inherit;
+    margin: 10px 0px;
+}
+
+#datePicker input {
+    left: 0px;
     position: inherit;
     margin: 10px 0px;
 }
