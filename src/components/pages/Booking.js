@@ -123,7 +123,7 @@ export default class Booking extends React.Component {
 			AnimalID : book[dropdown_pick].AnimalID,
 			KennelID: book[dropdown_pick].KennelID,
 			DateIn : book[dropdown_pick].DateIn,
-			NoDays : (Math.ceil((book[dropdown_pick].DateOut-book[dropdown_pick].DateIn)/oneDay)) || 1,
+			NoDays : book[dropdown_pick].NoDays,
 			DateOut : book[dropdown_pick].DateOut,
 			BoardingRate : book[dropdown_pick].BoardingRate,
 			Discount: book[dropdown_pick].Discount,
@@ -151,7 +151,7 @@ export default class Booking extends React.Component {
 				KennelID: book[i].KennelID,
 				DateIn : book[i].DateIn,
 				DateOut : book[i].DateOut,
-				NoDays : (Math.ceil((book[dropdown_pick].DateOut-book[dropdown_pick].DateIn)/oneDay)) || 1,
+				NoDays : book[dropdown_pick].NoDays,
 				BoardingRate : book[i].BoardingRate,
 				Discount: book[i].Discount,
 				Status: 'NCI'
