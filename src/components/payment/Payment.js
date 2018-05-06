@@ -42,6 +42,9 @@ export default class Payment extends React.Component {
 		if(Array.isArray(booking.Discount)){
 			discoRate = booking.Discount[0]
 		}
+		else{
+			discoRate = booking.Discount
+		}
 
 		let disco = (total*discoRate)/100
 
@@ -141,11 +144,11 @@ export default class Payment extends React.Component {
 							<hr></hr>
 							<div className = "row">
 								<div className="col-sm-6"><b>Sub Total: $ </b>{subToPay}<br></br></div>
-								<div className="col-sm-6"><b>Net Booking Charges   $</b>{bookingChargesToPay}<br></br></div>
+								<div className="col-sm-6"><b>Discount: % </b>{!Array.isArray(this.props.booking.Discount) ?  this.props.booking.Discount : this.props.booking.Discount[0]}<br></br></div>
 							</div>
 							<hr></hr>
 							<div className = "row">
-								<div className="col-sm-6"><b>Discount: % </b>{!Array.isArray(this.props.booking.Discount) ? '0' : this.props.booking.Discount[0]}<br></br></div>
+								<div className="col-sm-6"><b>Net Booking Charges   $</b>{bookingChargesToPay}<br></br></div>
 								<div className="col-sm-6"><b>Other Goods: $ </b><input name = "others" type = "text"  onChange = {this.handleChange}/><br></br></div>
 							</div>
 							<hr></hr>

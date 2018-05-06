@@ -53,7 +53,7 @@ export default class Booking extends React.Component {
 				KennelID : 1, //to-do first available kennel
 				DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 				DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
-				Days: 1,
+				NoDays: 1,
 				BoardingRate : 35,
 				Discount: 0
 			}
@@ -126,6 +126,7 @@ export default class Booking extends React.Component {
 			AnimalID : book[dropdown_pick].AnimalID,
 			KennelID: book[dropdown_pick].KennelID,
 			DateIn : book[dropdown_pick].DateIn,
+			NoDays : book[dropdown_pick].NoDays,
 			DateOut : book[dropdown_pick].DateOut,
 			BoardingRate : book[dropdown_pick].BoardingRate,
 			Discount: book[dropdown_pick].Discount,
@@ -153,6 +154,7 @@ export default class Booking extends React.Component {
 				KennelID: book[i].KennelID,
 				DateIn : book[i].DateIn,
 				DateOut : book[i].DateOut,
+				NoDays : book[dropdown_pick].NoDays,
 				BoardingRate : book[i].BoardingRate,
 				Discount: book[i].Discount,
 				Status: 'NCI'
@@ -197,7 +199,7 @@ export default class Booking extends React.Component {
 					KennelID : 1, //to-do first available kennel
 					DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
-					Days: 1,
+					NoDays: 1,
 					BoardingRate : 35,
 					Discount: 0
 				}
@@ -254,7 +256,7 @@ export default class Booking extends React.Component {
 			            onChange={this.handleEndDateChange}
 			        />
 			        </div>
-					<b>Days</b><input name = "Days" type = "text" value = {book[dropdown_pick].Days} onChange = {this.handleChange}/><br></br>
+					<b>Days</b><input name = "NoDays" type = "text" value = {book[dropdown_pick].NoDays} onChange = {this.handleChange}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
 					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
 					<div id="submitInput">
