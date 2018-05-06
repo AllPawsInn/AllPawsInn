@@ -11,6 +11,7 @@ import NewBooking from "./pages/NewBooking"
 import Report from "./pages/Report"
 import Payment from "./payment/Payment"
 import Scheduler from "./functions/Scheduler"
+import Help from "./pages/Help"
 
 export default class Screen extends React.Component {
 	componentWillMount() {
@@ -44,6 +45,8 @@ export default class Screen extends React.Component {
 			return(<Booking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
 		else if(this.state.screen === "new_booking")
 			return(<NewBooking updateScreen = {this.props.updateScreen} id_object = {this.props.id_object} animal = {this.props.animal} bookings = {this.props.bookings}/>)
+		else if(this.state.screen === "help")
+			return <Help/>
 		else
 			return (<Calendar print = {this.props.print} boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
 

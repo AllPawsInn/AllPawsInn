@@ -210,6 +210,10 @@ export default class Main extends React.Component {
 		newobj.AnimalName = animal[0].AnimalName
 		newobj.FirstName = animal[0].FirstName
 		newobj.LastName = animal[0].LastName
+		newobj.Colour = animal[0].Colour
+		newobj.Sex = animal[0].Sex
+		newobj.Age = animal[0].Age
+		newobj.Breed = animal[0].Breed
 
 		this.state.booking_list.push(newobj)
 

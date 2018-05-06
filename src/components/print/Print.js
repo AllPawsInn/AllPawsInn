@@ -42,7 +42,7 @@ export default class Print extends React.Component {
 					      <table>
 					      <tr>
 					        <th className="key">Animal Type:</th>
-					        <th>{current.AnimalType}</th>
+					        <th>Dog</th>
 					      </tr>
 					      <tr>
 					        <th className="key">Breed:</th>

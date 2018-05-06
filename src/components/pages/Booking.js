@@ -7,7 +7,8 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Calendar from 'react-input-calendar';
-const booking_lib = require('../../js/bookinglib')
+const booking_lib = require('../../js/bookinglib');
+const oneDay = 24*60*60*1000;
 
 function create_date(datestr){
 	let dt_in = datestr.split('-')
@@ -55,12 +56,10 @@ export default class Booking extends React.Component {
 				DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 				NoDays: 1,
 				BoardingRate : 35,
-				Discount: 0
+				Discount: this.props.animal[i].Discount
 			}
 		}
 
-		this.dateinChange = this.dateinChange.bind(this)
-		this.dateoutChange = this.dateoutChange.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.submitAll = this.submitAll.bind(this)
@@ -73,26 +72,24 @@ export default class Booking extends React.Component {
 	}
 
 	handleStartDateChange(date) {
-		this.state.book[this.state.dropdown_pick].DateIn = date._d
-        this.setState({
-            startDate: date
-        });
+		if(date._d <= this.state.book[this.state.dropdown_pick].DateOut){
+			this.state.book[this.state.dropdown_pick].DateIn = date._d
+			this.state.book[this.state.dropdown_pick].NoDays =  (Math.ceil((this.state.book[this.state.dropdown_pick].DateOut-this.state.book[this.state.dropdown_pick].DateIn)/oneDay)) || 1
+		    this.setState({
+		        startDate: date
+		    });
+    	}
     }
 
     handleEndDateChange(date) {
-    	this.state.book[this.state.dropdown_pick].DateOut = date._d
-        this.setState({
-            endDate: date
-        });
+    	if(date._d >= this.state.book[this.state.dropdown_pick].DateIn){
+			this.state.book[this.state.dropdown_pick].DateOut = date._d
+			this.state.book[this.state.dropdown_pick].NoDays =  (Math.ceil((this.state.book[this.state.dropdown_pick].DateOut-this.state.book[this.state.dropdown_pick].DateIn)/oneDay)) || 1
+	    	this.setState({
+	            endDate: date
+	        });
+    	}
     }
-
-	dateinChange(event){
-		this.state.book[this.state.dropdown_pick].DateIn = create_date(event)
-	}
-
-	dateoutChange(event){
-		this.state.book[this.state.dropdown_pick].DateOut = create_date(event)
-	}
 
 	check(){
 		this.state.book[this.state.dropdown_pick].DayCare = !this.state.book[this.state.dropdown_pick].DayCare
@@ -126,7 +123,7 @@ export default class Booking extends React.Component {
 			AnimalID : book[dropdown_pick].AnimalID,
 			KennelID: book[dropdown_pick].KennelID,
 			DateIn : book[dropdown_pick].DateIn,
-			NoDays : book[dropdown_pick].NoDays,
+			NoDays : (Math.ceil((book[dropdown_pick].DateOut-book[dropdown_pick].DateIn)/oneDay)) || 1,
 			DateOut : book[dropdown_pick].DateOut,
 			BoardingRate : book[dropdown_pick].BoardingRate,
 			Discount: book[dropdown_pick].Discount,
@@ -154,7 +151,7 @@ export default class Booking extends React.Component {
 				KennelID: book[i].KennelID,
 				DateIn : book[i].DateIn,
 				DateOut : book[i].DateOut,
-				NoDays : book[dropdown_pick].NoDays,
+				NoDays : (Math.ceil((book[dropdown_pick].DateOut-book[dropdown_pick].DateIn)/oneDay)) || 1,
 				BoardingRate : book[i].BoardingRate,
 				Discount: book[i].Discount,
 				Status: 'NCI'
@@ -201,7 +198,7 @@ export default class Booking extends React.Component {
 					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					NoDays: 1,
 					BoardingRate : 35,
-					Discount: 0
+					Discount: nextProps.animal[i].Discount
 				}
 			}
 	    this.setState({
@@ -222,10 +219,6 @@ export default class Booking extends React.Component {
 		for (let i = 0; i < book.length; i++) {
 		    dropdown.push(<option key={i} value={i}>{`${book[i].FirstName} ${book[i].LastName} - ${book[i].AnimalName}`}</option>);
 		}
-
-		//get rid of retarded date picker :)
-		// <b>Date In</b><Calendar name = "DateIn" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateinChange}/><br></br>
-		// <b>Date Out</b><Calendar name = "DateOut" format = 'MM/DD/YYYY' date = {form_date(book[dropdown_pick].DateIn)} onChange = {this.dateoutChange}/><br></br>
 
 		return(
 			<div className = "box cal">
@@ -256,9 +249,9 @@ export default class Booking extends React.Component {
 			            onChange={this.handleEndDateChange}
 			        />
 			        </div>
-					<b>Days</b><input name = "NoDays" type = "text" value = {book[dropdown_pick].NoDays} onChange = {this.handleChange}/><br></br>
+					<b>Days</b><input disabled name = "NoDays" type = "text" value = {book[dropdown_pick].NoDays}/><br></br>
+					<b>Discount Rate   %</b><input disabled name = "Discount" type = "text" value = {book[dropdown_pick].Discount}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>
-					<b>Discount Rate   %</b><input name = "Discount" type = "text" value = {book[dropdown_pick].Discount} onChange = {this.handleChange}/><br></br>
 					<div id="submitInput">
 						<button className = "profileButton" onClick = {this.handleSubmit}> Submit </button>
 					</div>
