@@ -114,4 +114,4 @@ List of things to be fixed, or implemented on the application:
    
    * Making the Animal Details (called "Full Profile" in the program) editable (should be talked with All Paws Inn first)
 
-   * Issues mentioned in the Help page should be solved
+   * Help page should be updated after each resolved issue
