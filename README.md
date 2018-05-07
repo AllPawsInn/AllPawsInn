@@ -63,7 +63,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
     ```sh
     npm run package-linux
     ```
-## Task List   
+## TODO List   
 List of things to be fixed, or implemented on the application:
    * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should open a dropdown which
      lets the user to select an action like check-in/out, or edit") (an example can be found in the Screenshots/Prototypes folder)
