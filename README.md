@@ -63,7 +63,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
     ```sh
     npm run package-linux
     ```
-## TODO List   
+## TO-DO List   
 List of things to be fixed, or implemented on the application:
    * Making the booking bars in the grid view of the boarding screen, interactable (e.g. "right click should open a dropdown which
      lets the user to select an action like check-in/out, or edit") (an example can be found in the Screenshots/Prototypes folder)
@@ -103,8 +103,15 @@ List of things to be fixed, or implemented on the application:
    * Input fields should be validated, and sanitized in order to prevent attacks like SQL Injection, and XSS (Cross-Site Scripting)
    
    * Boarding and Daycare bookings should be managed in different database tables. Seperate the dbo.BookingObjects table, and create a table for each of them.
+   
    * Adding a booking removal feature
+   
    * Adding a new booking feature for a new client
+   
    * Reflecting Client Profile and New Client updates to the program without a need to refreshing it
+   
    * Adding note boxes for animal and food components (where user can enter specific notes for each dog and it's food) on New Client page
+   
    * Making the Animal Details (called "Full Profile" in the program) editable (should be talked with All Paws Inn first)
+
+   * Issues mentioned in the Help page should be solved
