@@ -372,3 +372,13 @@ h6 {
   display: inline-block;
   margin: 5px 0px;
 }
+
+#Help span{
+  left: 330px;
+  position: sticky;
+}
+
+#Help li{
+  margin-left: 20px;
+  position: sticky;
+}
