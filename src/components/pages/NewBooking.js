@@ -21,18 +21,19 @@ function create_date(datestr){
 async function selectClient(client,VetId){
 	let pool = await sql.connect(sqlConfig)
 	let vetId=VetId;
-	let id='';
+	let clientObj;
 	let qr = `select * from ClientDetails where Email = '${client.Email}' and LastName = '${client.LastName}' and Address1 = '${client.Adress}' and VetSurgeryID='${vetId}'`
 	//if err s
 	await pool.request().query(qr)
 .then(result => {
-	console.dir(result.recordset[0])
-	id=result.recordset[0].ClientID;
+	// console.dir(result.recordset[0])
+	clientObj=result.recordset[0];
+
 }).catch(err => {
 	// ... error checks
 })
 	sql.close()
-	return id;
+	return clientObj;
 }
 
 async function selectAnimalType(animal){
@@ -53,18 +54,18 @@ async function selectAnimalType(animal){
 }
 async function selectAnimal(animal,clientID){
 	let pool = await sql.connect(sqlConfig)
-	let id='';
+	let animalObj;
 	let qr = `select * from Animals where AnimalName = '${animal.AnimalName}' and ClientID = clientID`
 	//if err s
 	await pool.request().query(qr)
 .then(result => {
-	console.dir(result.recordset[0])
-	id=result.recordset[0].AnimalID
+	// console.dir(result.recordset[0])
+	animalObj=result.recordset[0]
 }).catch(err => {
 	// ... error checks
 })
 	sql.close()
-	return id;
+	return animalObj;
 }
 
 async function newClient(client,vetId){
@@ -92,35 +93,7 @@ async function newAnimal(animal,clientID){
 	console.log("animal created...")
 	return clientid;
 }
-// async function newBooking(animal,animalID){
-//
-// 	let pool = await sql.connect(sqlConfig)
-// 	let qr = `INSERT INTO BookingObjects (AnimalID,KennelID,DateIn,DateOut,Status,Discount)
-// 	VALUES ('${animalID}','1345484','${animal.DateIn}', '${animal.DateOut}','CI','${animal.Discount}')`
-// 	//if err s
-// 	await pool.request().query(qr).then(result => {
-//
-//
-// 	}).catch(err => {
-// 		console.dir(err)
-// 	})
-// 	sql.close()
-// 	console.log("reservation created...")
-// 	return animalID;
-// }
-// async function getBooking(animal,id){
-//
-// 	let pool = await sql.connect(sqlConfig)
-// 	let qr = `select * from BookingObjects where AnimalID='${id}'`
-// 	//if err s
-// 	await pool.request().query(qr).then(result => {
-// 		console.dir(result)
-//
-// 	}).catch(err => {
-// 		console.log(err)
-// 	})
-// 	sql.close()
-// }
+
 
 async function newVet(vet){
 
@@ -138,18 +111,17 @@ async function newVet(vet){
 	console.log("vet created...")
 }
 async function getVet(vet){
-	let VetId;
+	let VetObject;
 	let pool = await sql.connect(sqlConfig)
 	let qr = `select * from VetDetails where PracticeName='${vet.Practice_name}' and VetName='${vet.Vet_name}' and ContactNo = '${vet.Contact}' and Email='${vet.Email}'`
 	//if err s
 	await pool.request().query(qr).then(result => {
-		console.dir(result)
-		VetId=result.recordset[0].ID;
+		VetObject=result.recordset[0];
 	}).catch(err => {
 		console.log(err)
 	})
 	sql.close()
-	return VetId;
+	return VetObject;
 }
 
 export default class NewBooking extends React.Component {
@@ -195,13 +167,23 @@ export default class NewBooking extends React.Component {
 			Town : event.target[21].value,
 			Email : event.target[22].value,
 		}
+	let tempClient,tempAnimal,tempVet;
+	let merged;
 newVet(vet_details).then(result=>{
-	getVet(vet_details).then(VetId =>{
-		newClient(client_details,VetId).then(VetID => {
-			selectClient(client_details,VetID).then(id => {
-				newAnimal(animal,id).then(clientID =>{
-					selectAnimal(animal,clientID).then(id =>{
+	getVet(vet_details).then(VetObject =>{
+		tempVet=VetObject
+		newClient(client_details,VetObject.ID).then(VetID => {
+			selectClient(client_details,VetID).then(clientObj => {
+				tempClient=clientObj;
 
+				newAnimal(animal,clientObj.ClientID).then(clientID =>{
+					selectAnimal(animal,clientID).then(animalObj =>{
+						tempAnimal=animalObj;
+						console.dir(tempVet)
+						console.dir(tempClient);
+						console.dir(tempAnimal);
+						merged = Object.assign({}, tempClient, tempAnimal);
+						this.props.dogs.push(merged)
 					})
 				})
 			})
@@ -209,7 +191,7 @@ newVet(vet_details).then(result=>{
 	})
 })
 
-
+	console.dir(this.props.dogs)
 		this.props.updateScreen("home")
 
 	}
