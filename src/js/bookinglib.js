@@ -36,6 +36,11 @@ module.exports = {
 				//if err s
 				await pool.request()
 					.query(qr)
+
+				let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${new_booking.KennelID}`
+
+				await pool.request()
+				.query(qr2)
 			}
 
 			sql.close()
@@ -77,20 +82,4 @@ module.exports = {
 		insertDog(obj)
 	},
 
-	updateOccupancy: function(KennelID, empty){
-
-		async function update(val){
-			let qr = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${val}`
-			if (empty)
-				qr = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${val}`
-			
-			let pool = await sql.connect(sqlConfig)
-			await pool.request()
-			.query(qr)
-
-			sql.close()
-		}
-
-		update(KennelID)
-	}
 }

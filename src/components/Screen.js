@@ -48,7 +48,7 @@ export default class Screen extends React.Component {
 		else if(this.state.screen === "help")
 			return <Help/>
 		else
-			return (<Calendar print = {this.props.print} boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
+			return (<Calendar kennel_map = {this.props.kennel_map} print = {this.props.print} boz = {this.props.boz} payment = {this.props.payment} currentId = {this.props.currentId} bookings = {this.props.bookings}/>)
 
 	}
 }

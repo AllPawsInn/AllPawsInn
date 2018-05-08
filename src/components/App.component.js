@@ -76,7 +76,7 @@ export default class Main extends React.Component {
 			.query("SELECT top 1 * from dbo.Animals order by AnimalID desc")
 
 		let kennel_map = await pool.request()
-			.query("SELECT * FROM dbo.KennelOccupancy WHERE Occupancy = 0 ORDER BY ID;")
+			.query("SELECT * FROM dbo.KennelOccupancy ORDER BY ID;")
 
 		//if err sql.close
 
@@ -189,39 +189,44 @@ export default class Main extends React.Component {
 				break;
 		}
 
-		this.state.id_object.booking_id++
+		let sqlArray = []
+
+		for(let i = 0; i<animal.length;i++){
+			this.state.id_object.booking_id++
 			let sql_obj = {
 				DayCare : 1,
 				NoDays : 1,
-				AnimalID : animal[0].AnimalID,
+				AnimalID : animal[i].AnimalID,
 				KennelID : 1,
 				DateIn : date,
 				DateOut : date,
 				DayCareRate : 21.99,
 				Days : day,
-				Discount : animal[0].Discount,
+				Discount : animal[i].Discount,
 				Status : 'NCI'
 			}
 
-		let newobj = JSON.parse(JSON.stringify(sql_obj))
-		newobj.DateIn = new Date(Date.parse(newobj.DateIn))
-		newobj.DateOut = new Date(Date.parse(newobj.DateOut))
+			let newobj = JSON.parse(JSON.stringify(sql_obj))
+			newobj.DateIn = new Date(Date.parse(newobj.DateIn))
+			newobj.DateOut = new Date(Date.parse(newobj.DateOut))
 
-		let sqlArray = []
-		sqlArray.push(sql_obj)
+			sqlArray.push(sql_obj)
+
+
+			newobj.BookingID = this.state.id_object.booking_id
+			newobj.AnimalName = animal[i].AnimalName
+			newobj.FirstName = animal[i].FirstName
+			newobj.LastName = animal[i].LastName
+			newobj.Colour = animal[i].Colour
+			newobj.Sex = animal[i].Sex
+			newobj.Age = animal[i].Age
+			newobj.Breed = animal[i].Breed
+
+			this.state.booking_list.push(newobj)
+
+		}
 
 		booking_lib.create_booking(sqlArray)
-
-		newobj.BookingID = this.state.id_object.booking_id
-		newobj.AnimalName = animal[0].AnimalName
-		newobj.FirstName = animal[0].FirstName
-		newobj.LastName = animal[0].LastName
-		newobj.Colour = animal[0].Colour
-		newobj.Sex = animal[0].Sex
-		newobj.Age = animal[0].Age
-		newobj.Breed = animal[0].Breed
-
-		this.state.booking_list.push(newobj)
 
 		this.setState({
 			animal : animal,
