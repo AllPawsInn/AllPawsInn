@@ -138,7 +138,7 @@ export default class ClientProfile extends React.Component {
 		if (this.props.animal)
 			return  (
 				<div className = "box cal">
-				<h3>Client Details</h3><button onClick = {this.newDog}>+Dog</button>
+				<h3>Client Details</h3><button className = "profileButton" onClick = {this.newDog}>+Dog</button>
 				<form onSubmit = {this.handleSubmit}>
 					<br></br>
 					<div className = "box">
