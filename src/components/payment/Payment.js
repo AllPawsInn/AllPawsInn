@@ -72,6 +72,7 @@ export default class Payment extends React.Component {
 	}
 
 	handleSubmit(event){
+		this.props.booking.Status = "CO"
 		event.preventDefault();
 		this.props.updateScreen("calendar")
 	}

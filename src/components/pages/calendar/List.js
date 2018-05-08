@@ -44,13 +44,14 @@ export default class List extends React.Component {
 			status = "CI"
 		else{
 			if(obj.Status == "CI")
-				status = "CO"
+				this.props.payment(obj)
 			else if(obj.Status == "NCO")
-				status = "CO"
+				this.props.payment(obj)
 			else
-				status = "CO"
+				this.props.payment(obj)
 
-			this.props.payment(obj)
+			//this.props.payment(obj)
+			status = obj.Status
 		}
 
 		obj.Status = status

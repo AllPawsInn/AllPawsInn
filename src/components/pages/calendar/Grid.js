@@ -448,7 +448,6 @@ export default class Grid extends React.Component {
   	}
 
   	getPayment(obj){
-  		obj.Status = 'CO'
   		this.props.payment(obj)
   		updateStatusQuery(obj)
   	}
