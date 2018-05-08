@@ -6,6 +6,11 @@
       const window = remote.getCurrentWindow();
       window.minimize(); 
     });
+
+    document.getElementById("refresh").addEventListener("click", function (e) {
+      const window = remote.getCurrentWindow();
+      window.reload(); 
+    });
     
     document.getElementById("max-btn").addEventListener("click", function (e) {
       const window = remote.getCurrentWindow();
