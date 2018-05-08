@@ -126,6 +126,7 @@ export default class Booking extends React.Component {
 		sqlArray.push(sql_obj)
 
 		book[dropdown_pick].BookingID = ++this.props.id_object.booking_id
+		book[dropdown_pick].KennelID = sql_obj.KennelID
 		this.props.bookings.push(book[dropdown_pick])
 
 		booking_lib.create_booking(sqlArray, true)
@@ -151,6 +152,8 @@ export default class Booking extends React.Component {
 				Discount: book[i].Discount,
 				Status: 'NCI'
 			}
+
+			book[i].KennelID = sql_obj.KennelID
 			book[i].DateIn = book[0].DateIn
 			book[i].DateOut = book[0].DateOut
 
