@@ -16,11 +16,11 @@ export default class Help extends React.Component {
 					<hr></hr>
 					<b>New Boarding Booking (Existing Client):</b> <span>Search Client or Dog Name <b>>></b> Click New Reservation on Animal Details</span>
 					<hr></hr>
-					<b>New Boarding Booking (New Client):</b> <span>Add the client from New Client page <b>>></b> After submit, refresh the program <b>>></b> Rest is the same with the existing client</span>
+					<b>New Boarding Booking (New Client):</b> <span>Add the client from New Client page <b>>></b> Rest is the same with the existing client</span>
 					<hr></hr>
 					<b>New Daycare Booking (Existing Client):</b> <span>Search Client or Dog Name <b>>></b> Click New Daycare on Animal Details</span>
 					<hr></hr>
-					<b>New Daycare Booking (New Client):</b> <span>Add the client from New Client page <b>>></b> Refresh the program <b>>></b> Rest is the same with the existing client</span>
+					<b>New Daycare Booking (New Client):</b> <span>Add the client from New Client page <b>>></b> Rest is the same with the existing client</span>
 					<hr></hr>
 					<b>Multiple Boarding Booking:</b> <span>Search Client or Dog Name <b>>></b> Hold and drag the mouse until desired dogs are selected <b>>></b> Click New Reservation on Animal Details</span>
 					<hr></hr>
@@ -29,6 +29,8 @@ export default class Help extends React.Component {
 					<b>Daycare Booking Check-Out (Grid Only):</b> <span>Click $ sign in the Check-Out column</span>
 					<hr></hr>
 					<b>Print Daycare Booking (Grid Only):</b> <span>Click printer sign in the Print column</span>
+					<hr></hr>
+					<b>Add New Dog to a Client:</b> <span>Search Client or Dog Name <b>>></b> Click Client Profile on Animal Details <b>>></b> Click add dog <b>>></b></span>
 					<hr></hr>
 					<b>New Client:</b> <span>Add the client from New Client page <b>>></b> After submit, refresh the program</span>
 					<hr></hr>
@@ -63,7 +65,7 @@ export default class Help extends React.Component {
 					<h4>Keep In Mind</h4>
 					<hr></hr>
 					<ul>
-					<li>After New Client and Client Update operations, must refresh the program</li>
+					<li>After Client Update operations, must refresh the program</li>
 					<hr></hr>
 					<li>Daycare bookings are printable (Grid Only)</li>
 					<hr></hr>
