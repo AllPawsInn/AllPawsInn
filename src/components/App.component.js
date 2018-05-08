@@ -192,7 +192,7 @@ export default class Main extends React.Component {
 		let sqlArray = []
 
 		for(let i = 0; i<animal.length;i++){
-			this.state.id_object.booking_id++
+			this.state.id_object.booking_id++ 
 			let sql_obj = {
 				DayCare : 1,
 				NoDays : 1,

@@ -187,7 +187,6 @@ export default class Booking extends React.Component {
 					Breed : nextProps.animal[i].Breed,
 					DayCare : false, //this will probably be broken after multiple booking checks
 					AnimalName : nextProps.animal[i].AnimalName,
-					KennelID : cap + i, //to-do first available kennel
 					DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					NoDays: 1,
