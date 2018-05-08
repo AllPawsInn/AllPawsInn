@@ -156,7 +156,7 @@ export default class Calendar extends React.Component {
 		if (bookings_list){
 			return(
 				<div className="box cal">
-					<div className = "middle">
+					<div>
 						<select className = "calendarSwitch" onChange = {this.switch_booking} value = {this.state.daycare}>
 							<option value = {true}>Daycare</option>
 							<option value = {false}>Boarding</option>

@@ -20,7 +20,7 @@ async function handleQuery(booking){
 	let stat = booking.Status
 	let bookingId = parseInt(booking.BookingID)
 
-	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+	let queryString = `UPDATE BookingObjects SET Status = '${booking.Status}' WHERE dbo.BookingObjects.BookingID = ${bookingId}`
 
 	let result = await pool.request()
 		 .query(queryString)
