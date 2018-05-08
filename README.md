@@ -44,14 +44,7 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
         Occupancy bit
    );
    ```
-   
-   ```sh
-   CREATE TABLE KennelOccupancy (
-        ID int NOT NULL primary key,
-        Occupancy bit
-   );
-   ```
-   
+     
    ```sh
    DECLARE @i int = 0
    WHILE @i < 100 
