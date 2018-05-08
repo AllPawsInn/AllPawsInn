@@ -40,8 +40,8 @@ export default class NewDog extends React.Component {
 	handleSubmit(event){
 		event.preventDefault()
 		let dog = this.state
-		dog.AnimalID = this.props.id_obj.animal_id
 		this.props.id_obj.animal_id ++
+		dog.AnimalID = this.props.id_obj.animal_id
 		insertAnimal(dog)
 		this.props.dogs.push(dog)
 		this.props.updateScreen("home")
