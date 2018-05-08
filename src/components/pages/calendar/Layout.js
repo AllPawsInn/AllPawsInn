@@ -35,7 +35,9 @@ function cellObject(range, obj){ //double check the logic here
 	let dateOut = obj.DateOut
 	let dateIn = obj.DateIn
 
+	let date = new Date(Date.now())
 	let new_obj = {
+		static : (dateOut < date),
 		h : 1,
 		y : obj.KennelID * 1
 	}
