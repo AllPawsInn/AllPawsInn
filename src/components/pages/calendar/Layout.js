@@ -92,6 +92,7 @@ export default class Layout extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
+			val : 1,
 			range : this.props.range,
 			current : this.props.current,
 			bookings: this.props.bookings
@@ -119,6 +120,9 @@ export default class Layout extends React.Component {
 				break
 			}
 		}
+		this.setState({
+			val: 1
+		})
 		// this.props.bookings[newItem.i*1].KennelID = newItem.y + 1
 		// updateBooking(bookings[newItem.i])
 	}
@@ -141,7 +145,7 @@ export default class Layout extends React.Component {
 			<GridLayout layout = {x} className="layout" onDragStop = {this.onDragStop.bind(this)} preventCollision={true} cols={7} rowHeight={22} width={1140} isResizable = {false} compactType = {null}>
 				{
 				current.map(obj => 
-					<div className = {colorScheme(obj.Status)} key = {obj.BookingID} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
+					<div className = {colorScheme(obj.Status)} key = {obj.BookingID} data-grid={cellObject(range, obj)}><b>{obj.KennelID}. {obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
 				)
 				}
 			</GridLayout>
