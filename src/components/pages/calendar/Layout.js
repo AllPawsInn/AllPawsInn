@@ -97,7 +97,15 @@ export default class Layout extends React.Component {
 	onDragStop(e, element, newItem){
 		for (let i = this.props.bookings.length-1; i>=0; i--){
 			if (this.props.bookings[i].BookingID == newItem.i*1){
+				let empty = this.props.bookings[i].KennelID
 				this.props.bookings[i].KennelID = newItem.y
+				console.log(this.props.kennel_map)
+				this.props.kennel_map[empty].Occupancy = false
+				this.props.kennel_map[newItem.y].Occupancy = true
+				console.log(this.props.kennel_map)
+
+				//switch kennel occupancy within the program
+				// updateBooking(this.props.bookings[i].BookingID, this.props.bookings[i].KennelID)
 				break
 			}
 		}

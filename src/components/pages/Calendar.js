@@ -146,10 +146,10 @@ export default class Calendar extends React.Component {
 				panel = <Grid print = {this.props.print} current = {current} payment = {this.props.payment} />
 			}
 			else
-				panel = <Layout bookings = {bookings_list} current = {current} range = {range} />
+				panel = <Layout kennel_map = {this.props.kennel_map} bookings = {bookings_list} current = {current} range = {range} />
 		}
 		else{
-			panel = <List current = {current} payment = {this.props.payment} />
+			panel = <List kennel_map = {this.props.kennel_map} current = {current} payment = {this.props.payment} />
 		}
 
 

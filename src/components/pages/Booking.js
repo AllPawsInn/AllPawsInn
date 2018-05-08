@@ -27,8 +27,7 @@ function handleMap(map_array){
 	for(let i = 0; i < map_array.length; i++){
 		if(!map_array[i].Occupancy){
 			map_array[i].Occupancy = !map_array[i].Occupancy
-			booking_lib.updateOccupancy(i)
-			return i
+			return map_array[i].ID*1
 		}
 	}
 }
@@ -71,7 +70,6 @@ export default class Booking extends React.Component {
 		this.dropdownSelected = this.dropdownSelected.bind(this)
 		this.handleStartDateChange = this.handleStartDateChange.bind(this)
 		this.handleEndDateChange = this.handleEndDateChange.bind(this)
-
 	}
 
 	handleStartDateChange(date) {
@@ -189,7 +187,6 @@ export default class Booking extends React.Component {
 					Breed : nextProps.animal[i].Breed,
 					DayCare : false, //this will probably be broken after multiple booking checks
 					AnimalName : nextProps.animal[i].AnimalName,
-					KennelID : cap + i, //to-do first available kennel
 					DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					NoDays: 1,
