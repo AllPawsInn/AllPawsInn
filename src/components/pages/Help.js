@@ -50,7 +50,7 @@ export default class Help extends React.Component {
 				</div>
 				<br></br>
 				<div className = "box" id = "Help">
-					<h4>Colour Codes</h4>
+					<h4>Booking Colour Codes</h4>
 					<hr></hr>
 					<b>Red:</b> <span>Booking is not Checked-In</span>
 					<hr></hr>
@@ -59,6 +59,18 @@ export default class Help extends React.Component {
 					<b>Green:</b> <span>Booking is Checked-Out</span>
 					<hr></hr>
 					<b>Grey:</b> <span>No status (Error)</span>
+				</div>
+				<br></br>
+					<div className = "box" id = "Help">
+					<h4>Title Bar Colour Codes</h4>
+					<hr></hr>
+					<b>Red:</b> <span>Close</span>
+					<hr></hr>
+					<b>Green:</b> <span>Maximize</span>
+					<hr></hr>
+					<b>Yellow:</b> <span>Minimize</span>
+					<hr></hr>
+					<b>Violet:</b> <span>Refresh</span>
 				</div>
 				<br></br>
 				<div className = "box" id = "Help">
