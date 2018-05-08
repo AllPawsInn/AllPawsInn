@@ -152,7 +152,6 @@ export default class Calendar extends React.Component {
 			panel = <List kennel_map = {this.props.kennel_map} current = {current} payment = {this.props.payment} />
 		}
 
-
 		if (bookings_list){
 			return(
 				<div className="box cal">
