@@ -2,7 +2,7 @@ const sqlConfig = require('./sqlconfig')
 const sql = require('mssql')
 
 module.exports = {
- create_booking: function(obj){
+ create_booking: function(obj, bool){
 
 		function sqlParse(val){ //sql requires date values to be in 02-07-2018 rather than 2-7-2017
 			if (val < 10)
@@ -37,10 +37,12 @@ module.exports = {
 				await pool.request()
 					.query(qr)
 
-				let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${new_booking.KennelID}`
+				if (bool){
+					let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${new_booking.KennelID}`
 
-				await pool.request()
-				.query(qr2)
+					await pool.request()
+					.query(qr2)
+				}
 			}
 
 			sql.close()

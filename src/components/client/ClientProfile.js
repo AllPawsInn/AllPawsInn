@@ -68,6 +68,7 @@ export default class ClientProfile extends React.Component {
 			animal : this.props.animal
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.newDog = this.newDog.bind(this)
 	}
 
 
@@ -109,7 +110,7 @@ export default class ClientProfile extends React.Component {
 				selectClient(client_details.ClientID).then(clientObj=>{
 				 	// console.dir(this.props.animal[0])
 					// console.dir(clientObj)
-					for (let key in this.props.animal[0]){
+					for (let key in this.props.animal[0]){ //key1[key] = value // would be better than this
 						for (let key2 in clientObj){
 								if(key===key2){
 									this.props.animal[0][key]=clientObj[key2]
@@ -128,13 +129,17 @@ export default class ClientProfile extends React.Component {
 
 
 	}
+
+	newDog(){
+		this.props.new_dog(this.props.animal[0])
+	}
+
 	render() {
 		if (this.props.animal)
 			return  (
-
 				<div className = "box cal">
+				<h3>Client Details</h3><button onClick = {this.newDog}>+Dog</button>
 				<form onSubmit = {this.handleSubmit}>
-					<h3>Client Details</h3>
 					<br></br>
 					<div className = "box">
 						<div className="row">

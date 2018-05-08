@@ -108,6 +108,10 @@ h6 {
   max-height: 93vh;
 }
 
+.center{
+  text-align: center;
+}
+
 .box {
   color: black;
   background: #FAFAFA;

@@ -41,7 +41,7 @@ export default class Main extends React.Component {
 		this.toggle_side_off = this.toggle_side_off.bind(this)
 		this.grab_animal = this.grab_animal.bind(this)
 		this.full_profile = this.full_profile.bind(this)
-		this.full_profile = this.full_profile.bind(this)
+		this.new_dog = this.new_dog.bind(this)
 		this.get_client = this.get_client.bind(this)
 		this.get_payment = this.get_payment.bind(this)
 		this.get_daycare = this.get_daycare.bind(this)
@@ -127,6 +127,13 @@ export default class Main extends React.Component {
 		this.setState({
 			sidescreen : false
 		})
+	}
+
+	new_dog(animal){
+		this.setState({
+			animal : animal,
+			screen : "new_dog"
+		}) //simple value
 	}
 
 	grab_animal(animal){
@@ -226,7 +233,7 @@ export default class Main extends React.Component {
 
 		}
 
-		booking_lib.create_booking(sqlArray)
+		booking_lib.create_booking(sqlArray, false)
 
 		this.setState({
 			animal : animal,
@@ -241,7 +248,7 @@ export default class Main extends React.Component {
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen kennel_map = {this.state.kennel_map} print = {this.get_print} boz = {this.state.bozun_objesi} updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Screen new_dog = {this.new_dog} kennel_map = {this.state.kennel_map} print = {this.get_print} boz = {this.state.bozun_objesi} updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					<Sidescreen alerts = {this.state.alerts} notifications = {this.state.notifications} push_notif = {this.push_notif} push_alert = {this.push_alert} daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>
