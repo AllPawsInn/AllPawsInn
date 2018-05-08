@@ -23,6 +23,24 @@ async function updateClient(client){
 	console.dir("client updated...")
 }
 
+async function selectClient(clientID){
+	let pool = await sql.connect(sqlConfig)
+	let clientObj;
+	console.dir(clientID)
+	let qr = `select * from ClientDetails where dbo.ClientDetails.ClientID = '${clientID}' `
+	//if err s
+	await pool.request().query(qr)
+.then(result => {
+	// console.dir(result.recordset[0])
+	clientObj=result.recordset[0];
+
+}).catch(err => {
+	// ... error checks
+})
+	sql.close()
+	return clientObj;
+}
+
 async function updateVet(vet){
 
 
@@ -85,10 +103,27 @@ export default class ClientProfile extends React.Component {
 			Postcode: event.target[22].value,
 			Email: event.target[23].value,
 		}
-		console.dir(this.props.animal[0])
+
 		updateClient(client_details).then(result=>{
-			updateVet(vet_details)
+			updateVet(vet_details).then(result=>{
+				selectClient(client_details.ClientID).then(clientObj=>{
+				 	// console.dir(this.props.animal[0])
+					// console.dir(clientObj)
+					for (let key in this.props.animal[0]){
+						for (let key2 in clientObj){
+								if(key===key2){
+									this.props.animal[0][key]=clientObj[key2]
+								}
+								// console.log(`${key2} is ${clientObj[key2]}`)
+							}
+							// console.log(`${key} is ${this.props.animal[0][key]}`)
+					}
+						console.dir(clientObj)
+					 console.dir(this.props.animal[0])
+				})
+			})
 		})
+		// console.dir(this.props.dogs)
 		this.props.updateScreen("home")
 
 

@@ -27,11 +27,31 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
    ```
 
    ```sh
-   UPDATE dbo.BookingObjects SET Days = 'm'
+   UPDATE dbo.BookingObjects SET Days = 'm' WHERE BookingID < 18000
    ```
    
    ```sh
-   UPDATE dbo.BookingObjects SET Status= 'CO'
+   UPDATE dbo.BookingObjects SET Status= 'CO' WHERE Booking ID < 18000
+   ```
+   
+   ```sh
+   CREATE TABLE KennelOccupancy Occupancy bit
+   ```
+   
+   ```sh
+   CREATE TABLE KennelOccupancy (
+        ID int NOT NULL primary key,
+        Occupancy bit
+   );
+   ```
+     
+   ```sh
+   DECLARE @i int = 0
+   WHILE @i < 100 
+   BEGIN
+       SET @i = @i + 1
+       INSERT INTO KennelOccupancy VALUES(@i, 0)
+   END
    ```
 5. Modify the sqlConfig.js file on the path "src/js/sqlConfig.js" with YOUR sql server configuration.
     ```sh
