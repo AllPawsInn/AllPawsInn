@@ -40,8 +40,11 @@ export default class List extends React.Component {
 		// CI - Checked In
 		let status = '';
 
-		if(obj.Status == "NCI")
+		if(obj.Status == "NCI"){
 			status = "CI"
+			obj.Status = status
+		    updateStatusQuery(obj)
+		}
 		else{
 			if(obj.Status == "CI")
 				this.props.payment(obj)
@@ -49,14 +52,8 @@ export default class List extends React.Component {
 				this.props.payment(obj)
 			else
 				this.props.payment(obj)
-
-			//this.props.payment(obj)
-			status = obj.Status
 		}
 
-		obj.Status = status
-
-		updateStatusQuery(obj)
 
 		this.setState({
 			val : 1 //dummy

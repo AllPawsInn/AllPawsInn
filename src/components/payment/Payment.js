@@ -1,8 +1,6 @@
 'use babel';
 
 import React from 'react';
-const sqlConfig = require('../../js/sqlconfig')
-const sql = require('mssql')
 
 let bookingChargesToPay = 0
 let taxToPay = 0
@@ -10,10 +8,24 @@ let totalToPay = 0
 let subToPay = 0
 
 async function handleQuery(booking){
+	const sqlConfig = require('../../js/sqlconfig')
+	const sql = require('mssql')
+
 	let pool = await sql.connect(sqlConfig)
-	let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${booking.KennelID}`
+	let id = booking.KennelID
+	let qr2 = "Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = " + id
 	await pool.request()
 	.query(qr2)
+
+	// let stat = booking.Status
+	// let bookingId = parseInt(booking.BookingID)
+
+	// let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+
+	// let result = await pool.request()
+	// 	 .query(queryString)
+
+	sql.close()
 }
 
 export default class Payment extends React.Component {
@@ -82,10 +94,9 @@ export default class Payment extends React.Component {
 
 	handleSubmit(event){
 		this.props.kennel_map[this.props.booking.KennelID] = 0
-
+		this.props.booking.Status = 'CO'
 		handleQuery(this.props.booking)
 		//query kennel map
-		this.props.booking.Status = "CO"
 		event.preventDefault();
 		this.props.updateScreen("calendar")
 

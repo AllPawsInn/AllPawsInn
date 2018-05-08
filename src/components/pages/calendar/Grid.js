@@ -37,22 +37,6 @@ async function updateBookingQuery(bookingObject){
 	sql.close()
 }
 
-async function updateStatusQuery(bookingObject){
-	const sqlConfig = require('../../../js/sqlconfig')
-	const sql = require('mssql')
-	let pool = await sql.connect(sqlConfig)
-
-	let stat = bookingObject.Status
-	let bookingId = parseInt(bookingObject.BookingID)
-
-	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
-
-	let result = await pool.request()
-		 .query(queryString)
-
-	sql.close()
-}
-
 export default class Grid extends React.Component {
 	constructor(props){
 		super(props)
@@ -449,7 +433,7 @@ export default class Grid extends React.Component {
 
   	getPayment(obj){
   		this.props.payment(obj)
-  		updateStatusQuery(obj)
+  		//updateStatusQuery(obj)
   	}
 
   	getPrint(obj){
