@@ -3,7 +3,23 @@
 'use babel';
 
 import React from 'react';
+const sqlConfig = require('../../js/sqlconfig')
+const sql = require('mssql')
 
+
+async function insertAnimal(animal){
+	let pool = await sql.connect(sqlConfig)
+	let ClientID = animal.ClientID
+	if (ClientID[0])
+		ClientID = ClientID[0]
+
+	let qr = `INSERT INTO Animals (ClientID,TypeID,AnimalName,Breed,Sex,Food1TypeName,Food1Freq,Food1Amount,MedicalConditions)
+	VALUES ('${ClientID}','2','${animal.AnimalName}','${animal.AnimalBreed}','${animal.AnimalSex}','${animal.FoodType}','${animal.FoodFreq}','${animal.FoodAmount}','${animal.MedicalDetails}')`
+
+	await pool.request()
+	.query(qr)
+	sql.close()
+}
 export default class NewDog extends React.Component {
 	constructor(props){
 		super(props)
@@ -26,6 +42,7 @@ export default class NewDog extends React.Component {
 		let dog = this.state
 		dog.AnimalID = this.props.id_obj.animal_id
 		this.props.id_obj.animal_id ++
+		insertAnimal(dog)
 		this.props.dogs.push(dog)
 		this.props.updateScreen("home")
 		//query

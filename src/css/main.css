@@ -108,7 +108,7 @@ h6 {
   max-height: 93vh;
 }
 
-.center{
+.middle{
   text-align: center;
 }
 
@@ -174,7 +174,7 @@ h6 {
 }
 
 .center{
-  text-align: justify;
+  text-align: center;
   white-space: pre-wrap;
 }
 

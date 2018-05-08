@@ -137,19 +137,23 @@ export default class Booking extends React.Component {
 
 		let {book} = this.state;
 
+
 		let sqlArray = []
 		for(let i = 0; i < book.length; i++){
 			let sql_obj = {
 				DayCare : book[i].DayCare ? 1 : 0,
 				AnimalID : book[i].AnimalID,
 				KennelID: handleMap(this.props.kennel_map),
-				DateIn : book[i].DateIn,
-				DateOut : book[i].DateOut,
+				DateIn : book[0].DateIn,
+				DateOut : book[0].DateOut,
 				NoDays : book[i].NoDays,
 				BoardingRate : book[i].BoardingRate,
 				Discount: book[i].Discount,
 				Status: 'NCI'
 			}
+			book[i].DateIn = book[0].DateIn
+			book[i].DateOut = book[0].DateOut
+
 			//clean this pack up
 			sqlArray.push(sql_obj)
 			book[i].BookingID = ++this.props.id_object.booking_id
@@ -219,26 +223,28 @@ export default class Booking extends React.Component {
 				<select onChange = {this.dropdownSelected} label="Multiple Select" multiple>
 					{dropdown}
 				</select><br></br>
+				<b>Date In</b><br></br>
+				<div id="datePicker">
+					<DatePicker
+			            selected={this.state.startDate}
+			            onChange={this.handleStartDateChange}
+			       />
+			       </div>
+			       <br></br>
+				<b>Date Out</b><br></br>
+				<div id="datePicker">
+				<DatePicker
+			            selected={this.state.endDate}
+			            onChange={this.handleEndDateChange}
+			        />
+			        </div>
 				<div className = "box">
 					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />
 					<button className = "bookingbutton" onClick = {this.popBooking}> X </button><br></br>
 					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
 					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
-					<b>Date In</b><br></br>
-					<div id="datePicker">
-					<DatePicker
-			            selected={this.state.startDate}
-			            onChange={this.handleStartDateChange}
-			        />
-			        </div>
-			        <br></br>
-					<b>Date Out</b><br></br>
-					<div id="datePicker">
-					<DatePicker
-			            selected={this.state.endDate}
-			            onChange={this.handleEndDateChange}
-			        />
-			        </div>
+					
+					
 					<b>Days</b><input disabled name = "NoDays" type = "text" value = {book[dropdown_pick].NoDays}/><br></br>
 					<b>Discount Rate   %</b><input disabled name = "Discount" type = "text" value = {book[dropdown_pick].Discount}/><br></br>
 					<b>Boarding Rate   $</b><input name = "BoardingRate" type = "text" value = {book[dropdown_pick].BoardingRate} onChange = {this.handleChange}/><br></br>

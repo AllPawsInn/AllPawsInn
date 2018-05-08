@@ -1,4 +1,6 @@
 // ---------------------------------------- TO DO ----------------------------------------
+const sqlConfig = require('../../../js/sqlconfig')
+const sql = require('mssql')
 
 'use babel';
 let x = 3;
@@ -33,7 +35,9 @@ function cellObject(range, obj){ //double check the logic here
 	let dateOut = obj.DateOut
 	let dateIn = obj.DateIn
 
+	let date = new Date(Date.now())
 	let new_obj = {
+		static : (dateOut < date),
 		h : 1,
 		y : obj.KennelID * 1
 	}
@@ -71,15 +75,24 @@ function valueSundays(val){
 		return val
 
 }
-async function updateBooking(booking, new_kennel){
+async function updateBooking(first, second, BookingID){
+	let pool = await sql.connect(sqlConfig)
+	let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${first}`
+	await pool.request().query(qr2)
+	let qr3 = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${second}`
+	await pool.request().query(qr3)
+	let qr4 = `Update dbo.BookingObjects  SET KennelID = ${second} WHERE BookingID = ${BookingID}`
+	await pool.request().query(qr4)
 
-	
+	//BookingID kennelini second yap
+	sql.close()
 }
 
 export default class Layout extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
+			val : 1,
 			range : this.props.range,
 			current : this.props.current,
 			bookings: this.props.bookings
@@ -103,10 +116,13 @@ export default class Layout extends React.Component {
 				this.props.kennel_map[newItem.y].Occupancy = true
 
 				//switch kennel occupancy within the program
-				// updateBooking(this.props.bookings[i].BookingID, this.props.bookings[i].KennelID)
+				updateBooking(empty, newItem.y, this.props.bookings[i].BookingID)
 				break
 			}
 		}
+		this.setState({
+			val: 1
+		})
 		// this.props.bookings[newItem.i*1].KennelID = newItem.y + 1
 		// updateBooking(bookings[newItem.i])
 	}
@@ -129,7 +145,7 @@ export default class Layout extends React.Component {
 			<GridLayout layout = {x} className="layout" onDragStop = {this.onDragStop.bind(this)} preventCollision={true} cols={7} rowHeight={22} width={1140} isResizable = {false} compactType = {null}>
 				{
 				current.map(obj => 
-					<div className = {colorScheme(obj.Status)} key = {obj.BookingID} data-grid={cellObject(range, obj)}><b>{obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
+					<div className = {colorScheme(obj.Status)} key = {obj.BookingID} data-grid={cellObject(range, obj)}><b>{obj.KennelID}. {obj.AnimalName}/{obj.FirstName} {obj.LastName}</b></div>
 				)
 				}
 			</GridLayout>

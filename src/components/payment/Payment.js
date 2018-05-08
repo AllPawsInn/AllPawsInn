@@ -17,13 +17,13 @@ async function handleQuery(booking){
 	await pool.request()
 	.query(qr2)
 
-	// let stat = booking.Status
-	// let bookingId = parseInt(booking.BookingID)
+	let stat = booking.Status
+	let bookingId = parseInt(booking.BookingID)
 
-	// let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
+	let queryString = "UPDATE dbo.BookingObjects SET dbo.BookingObjects.Status = '" + stat + "' WHERE dbo.BookingObjects.BookingID = " + bookingId
 
-	// let result = await pool.request()
-	// 	 .query(queryString)
+	let result = await pool.request()
+		 .query(queryString)
 
 	sql.close()
 }
