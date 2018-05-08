@@ -180,7 +180,7 @@ export default class ClientProfile extends React.Component {
 
 						</div><br></br>
 						<div className="row">
-							<div className="col-sm-4"> <h6>Email:</h6> <input name = "Email" type = "text" placeholder = "Edit Email" defaultValue = {this.props.animal[0].Email[1]}/></div>
+							<div className="col-sm-4"> <h6>Email:</h6> <input name = "Email" type = "text" placeholder = "Edit Email" defaultValue = {this.props.animal[0].Email}/></div>
 
 						</div><br></br>
 						<div className="row">
