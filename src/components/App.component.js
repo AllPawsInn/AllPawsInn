@@ -23,6 +23,7 @@ export default class Main extends React.Component {
 			booking_list : [],
 			alerts : [],
 			notifications : [],
+			kennel_map: [],
 			bozun_objesi : {}
 		}
 		this.grabDogs()
@@ -73,6 +74,10 @@ export default class Main extends React.Component {
 
 		let animal = await pool.request()
 			.query("SELECT top 1 * from dbo.Animals order by AnimalID desc")
+
+		let kennel_map = await pool.request()
+			.query("SELECT * FROM dbo.KennelOccupancy WHERE Occupancy = 0 ORDER BY ID;")
+
 		//if err sql.close
 
 		sql.close()
@@ -82,8 +87,9 @@ export default class Main extends React.Component {
 			id_object : {
 				booking_id : num.recordset[0].BookingID,
 				client_id : client.recordset[0].ClientID,
-				animal_id : animal.recordset[0].AnimalID
+				animal_id : animal.recordset[0].AnimalID,
 			},
+			kennel_map : kennel_map.recordset,
 			booking_list : bookings.recordset
 		})
 	}
@@ -230,7 +236,7 @@ export default class Main extends React.Component {
 			<div style={{backgroundColor: "#D3D3D3"}}>
 				<Navbar updateScreen = {this.updateScreen} side = {this.toggle_side} dogs = {this.state.dog_list}/>
 				<div className='wrapper'>
-					<Screen print = {this.get_print} boz = {this.state.bozun_objesi} updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
+					<Screen kennel_map = {this.state.kennel_map} print = {this.get_print} boz = {this.state.bozun_objesi} updateScreen = {this.updateScreen} payment = {this.get_payment} booking = {this.state.payBooking} id_object = {this.state.id_object} animal = {this.state.animal} screen = {this.state.screen} dogs = {this.state.dog_list} bookings = {this.state.booking_list} currentId = {this.state.booking}/>
 					<Sidescreen alerts = {this.state.alerts} notifications = {this.state.notifications} push_notif = {this.push_notif} push_alert = {this.push_alert} daycare = {this.get_daycare} client = {this.get_client} profile = {this.full_profile} proc = {this.grab_animal} dogs = {this.state.dog_list} query = {this.state.query} side = {this.toggle_side_off} sidescreen = {this.state.sidescreen}/>
 				</div>
 			</div>

@@ -71,9 +71,26 @@ module.exports = {
 		//check if values are empty
 		//push animal client's properties to booking
 		if(!Number.isInteger(obj.KennelID))
-			obj.KennelID = 1 //do something else with this?
+			obj.KennelID = obj.KennelID*1 //do something else with this?
 		//check if kennel is empty
 
 		insertDog(obj)
+	},
+
+	updateOccupancy: function(KennelID, empty){
+
+		async function update(val){
+			let qr = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${val}`
+			if (empty)
+				qr = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${val}`
+			
+			let pool = await sql.connect(sqlConfig)
+			await pool.request()
+			.query(qr)
+
+			sql.close()
+		}
+
+		update(KennelID)
 	}
 }

@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 
-
 let rows = [];
 const rowGetter = rowNumber => rows[rowNumber];
 

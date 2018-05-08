@@ -23,9 +23,14 @@ function form_date(datestr){
 	return `${datestr.getDate()}-${datestr.getMonth() + 1}-${datestr.getFullYear()}`
 }
 
-async function get_available(){
-	let result = await pool.request()
-		.query("SELECT * FROM dbo.KennelOccupancy WHERE Occupancy = 0ORDER BY ID ASC|DESC;")
+function handleMap(map_array){
+	for(let i = 0; i < map_array.length; i++){
+		if(!map_array[i].Occupancy){
+			map_array[i].Occupancy = !map_array[i].Occupancy
+			booking_lib.updateOccupancy(i)
+			return i
+		}
+	}
 }
 
 export default class Booking extends React.Component {
@@ -51,7 +56,6 @@ export default class Booking extends React.Component {
 				Breed : this.props.animal[i].Breed,
 				DayCare : false, //this will probably be broken after multiple booking checks
 				AnimalName : this.props.animal[i].AnimalName,
-				KennelID : 1, //to-do first available kennel
 				DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 				DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 				NoDays: 1,
@@ -63,7 +67,6 @@ export default class Booking extends React.Component {
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.submitAll = this.submitAll.bind(this)
-		this.check = this.check.bind(this)
 		this.popBooking = this.popBooking.bind(this)
 		this.dropdownSelected = this.dropdownSelected.bind(this)
 		this.handleStartDateChange = this.handleStartDateChange.bind(this)
@@ -86,17 +89,10 @@ export default class Booking extends React.Component {
 			this.state.book[this.state.dropdown_pick].DateOut = date._d
 			this.state.book[this.state.dropdown_pick].NoDays =  (Math.ceil((this.state.book[this.state.dropdown_pick].DateOut-this.state.book[this.state.dropdown_pick].DateIn)/oneDay)) || 1
 	    	this.setState({
-	            endDate: date
-	        });
+            endDate: date
+        });
     	}
     }
-
-	check(){
-		this.state.book[this.state.dropdown_pick].DayCare = !this.state.book[this.state.dropdown_pick].DayCare
-		this.setState({
-			check : this.state.check //dummy
-		})
-	}
 
 	popBooking(){
 		let dummy = this.state.book
@@ -121,7 +117,7 @@ export default class Booking extends React.Component {
 		let sql_obj = {
 			DayCare : book[dropdown_pick].DayCare ? 1 : 0,
 			AnimalID : book[dropdown_pick].AnimalID,
-			KennelID: book[dropdown_pick].KennelID,
+			KennelID: handleMap(this.props.kennel_map),
 			DateIn : book[dropdown_pick].DateIn,
 			NoDays : book[dropdown_pick].NoDays,
 			DateOut : book[dropdown_pick].DateOut,
@@ -148,10 +144,10 @@ export default class Booking extends React.Component {
 			let sql_obj = {
 				DayCare : book[i].DayCare ? 1 : 0,
 				AnimalID : book[i].AnimalID,
-				KennelID: book[i].KennelID,
+				KennelID: handleMap(this.props.kennel_map),
 				DateIn : book[i].DateIn,
 				DateOut : book[i].DateOut,
-				NoDays : book[dropdown_pick].NoDays,
+				NoDays : book[i].NoDays,
 				BoardingRate : book[i].BoardingRate,
 				Discount: book[i].Discount,
 				Status: 'NCI'
@@ -193,7 +189,7 @@ export default class Booking extends React.Component {
 					Breed : nextProps.animal[i].Breed,
 					DayCare : false, //this will probably be broken after multiple booking checks
 					AnimalName : nextProps.animal[i].AnimalName,
-					KennelID : 1, //to-do first available kennel
+					KennelID : cap + i, //to-do first available kennel
 					DateIn : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					DateOut : create_date(`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`),
 					NoDays: 1,
@@ -226,14 +222,11 @@ export default class Booking extends React.Component {
 				<select onChange = {this.dropdownSelected} label="Multiple Select" multiple>
 					{dropdown}
 				</select><br></br>
-				<b>Daycare</b><input onChange = {this.check} name = "DayCare" type = "checkbox" checked = {this.state.book[this.state.dropdown_pick].DayCare}/><br></br>
-				<br></br>
 				<div className = "box">
 					<b>Client Name</b><input disabled type = "text" value = {`${book[dropdown_pick].FirstName} ${book[dropdown_pick].LastName}`} />
 					<button className = "bookingbutton" onClick = {this.popBooking}> X </button><br></br>
 					<b>Animal Name</b><input disabled type = "text" value = {book[dropdown_pick].AnimalName}/><br></br>
 					<b>Animal Breed</b><input disabled type = "text" value = {book[dropdown_pick].Breed}/><br></br>
-					<b>Kennel Unit</b><input name = "KennelID" type = "text"  value = {book[dropdown_pick].KennelID} onChange = {this.handleChange}/><br></br>
 					<b>Date In</b><br></br>
 					<div id="datePicker">
 					<DatePicker
