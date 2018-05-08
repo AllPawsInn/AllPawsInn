@@ -179,9 +179,6 @@ newVet(vet_details).then(result=>{
 				newAnimal(animal,clientObj.ClientID).then(clientID =>{
 					selectAnimal(animal,clientID).then(animalObj =>{
 						tempAnimal=animalObj;
-						console.dir(tempVet)
-						console.dir(tempClient);
-						console.dir(tempAnimal);
 						merged = Object.assign({}, tempClient, tempAnimal);
 						this.props.dogs.push(merged)
 					})

@@ -14,6 +14,7 @@ async function handleQuery(booking){
 	let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${booking.KennelID}`
 	await pool.request()
 	.query(qr2)
+	sql.close()
 }
 
 export default class Payment extends React.Component {

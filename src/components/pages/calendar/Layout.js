@@ -1,4 +1,6 @@
 // ---------------------------------------- TO DO ----------------------------------------
+const sqlConfig = require('../../../js/sqlconfig')
+const sql = require('mssql')
 
 'use babel';
 let x = 3;
@@ -71,9 +73,17 @@ function valueSundays(val){
 		return val
 
 }
-async function updateBooking(booking, new_kennel){
+async function updateBooking(first, second, BookingID){
+	let pool = await sql.connect(sqlConfig)
+	let qr2 = `Update dbo.KennelOccupancy SET Occupancy = 0 WHERE ID = ${first}`
+	await pool.request().query(qr2)
+	let qr3 = `Update dbo.KennelOccupancy SET Occupancy = 1 WHERE ID = ${second}`
+	await pool.request().query(qr3)
+	let qr4 = `Update dbo.BookingObjects  SET KennelID = ${second} WHERE BookingID = ${BookingID}`
+	await pool.request().query(qr4)
 
-	
+	//BookingID kennelini second yap
+	sql.close()
 }
 
 export default class Layout extends React.Component {
@@ -103,7 +113,7 @@ export default class Layout extends React.Component {
 				this.props.kennel_map[newItem.y].Occupancy = true
 
 				//switch kennel occupancy within the program
-				// updateBooking(this.props.bookings[i].BookingID, this.props.bookings[i].KennelID)
+				updateBooking(empty, newItem.y, this.props.bookings[i].BookingID)
 				break
 			}
 		}
