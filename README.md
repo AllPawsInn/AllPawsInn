@@ -120,8 +120,6 @@ List of things to be fixed, or implemented on the application:
    
    * Adding a booking removal feature
    
-   * Adding a new booking feature for a new client
-   
    * Adding note boxes for animal and food components (where user can enter specific notes for each dog and it's food) on New Client page
    
    * Making the Animal Details (called "Full Profile" in the program) editable (should be talked with All Paws Inn first)
