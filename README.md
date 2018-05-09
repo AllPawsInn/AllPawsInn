@@ -35,10 +35,6 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
    ```
    
    ```sh
-   CREATE TABLE KennelOccupancy Occupancy bit
-   ```
-   
-   ```sh
    CREATE TABLE KennelOccupancy (
         ID int NOT NULL primary key,
         Occupancy bit
@@ -49,8 +45,8 @@ Run the following commands in your terminal (you need [Node.js](https://nodejs.o
    DECLARE @i int = 0
    WHILE @i < 100 
    BEGIN
-       SET @i = @i + 1
        INSERT INTO KennelOccupancy VALUES(@i, 0)
+       SET @i = @i + 1
    END
    ```
 5. Modify the sqlConfig.js file on the path "src/js/sqlConfig.js" with YOUR sql server configuration.
@@ -104,8 +100,6 @@ List of things to be fixed, or implemented on the application:
   
    * Solving the click glitch that occurs on the grid view of the daycare screen (the user has to click twice to make a reservation for a new day)
    
-   * Adding multiple daycare bookings functionality to search results (the user should be able to select more than one record in the search results, and make daycare booking for them - right know this functionality is only available for new reservation (boarding))
-   
    * Adding finance management pages (this topic should be discussed with All Paws Inn and requirements should be clarified)
    
    * Migrating the data recorded by All Paws Inn between November 2017 - May 2018, to the database (their system was down between those months, so they recorded everything on paper, or Excel files)
@@ -126,12 +120,14 @@ List of things to be fixed, or implemented on the application:
    
    * Adding a booking removal feature
    
-   * Adding a new booking feature for a new client
-   
-   * Reflecting Client Profile and New Client updates to the program without a need to refreshing it
-   
    * Adding note boxes for animal and food components (where user can enter specific notes for each dog and it's food) on New Client page
    
    * Making the Animal Details (called "Full Profile" in the program) editable (should be talked with All Paws Inn first)
+   
+   * Adding 'Town' input field to New Client, and 'Age' to Animal Details and Add Dog pages
+   
+   * Making the boarding reservations printable
+   
+   * Adding Alerts/Notifications side screens to the home page (screenshots can be found in the Screenshots/Prototypes folder)
 
    * Help page should be updated after each resolved issue
