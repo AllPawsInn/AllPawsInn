@@ -460,7 +460,7 @@ export default class Grid extends React.Component {
 						columns={this._columns}
 						rowGetter={this.rowGetter}
 						rowsCount={this._rows.length}
-						minHeight={600}
+						minHeight={800}
 						enableCellSelect={true}
 						onCellSelected={this.onCellSelected}
 						getCellActions={this.getCellActions}

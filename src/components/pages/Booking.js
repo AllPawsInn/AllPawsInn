@@ -43,7 +43,7 @@ export default class Booking extends React.Component {
 			animal: this.props.animal,
 			book : [],
 			startDate: moment(),
-			endDate: moment()
+			endDate: moment().add(1,'weeks').startOf('isoWeek')
 		}
 
 		for(let i = 0; i < this.props.animal.length; i++){
@@ -73,7 +73,7 @@ export default class Booking extends React.Component {
 	}
 
 	handleStartDateChange(date) {
-		if(date._d <= this.state.book[this.state.dropdown_pick].DateOut){
+		if(date._d <= this.state.endDate){
 			this.state.book[this.state.dropdown_pick].DateIn = date._d
 			this.state.book[this.state.dropdown_pick].NoDays =  (Math.ceil((this.state.book[this.state.dropdown_pick].DateOut-this.state.book[this.state.dropdown_pick].DateIn)/oneDay)) || 1
 		    this.setState({
@@ -83,7 +83,7 @@ export default class Booking extends React.Component {
     }
 
     handleEndDateChange(date) {
-    	if(date._d >= this.state.book[this.state.dropdown_pick].DateIn){
+    	if(date._d >= this.state.startDate){
 			this.state.book[this.state.dropdown_pick].DateOut = date._d
 			this.state.book[this.state.dropdown_pick].NoDays =  (Math.ceil((this.state.book[this.state.dropdown_pick].DateOut-this.state.book[this.state.dropdown_pick].DateIn)/oneDay)) || 1
 	    	this.setState({

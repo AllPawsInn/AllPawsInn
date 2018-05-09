@@ -8,14 +8,15 @@ let win;
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 1200, height: 700, frame:false, backgroundColor:"#D3D3D3"});
+  win = new BrowserWindow({width: 1200, height: 700, frame: false, backgroundColor:"#D3D3D3"});
   // and load the index.html of the app.
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
-
+  win.setMenu(null)
+  win.maximize()
   // Open the DevTools.
   win.webContents.openDevTools();
 

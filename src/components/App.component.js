@@ -1,8 +1,5 @@
 // ---------------------------------------- TO DO ----------------------------------------
 // -- Calendar shouldnt re-render on search
-// -- Prevent default for input fields including and especially search box
-// -- week = current week button
-// -- kenneltable
 'use babel';
 
 import React from 'react'
