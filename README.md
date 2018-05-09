@@ -129,5 +129,7 @@ List of things to be fixed, or implemented on the application:
    * Adding 'Town' input field to New Client, and 'Age' to Animal Details and Add Dog pages
    
    * Making the boarding reservations printable
+   
+   * Adding Alerts/Notifications side screens to the home page (screenshots can be found in the Screenshots/Prototypes folder)
 
    * Help page should be updated after each resolved issue
